@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image,Platform } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 
@@ -12,7 +12,7 @@ const DefaultHeader = () => {
         backgroundColor: "#fe7e25",
         alignItems: "center",
         width: "100%",
-        height: 100
+        height: Platform.OS == "ios" ? 120 : 100
       }}
     >
       <View

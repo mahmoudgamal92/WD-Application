@@ -6,7 +6,8 @@ import {
   Button,
   Image,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Platform
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
@@ -25,7 +26,7 @@ const CustomHeader = ({text }) => {
           backgroundColor: "#fe7e25",
           justifyContent: "center",
           width: "100%",
-          height: 100
+          height: Platform.OS == "ios" ? 120 : 100
         }}
       >
         <Text
