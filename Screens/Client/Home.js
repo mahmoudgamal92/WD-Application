@@ -5,7 +5,7 @@ import styles from "../../theme/style";
 import { Iconify } from "react-native-iconify";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 export default function ClientHome() {
   const navigation = useNavigation();
@@ -55,7 +55,7 @@ export default function ClientHome() {
               justifyContent: "center",
               borderRadius: 10,
               alignItems: "flex-end",
-              padding:20
+              padding: 20
             }}
           >
             <Text
@@ -63,7 +63,7 @@ export default function ClientHome() {
                 fontFamily: "Bold",
                 color: "#FFF",
                 fontSize: 25,
-                marginVertical:5
+                marginVertical: 5
               }}
             >
               ود .... عقارانك بكل ود
@@ -73,11 +73,10 @@ export default function ClientHome() {
                 fontFamily: "Regular",
                 color: "#FFF",
                 fontSize: 20,
-                marginVertical:5
-
+                marginVertical: 5
               }}
             >
-             إذا كنت تبحث عن فيلا , شقة , منزل  
+              إذا كنت تبحث عن فيلا , شقة , منزل
             </Text>
             <TouchableOpacity
               style={{
@@ -86,8 +85,8 @@ export default function ClientHome() {
                 borderRadius: 10,
                 width: "100%",
                 marginBottom: 10,
-                paddingHorizontal:10,
-                marginVertical:5
+                paddingHorizontal: 10,
+                marginVertical: 5
               }}
             >
               <Text
@@ -104,10 +103,10 @@ export default function ClientHome() {
       </View>
 
       <View style={styles.sectionView}>
-
-        <TouchableOpacity 
-        onPress={() => navigation.navigate("CurrentSubscription")}
-        style={styles.sectionContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("CurrentSubscription")}
+          style={styles.sectionContainer}
+        >
           <Iconify icon="ri:shake-hands-fill" size={32} color="#fe7e25" />
           <Text
             style={{
@@ -129,9 +128,10 @@ export default function ClientHome() {
           </Text>
         </View>
 
-        <TouchableOpacity 
-        onPress={() => navigation.navigate("UsersScreen")}
-        style={styles.sectionContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("UsersScreen")}
+          style={styles.sectionContainer}
+        >
           <Iconify icon="fa:users" size={32} color="#fe7e25" />
           <Text
             style={{
@@ -142,9 +142,10 @@ export default function ClientHome() {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-        onPress={() => navigation.navigate("UsersScreen")}
-        style={styles.sectionContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("UsersScreen")}
+          style={styles.sectionContainer}
+        >
           <Iconify icon="mdi:users-add" size={32} color="#fe7e25" />
           <Text
             style={{
@@ -155,9 +156,10 @@ export default function ClientHome() {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-        onPress={() => navigation.navigate("ProfileInfo")}
-        style={styles.sectionContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("ProfileInfo")}
+          style={styles.sectionContainer}
+        >
           <Iconify icon="mingcute:profile-fill" size={32} color="#fe7e25" />
           <Text
             style={{
@@ -168,9 +170,10 @@ export default function ClientHome() {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-        onPress={() => navigation.navigate("Invoices")}
-        style={styles.sectionContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Invoices")}
+          style={styles.sectionContainer}
+        >
           <Iconify icon="mdi:invoice-edit" size={32} color="#fe7e25" />
           <Text
             style={{
@@ -181,7 +184,9 @@ export default function ClientHome() {
           </Text>
         </TouchableOpacity>
 
-        <View style={styles.sectionContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("OrdersMap")}
+          style={styles.sectionContainer}>
           <Iconify icon="solar:map-point-wave-bold" size={32} color="#fe7e25" />
           <Text
             style={{
@@ -190,7 +195,8 @@ export default function ClientHome() {
           >
             خريطة الطلبات
           </Text>
-        </View>
+        </TouchableOpacity>
+        
       </View>
     </View>
   );

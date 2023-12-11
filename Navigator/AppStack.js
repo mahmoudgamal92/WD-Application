@@ -20,6 +20,7 @@ import ResultScreen from './../Screens/ResultScreen';
 import SellerInfo from './../Screens/SellerInfo';
 import Logout from '../Screens/Auth/Logout';
 import Notification from './../Screens/Notification';
+import OrdersMap from './../Screens/Client/OrdersMap';
 
 import AddRequest from '../Screens/Shared/AddRequest';
 import RequestDetails from "../Screens/RequestDetails";
@@ -57,6 +58,7 @@ export const AppStack = () => {
         <HomeStack.Screen name="AdMapInfo" component={AdMapInfo} />
         <HomeStack.Screen name="AdMediaInfo" component={AdMediaInfo} />
         <HomeStack.Screen name="FaLicense" component={FaLicense} />
+        <HomeStack.Screen name="OrdersMap" component={OrdersMap} />        
         </HomeStack.Navigator>
       )
   }

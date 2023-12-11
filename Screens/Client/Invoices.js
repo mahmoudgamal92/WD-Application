@@ -112,8 +112,8 @@ const screenTitle = "فواتيري ";
                 }}>
                   <TouchableOpacity
                     onPress={() =>
-                      navigation.navigate("InvoiceDetail", {
-                        prop_id: item.id
+                      navigation.navigate("InvoiceDetails", {
+                        invoice : item
                       })}
                     style={{
                       flexDirection: "row-reverse",
