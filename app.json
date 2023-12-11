@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": " تطبيق .. ود ",
+    "name": "تطبيق...ود",
     "slug": "wd",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "1",
+      "buildNumber": "2",
       "supportsTablet": false,
       "bundleIdentifier": "com.wd.zawya",
       "infoPlist": {
