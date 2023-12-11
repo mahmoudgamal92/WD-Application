@@ -426,7 +426,7 @@ export default function ProfilePage() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => SetDeleteAlert(true)}
+         onPress={() => navigation.navigate("PricingPlans")}
           style={styles.profileItem}
         >
           <View style={{ flexDirection: "row" }}>

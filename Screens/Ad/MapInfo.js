@@ -288,6 +288,7 @@ export default function AddMap({ route, navigation }) {
             <MapView
               ref={mapRef}
               showsUserLocation
+              provider="google"
               style={{ flex: 1, width: "100%", height: "100%" }}
               initialRegion={{
                 latitude: latitude,

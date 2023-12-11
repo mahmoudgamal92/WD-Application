@@ -363,7 +363,7 @@ export default function NewAdd({ route, navigation }) {
             alignItems: "center",
             justifyContent: "center"
           }}>
-            <ActivityIndicator size={'70'} color="  #fe7e25" />
+            <ActivityIndicator size={70} color="#fe7e25" />
           </View>
         }
       </View>
