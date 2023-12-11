@@ -1,0 +1,28 @@
+{
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
+    },
+    "production": {
+    }
+  },
+  "submit": {
+    "production": {
+      "ios":{
+        "appleId": "mahmoud.elshwaiukh@gmail.com",
+        "ascAppId": "6451126727",
+        "appleTeamId": "WH9BJJ2HS4"      
+      }
+    }
+  }
+}

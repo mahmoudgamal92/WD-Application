@@ -1,0 +1,58 @@
+{
+  "expo": {
+    "name": " تطبيق .. ود ",
+    "slug": "aqaratech",
+    "version": "1.1.3",
+    "orientation": "portrait",
+    "icon": "./assets/logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#fe7e25"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "buildNumber": "12",
+      "supportsTablet": false,
+      "bundleIdentifier": "com.mahmoud2391997.aqaratech",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Aqartech App requires access to your camera to let Capture Pictures to publish your Adds on Aqartech ",
+        "NSPhotoLibraryUsageDescription": "Aqartech needs to access your camera roll to enable you to choose Pictures for your items  ",
+        "NSPhotoLibraryAddUsageDescription": "Aqartech needs to access your camera roll so that you can upload Pictures to insert your items",
+        "NSLocationWhenInUseUsageDescription": "Your Location Is Used For Showing You The Nearest real estate items to you",
+        "NSLocationAlwaysUsageDescription": "Your Location Is Used For Showing You The Nearest real estate items to you",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Your Location Is Used For Showing You The Nearest real estate items to you",
+        "NSLocationUsageDescription": "Your Location Is Used For Showing You The Nearest real estate items to you",
+        "NSCalendarsUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSContactsUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSMicrophoneUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSMotionUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us.",
+        "NSRemindersUsageDescription": "This permission is not needed by the app, but it is required by an underlying API. If you see this dialog, contact us."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo.png",
+        "backgroundColor": "#fe7e25"
+      },
+      "package": "com.zawya.aqaratech",
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBBLZBMSzik4p9Yn3q2pW_EqOZin6aBQc8"
+        }
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "82fcd9e1-43dc-4196-b796-29e8c82797c0"
+      }
+    }
+  }
+}

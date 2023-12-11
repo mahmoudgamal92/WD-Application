@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1033867149840",
+    "project_id": "aqartech-46ecd",
+    "storage_bucket": "aqartech-46ecd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033867149840:android:746197006ac3f968a84095",
+        "android_client_info": {
+          "package_name": "com.zawya.aqaratech"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCafhWiA-7FU09pPIFj-A8V6tDoonfWjTM"
+          
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
