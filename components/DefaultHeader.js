@@ -10,7 +10,7 @@ const DefaultHeader = () => {
     <View
       style={{
         paddingHorizontal: 20,
-        paddingTop : Constants.statusBarHeight * 0.8,
+        paddingTop :  Platform.OS == "ios" ? Constants.statusBarHeight * 0.8 : 0,
         backgroundColor: "#fe7e25",
         alignItems: "center",
         width: "100%",
