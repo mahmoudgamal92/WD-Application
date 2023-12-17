@@ -9,13 +9,16 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
-  StatusBar
+  StatusBar,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import styles from "../../theme/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url } from "../../constants/constants";
 import { useDispatch } from "react-redux";
 import { userSlice } from "../../store/userSlice";
+import Constants from 'expo-constants';
 
 export default function SignUpScreen({ navigation, route }) {
   const dispatch = useDispatch();
@@ -30,7 +33,7 @@ export default function SignUpScreen({ navigation, route }) {
     if (user_name.length === 0 || email.length === 0) {
       alert("لابد من اكمال جميع بياناتك أولا");
     } else {
-      let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+      let reg = /^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w\w+)+$/;
       if (reg.test(email) === false) {
         alert("البريد الألكتروني الذي أدخلته غير صالح");
       } else {
@@ -52,7 +55,7 @@ export default function SignUpScreen({ navigation, route }) {
     fetch(url.base_url + "auth/signup.php", {
       method: "POST",
       headers: {
-        Accept: "*/*",
+        Accept: "/",
         "Content-type": "multipart/form-data;",
         "Accept-Encoding": "gzip, deflate, br",
         Connection: "keep-alive"
@@ -95,18 +98,18 @@ export default function SignUpScreen({ navigation, route }) {
   };
 
   return (
-    <View
+    <KeyboardAvoidingView
       style={{
+        paddingTop: Constants.statusBarHeight,
         flex: 1,
         width: "100%",
         backgroundColor: "#FFF"
       }}
-    >
-      <StatusBar backgroundColor="#FFF" barStyle="light-content" />
-
+      keyboardVerticalOffset={10}
+      behavior = {Platform.OS === "ios" ? "padding" : null}>
+      <StatusBar backgroundColor="#FFF" barStyle="light-content" translucent/>
       <View
         style={{
-          position: "absolute",
           width: "100%",
           flexDirection: "row",
           alignItems: "center",
@@ -335,6 +338,6 @@ export default function SignUpScreen({ navigation, route }) {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

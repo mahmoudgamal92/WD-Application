@@ -11,7 +11,8 @@ import {
   BackHandler,
   StatusBar,
   KeyboardAvoidingView,
-  Modal
+  Modal,
+  Platform
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {url} from "../../constants/constants";
@@ -131,17 +132,19 @@ export default function SignInScreen({ navigation, route }) {
   return (
     <KeyboardAvoidingView
       style={{
+        paddingTop: Constants.statusBarHeight,
         flex: 1,
         width: "100%",
-        backgroundColor: "#FFF",
-        paddingHorizontal: 10
+        backgroundColor: "#FFF"
       }}
-    >
-      <StatusBar backgroundColor="#FFF" barStyle="light-content" />
+      keyboardVerticalOffset={10}
+      behavior = {Platform.OS === "ios" ? "padding" : null}>
+      <StatusBar backgroundColor="#FFF" barStyle="light-content" translucent/>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
-          width: "100%"
+          width: "100%",
+          paddingHorizontal:20
         }}
       >
         <View

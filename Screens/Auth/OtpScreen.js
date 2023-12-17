@@ -5,6 +5,9 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StatusBar,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView
 } from "react-native";
 import React, { useState } from "react";
 import {url} from "../../constants/constants";
@@ -54,14 +57,18 @@ const OtpScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "#FFF"
-      }}
-    >
+    <KeyboardAvoidingView
+    style={{
+      paddingTop: Constants.statusBarHeight,
+      flex: 1,
+      width: "100%",
+      backgroundColor: "#FFF"
+    }}
+    behavior = {Platform.OS === "ios" ? "padding" : null}>
       <StatusBar backgroundColor="#FFF" barStyle="light-content" />
-      <View style={{ width: "100%", flex: 1 }}>
+      <ScrollView 
+      showsVerticalScrollIndicator={false}
+      style={{ width: "100%",paddingBottom:400 }}>
         <View
           style={{
             alignItems: "center",
@@ -199,10 +206,10 @@ const OtpScreen = ({ route, navigation }) => {
                 />}
           </View>
         </View>
-      </View>
+      </ScrollView>
       <Toast config={toastConfig} />
 
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 export default OtpScreen;

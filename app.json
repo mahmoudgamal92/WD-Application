@@ -38,7 +38,7 @@
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#fe7e25"
       },
-      "package": "com.wd.zawya",
+      "package": "com.zawya.aqaratech",
       "googleServicesFile": "./google-services.json",
       "config": {
         "googleMaps": {
