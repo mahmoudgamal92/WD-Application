@@ -626,7 +626,8 @@ const styles = StyleSheet.create({
     fontFamily: "Regular",
     width: "100%",
     borderColor: "#DDDDDD",
-    borderWidth: 1
+    borderWidth: 1,
+    textAlign:"right"
   },
   icon: {
     marginRight: 5
@@ -646,21 +647,25 @@ const styles = StyleSheet.create({
     fontFamily: "Regular",
     paddingHorizontal: 10,
     color: "grey",
-    textAlign: "right"
+    textAlign: "right",
+
   },
   selectedTextStyle: {
     fontSize: 13,
+    textAlign:"right",
     fontFamily: "Regular",
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    textAlign:"right"
   },
-  iconStyle: {
+  iconStyle: { 
     width: 20,
     height: 20
   },
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
-    fontFamily: "Regular"
+    fontFamily: "Regular",
+    textAlign:"right"
   },
   btnText: {
     fontSize: 20,

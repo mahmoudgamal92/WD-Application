@@ -105,10 +105,10 @@ export const TabStack = ({ navigation }) => {
                   </View>
                 </View>
                 <View style={{ width: "60%" }}>
-                  <Text style={{ fontFamily: "Bold", color: "#000" }}>
+                  <Text style={{ fontFamily: "Bold", color: "#000",textAlign:"right" }}>
                     أطلب عقار
                   </Text>
-                  <Text style={{ fontFamily: "Regular", color: "grey",fontSize:12 }}>
+                  <Text style={{ fontFamily: "Regular", color: "grey",fontSize:12 , textAlign:"right"}}>
                     سجل طلبك إذا لم تجدة في العقارات المعروضة لدينا
                   </Text>
                 </View>
@@ -166,10 +166,10 @@ export const TabStack = ({ navigation }) => {
                   </View>
                 </View>
                 <View style={{ width: "60%" }}>
-                  <Text style={{ fontFamily: "Bold", color: "#000" }}>
+                  <Text style={{ fontFamily: "Bold", color: "#000" ,textAlign:"right"}}>
                     إضافة عقار جديد
                   </Text>
-                  <Text style={{ fontFamily: "Regular", color: "grey" }}>
+                  <Text style={{ fontFamily: "Regular", color: "grey", textAlign:"right" , textAlign:"right"}}>
                     إضافة عقار للبيع أو الإيجار
                   </Text>
                 </View>
@@ -200,7 +200,7 @@ export const TabStack = ({ navigation }) => {
       <View
         style={{
           position: "absolute",
-          bottom: 12,
+          bottom: Platform.OS === "ios" ? 30 : 12,
           right: "40%",
           left: "40%",
           width: 60,
@@ -244,7 +244,7 @@ export const TabStack = ({ navigation }) => {
             borderTopColor: "#fe7e25",
             borderTopWidth: 1.5,
             // Not Working Fine In IOS
-            height: Platform.OS == "ios" ? 90 : 60
+            height: Platform.OS == "ios" ? 80 : 60
           }
         }}
       >

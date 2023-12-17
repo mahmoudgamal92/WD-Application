@@ -4,11 +4,13 @@ import {
   View,
   TextInput,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
-
 import { Iconify } from "react-native-iconify";
 import { url } from "../constants/constants";
+import Constants from 'expo-constants';
 
 import {
   FontAwesome,
@@ -173,14 +175,13 @@ export default function NewAdd({ route, navigation }) {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        backgroundColor: "#F9F9F9",
-        width: "100%"
-      }}
-    >
+    <KeyboardAvoidingView
+    style={{
+      flex: 1,
+      width: "100%",
+    }}
+    keyboardVerticalOffset={10}
+    behavior = {Platform.OS === "ios" ? "padding" : null}>
       <CustomHeader text={screenTitle} />
       <View style={styles.rootContainer}>
         <ScrollView
@@ -258,8 +259,7 @@ export default function NewAdd({ route, navigation }) {
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection: "row"
-              }}
-            >
+              }}>
               <Text
                 style={{
                   fontFamily: "Bold",
@@ -267,7 +267,7 @@ export default function NewAdd({ route, navigation }) {
                   marginHorizontal: 10
                 }}
               >
-                للشراء
+                للبيع
               </Text>
 
               <FontAwesome name="home" size={40} color="#fe7e25" />
@@ -324,11 +324,12 @@ export default function NewAdd({ route, navigation }) {
                 styles.dropdown,
                 isFocus == "prop_type" && { borderColor: "blue" }
               ]}
+              itemContainerStyle	={{width:"100%"}}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
+              itemTextStyle={{ fontFamily: "Regular", fontSize: 12,textAlign:"right" }}
               data={cats}
               //search
               maxHeight={300}
@@ -348,7 +349,8 @@ export default function NewAdd({ route, navigation }) {
                   name="home-city"
                   size={24}
                   color="#fe7e25"
-                />}
+                />
+              }
               renderLeftIcon={() =>
                 <MaterialIcons
                   name="keyboard-arrow-down"
@@ -444,7 +446,7 @@ export default function NewAdd({ route, navigation }) {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
+              itemTextStyle={{ fontFamily: "Regular", fontSize: 12,textAlign:"right" }}
               data={states}
               //search
               maxHeight={300}
@@ -498,12 +500,13 @@ export default function NewAdd({ route, navigation }) {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
+              itemTextStyle={{ fontFamily: "Regular", fontSize: 12,textAlign:"right" }}
               data={cities}
               //search
               maxHeight={300}
               labelField="name"
               valueField="city_id"
+              
               placeholder={"أختر المدينة المطلوبة"}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
@@ -552,7 +555,7 @@ export default function NewAdd({ route, navigation }) {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
+              itemTextStyle={{ fontFamily: "Regular", fontSize: 12 ,textAlign:"right"}}
               data={districts}
               //search
               maxHeight={300}
@@ -649,6 +652,6 @@ export default function NewAdd({ route, navigation }) {
         </ScrollView>
       </View>
       <Toast config={toastConfig} />
-    </View>
+    </KeyboardAvoidingView>
   );
 }

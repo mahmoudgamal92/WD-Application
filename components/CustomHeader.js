@@ -11,22 +11,28 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
+import Constants from 'expo-constants';
 
 const CustomHeader = ({text }) => {
   const navigation = useNavigation();
   return (
     <View
-      style={{
-        width: "100%"
-      }}
-    >
-      <StatusBar backgroundColor="#fe7e25" />
+    style={{
+      paddingHorizontal: 20,
+      paddingTop : Constants.statusBarHeight * 0.8,
+      backgroundColor: "#fe7e25",
+      alignItems: "center",
+      width: "100%",
+      height: Platform.OS == "ios" ? 140 : 100
+    }}
+  >
       <View
         style={{
           backgroundColor: "#fe7e25",
           justifyContent: "center",
           width: "100%",
-          height: Platform.OS == "ios" ? 120 : 100
+          alignItems:"center",
+          height:"100%"
         }}
       >
         <Text

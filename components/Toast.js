@@ -17,8 +17,8 @@ const toastConfig = {
 
       
       <View style={{ paddingHorizontal: 5, width: "80%" }}>
-        <Text style={{ fontFamily: "Bold", color: "#000" }}>خطأ</Text>
-        <Text style={{ fontFamily: "Regular", color: "grey", fontSize: 13 }}>
+        <Text style={{ fontFamily: "Bold", color: "#000",textAlign:"right" }}>خطأ</Text>
+        <Text style={{ fontFamily: "Regular", color: "grey", fontSize: 13 , textAlign:"right"}}>
           {text1}
         </Text>
       </View>
@@ -38,8 +38,8 @@ const toastConfig = {
       </View>
 
       <View style={{ paddingHorizontal: 5, width: "80%" }}>
-        <Text style={{ fontFamily: "Bold", color: "#000" }}>تم التنفيذ</Text>
-        <Text style={{ fontFamily: "Regular", color: "grey", fontSize: 13 }}>
+        <Text style={{ fontFamily: "Bold", color: "#000",textAlign:"right" }}>تم التنفيذ</Text>
+        <Text style={{ fontFamily: "Regular", color: "grey", fontSize: 13 , textAlign:"right"}}>
           {text1}
         </Text>
       </View>

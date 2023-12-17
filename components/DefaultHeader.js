@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image,Platform } from 'react-native';
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
+import Constants from 'expo-constants';
 
 const DefaultHeader = () => {
   const navigation = useNavigation();
@@ -9,10 +10,11 @@ const DefaultHeader = () => {
     <View
       style={{
         paddingHorizontal: 20,
+        paddingTop : Constants.statusBarHeight * 0.8,
         backgroundColor: "#fe7e25",
         alignItems: "center",
         width: "100%",
-        height: Platform.OS == "ios" ? 120 : 100
+        height: Platform.OS == "ios" ? 140 : 100
       }}
     >
       <View

@@ -8,26 +8,19 @@ import {
   FlatList,
   RefreshControl,
   ActivityIndicator,
-  Platform,
   StatusBar,
   ImageBackground
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import React, { Component, useState, useEffect } from "react";
+import React, {useState, useEffect } from "react";
 import { url } from "../constants/constants";
-import {
-  Ionicons,
-  MaterialIcons,
-  AntDesign,
-  Feather,
-  Entypo
-} from "@expo/vector-icons";
+import {Entypo} from "@expo/vector-icons";
+import DefaultHeader from "./../components/DefaultHeader";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function FavoriteScreen({ route, navigation }) {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const [bLoading, setBLoading] = useState(false);
   const [user_token, setUserToken] = useState(null);
 
   const wait = timeout => {
@@ -186,35 +179,9 @@ export default function FavoriteScreen({ route, navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <StatusBar backgroundColor="#fe7e25" />
-      <View
-        style={{
-          paddingHorizontal: 20,
-          backgroundColor: "#fe7e25",
-          alignItems: "center",
-          width: "100%",
-          height: 100
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%"
-          }}
-        >
-          <Ionicons name="notifications" size={40} color="#FFF" />
 
-          <Image
-            source={require("./../assets/wd_white.png")}
-            style={{
-              height: 80,
-              width: 80,
-              resizeMode: "contain"
-            }}
-          />
-        </View>
-      </View>
+      <DefaultHeader />
+
 
       <View
         style={{
@@ -263,7 +230,7 @@ export default function FavoriteScreen({ route, navigation }) {
                     imageStyle={{
                       borderBottomRightRadius: 10,
                       borderTopRightRadius: 10,
-                      resizeMode: "contain"
+                      resizeMode: "stretch"
                     }}
                   >
                     <View
@@ -319,7 +286,6 @@ export default function FavoriteScreen({ route, navigation }) {
                       flexDirection: "row-reverse",
                       alignItems: "center",
                       borderRadius: 10,
-                      backgroundColor: "#FFF",
                       paddingHorizontal: 5
                     }}
                   >
