@@ -20,7 +20,7 @@ import { AppStack } from "./AppStack";
 
 const Tabs = createBottomTabNavigator();
 
-export const TabStack = ({ navigation }) => {
+export const UserTabStack = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const _proceedNavigation = screen => {
@@ -28,7 +28,6 @@ export const TabStack = ({ navigation }) => {
     navigation.navigate(screen);
   };
   
-
   return (
     <View style={{ flex: 1, width: "100%" }}>
       <View

@@ -11,8 +11,8 @@ import {
   ToastAndroid
 } from "react-native";
 import React, { Component, useState, useEffect } from "react";
-import {Ionicons, AntDesign } from "@expo/vector-icons";
-import {url} from "../../constants/constants";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { url } from "../../constants/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function FavoriteScreen({ route, navigation }) {
@@ -58,8 +58,7 @@ export default function FavoriteScreen({ route, navigation }) {
       setLoading(true);
       if (token == null) {
         navigation.navigate("SignInScreen");
-      }
-      else {
+      } else {
         fetch(url.base_url + "profile/properties.php?user_token=" + token, {
           method: "GET",
           headers: {
@@ -67,31 +66,28 @@ export default function FavoriteScreen({ route, navigation }) {
             "Content-type": "multipart/form-data;",
             "Accept-Encoding": "gzip, deflate, br",
             "cache-control": "no-cache",
-            Connection: "keep-alive",
+            Connection: "keep-alive"
           }
         })
           .then(response => response.json())
           .then(json => {
-            // alert(JSON.stringify(json));
+            alert(JSON.stringify(json));
             if (json.success == true) {
               setData(json.data);
               setLoading(false);
-            }
-            else {
+            } else {
               setData([]);
               setLoading(false);
             }
-
           })
           .catch(error => console.error(error));
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
   };
 
-  const confirm_delete = (prop_id) =>
+  const confirm_delete = prop_id =>
     Alert.alert("حذف العقار", "هل أنت متأكد من حذف العقار ؟", [
       {
         text: "الغاء",
@@ -100,9 +96,7 @@ export default function FavoriteScreen({ route, navigation }) {
       { text: "تأكيد", onPress: () => deleteProperity(prop_id) }
     ]);
 
-
-
-  const deleteProperity = (prop_id) => {
+  const deleteProperity = prop_id => {
     fetch(url.base_url + "profile/delete_prop.php?prop_id=" + prop_id, {
       method: "GET",
       headers: {
@@ -140,7 +134,6 @@ export default function FavoriteScreen({ route, navigation }) {
           marginTop: 260
         }}
       >
-
         <Text
           style={{
             fontFamily: "Regular",
@@ -157,7 +150,7 @@ export default function FavoriteScreen({ route, navigation }) {
 
   return (
     <View style={{ justifyContent: "center", flex: 1 }}>
-     <View
+      <View
         style={{
           marginBottom: 20,
           paddingHorizontal: 40,
@@ -176,113 +169,121 @@ export default function FavoriteScreen({ route, navigation }) {
 
       {isLoading == false
         ? <FlatList
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          data={data}
-          keyExtractor={(item, index) => `${item.prop_id}`}
-          ListEmptyComponent={handleEmptyProp()}
-          renderItem={({ item }) =>
-            <View>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("ProperityDetail", {
-                    prop: item
-                  })}
-                style={{
-                  flexDirection: "row-reverse",
-                  height: 120,
-                  backgroundColor: "#FFF",
-                  marginHorizontal: 10,
-                  marginVertical: 10,
-                  borderRadius: 10,
-                }}
-              >
-                <View style={{ width: "30%" }}>
-                  {item.prop_images == "" ?
-                    <Image
-                      source={require("./../../assets/placeholder.jpg")}
-                      resizeMode="contain"
-                      style={{
-                        width: 100,
-                        height: 100,
-                        borderRadius: 10,
-                        margin: 5
-                      }}
-                    />
-                    :
-                    <Image
-                      source={{ uri: url.media_url + item.prop_images.split(",")[0] }} resizeMode="cover"
-                      style={{
-                        width: 100,
-                        height: 100,
-                        borderRadius: 10,
-                        margin: 5
-                      }}
-                    />
-                  }
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            data={data}
+            keyExtractor={(item, index) => `${item.prop_id}`}
+            ListEmptyComponent={handleEmptyProp()}
+            renderItem={({ item }) =>
+              <View>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("ProperityDetail", {
+                      prop: item
+                    })}
+                  style={{
+                    flexDirection: "row-reverse",
+                    height: 120,
+                    backgroundColor: "#FFF",
+                    marginHorizontal: 10,
+                    marginVertical: 10,
+                    borderRadius: 10
+                  }}
+                >
+                  <View style={{ width: "30%" }}>
+                    {item.prop_images == ""
+                      ? <Image
+                          source={require("./../../assets/placeholder.jpg")}
+                          resizeMode="contain"
+                          style={{
+                            width: 100,
+                            height: 100,
+                            borderRadius: 10,
+                            margin: 5
+                          }}
+                        />
+                      : <Image
+                          source={{
+                            uri: url.media_url + item.prop_images.split(",")[0]
+                          }}
+                          resizeMode="cover"
+                          style={{
+                            width: 100,
+                            height: 100,
+                            borderRadius: 10,
+                            margin: 5
+                          }}
+                        />}
+                  </View>
 
-                </View>
-
-                <View style={{ width: "40%", justifyContent: "center" }}>
-
-                  <Text
-                    style={{
-                      color: "#000",
-                      fontFamily: "Bold",
-                      textAlign: "center",
-                    }}
-                  >
-                    {item.adv_title}
-                  </Text>
-
-                  <Text style={{ fontFamily: "Regular", textAlign: "center",color:"#019AFF" }}>
-                     {item.prop_price} ريال
-                    </Text>
-
-
-                </View>
-
-                <View style={{ 
-                  width: "30%", 
-                  alignItems: "center",
-                  justifyContent:"center"
-                  }}>
-
-
-                  <View
-                    style={{
-                      position :"absolute",
-                      left: 0,
-                      top: 0,
-                      backgroundColor: render_color(item.prop_status),
-                      paddingVertical: 5,
-                      paddingHorizontal: 10,
-                      borderTopLeftRadius : 10,
-                    }}
-                   >
+                  <View style={{ width: "40%", justifyContent: "center" }}>
                     <Text
                       style={{
-                        color: "#FFF",
-                        fontFamily: "Regular",
-                        fontSize: 12,
-                        textAlign: "center",
+                        color: "#000",
+                        fontFamily: "Bold",
+                        textAlign: "center"
                       }}
                     >
-                      {item.prop_status}
+                      {item.adv_title}
+                    </Text>
+
+                    <Text
+                      style={{
+                        fontFamily: "Regular",
+                        textAlign: "center",
+                        color: "#019AFF"
+                      }}
+                    >
+                      {item.prop_price} ريال
                     </Text>
                   </View>
 
-                  <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
-                    <TouchableOpacity
-                      onPress={() => confirm_delete(item.prop_id)}
+                  <View
+                    style={{
+                      width: "30%",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                  >
+                    <View
                       style={{
-                        justifyContent: "center",
-                        alignItems: "center"
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        backgroundColor: render_color(item.prop_status),
+                        paddingVertical: 5,
+                        paddingHorizontal: 10,
+                        borderTopLeftRadius: 10
                       }}
                     >
-                      <AntDesign name="delete" size={30} color="#fe7e25" />
-                    </TouchableOpacity>
+                      <Text
+                        style={{
+                          color: "#FFF",
+                          fontFamily: "Regular",
+                          fontSize: 12,
+                          textAlign: "center"
+                        }}
+                      >
+                        {item.prop_status}
+                      </Text>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-around"
+                      }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => confirm_delete(item.prop_id)}
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center"
+                        }}
+                      >
+                        <AntDesign name="delete" size={30} color="#fe7e25" />
+                      </TouchableOpacity>
 
                       <TouchableOpacity
                         onPress={() =>
@@ -295,18 +296,17 @@ export default function FavoriteScreen({ route, navigation }) {
                         }}
                       >
                         <AntDesign name="edit" size={30} color="grey" />
-                      </TouchableOpacity> 
+                      </TouchableOpacity>
+                    </View>
                   </View>
-
-                </View>
-              </TouchableOpacity>
-            </View>}
-        />
+                </TouchableOpacity>
+              </View>}
+          />
         : <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <ActivityIndicator size={70} color="#fe7e25" />
-        </View>}
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <ActivityIndicator size={70} color="#fe7e25" />
+          </View>}
     </View>
   );
 }

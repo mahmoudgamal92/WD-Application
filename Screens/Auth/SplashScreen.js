@@ -21,7 +21,6 @@ export default function Spalsh({ route, navigation }) {
     const dispatch = useDispatch();
     useFocusEffect(
       React.useCallback(() => {
-        _fetchUser();
         _getCache();
       }, [])
     );
@@ -31,10 +30,19 @@ export default function Spalsh({ route, navigation }) {
     if (user !== null) 
     {
       dispatch(userSlice.actions.setUserInfo(user));
+      if(JSON.parse(user).user_type == "client")
+      {
+        navigation.replace("ClientFlow");
+      }
+      else
+      {
+        navigation.replace("UserFlow");
+      }
     }
     else 
     {
       dispatch(userSlice.actions.setUserInfo(""));
+       navigation.replace("UserFlow");
     }
   }
 
@@ -53,7 +61,7 @@ export default function Spalsh({ route, navigation }) {
         .then(response => response.json())
         .then(json => {
           AsyncStorage.setItem("aqar_cache_data", JSON.stringify(json));
-          navigation.replace("AppFlow");
+          _fetchUser();
         })
     };
 

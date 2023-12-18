@@ -10,6 +10,7 @@ import PricingPlans from '../Screens/PricingPlans';
 import CurrentSubscription from '../Screens/Client/CurrentSubscription';
 import UsersScreen from '../Screens/Client/UsersScreen';
 import AddUser from '../Screens/Client/AddUser';
+import Favourite from '../Screens/FavoriteScreen';
 
 import Invoices from '../Screens/Client/Invoices';
 import InvoiceDetails from '../Screens/Client/InvoiceDetails';
@@ -20,7 +21,7 @@ import ResultScreen from './../Screens/ResultScreen';
 import SellerInfo from './../Screens/SellerInfo';
 import Logout from '../Screens/Auth/Logout';
 import Notification from './../Screens/Notification';
-import OrdersMap from './../Screens/Client/OrdersMap';
+import MapScreen from './../Screens/Client/MapScreen';
 
 import AddRequest from '../Screens/Shared/AddRequest';
 import RequestDetails from "../Screens/RequestDetails";
@@ -29,6 +30,13 @@ import AdBasicInfo from "../Screens/Ad/BasicInfo";
 import AdMapInfo from "./../Screens/Ad/MapInfo";
 import AdMediaInfo from "./../Screens/Ad/MediaInfo";
 import FaLicense from "./../Screens/FaLicense";
+
+import Clients from "./../Screens/Client/Clients";
+import AddClient from "./../Screens/Client/AddClient";
+
+
+import Interests from "./../Screens/Client/Interests";
+
 const HomeStack = createStackNavigator();
 export const AppStack = () => {
     return(
@@ -57,8 +65,12 @@ export const AppStack = () => {
         <HomeStack.Screen name="AdBasicInfo" component={AdBasicInfo} />
         <HomeStack.Screen name="AdMapInfo" component={AdMapInfo} />
         <HomeStack.Screen name="AdMediaInfo" component={AdMediaInfo} />
+        <HomeStack.Screen name="Favourite" component={Favourite} />
         <HomeStack.Screen name="FaLicense" component={FaLicense} />
-        <HomeStack.Screen name="OrdersMap" component={OrdersMap} />        
+        <HomeStack.Screen name="MapScreen" component={MapScreen} />    
+        <HomeStack.Screen name="Clients" component={Clients} />        
+        <HomeStack.Screen name="AddClient" component={AddClient} />  
+        <HomeStack.Screen name="Interests" component={Interests} />        
         </HomeStack.Navigator>
       )
   }

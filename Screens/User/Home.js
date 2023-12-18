@@ -858,7 +858,7 @@ export default function UserHome() {
                     color: "grey"
                   }}
                 >
-                  {selectedItem.address.substring(0, 25)}...
+                  {item.prop_state + " , "+ item.prop_city}
                 </Text>
               </View>
             </View>

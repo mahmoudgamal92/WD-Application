@@ -19,7 +19,6 @@ const CustomHeader = ({text }) => {
     <View
     style={{
       paddingHorizontal: 20,
-      paddingTop : Constants.statusBarHeight * 0.8,
       backgroundColor: "#fe7e25",
       alignItems: "center",
       width: "100%",

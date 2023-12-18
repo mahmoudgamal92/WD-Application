@@ -1,345 +1,366 @@
-import React, { Component, useState, useEffect } from "react";
 import {
-  Entypo,
-  AntDesign,
-  Ionicons,
-  Feather,
-  FontAwesome
-} from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  StyleSheet,
+  TouchableOpacity,
   Text,
   View,
-  TextInput,
   FlatList,
-  ScrollView,
-  TouchableOpacity,
-  Image,
+  RefreshControl,
   ActivityIndicator,
-  Alert
+  Image,
+  TextInput,
+  ScrollView
 } from "react-native";
-import { NativeBaseProvider, Select, CheckIcon } from "native-base";
-import {url} from "../../constants/constants";
+import React, { useState, useEffect } from "react";
+import { Entypo, AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
+import { url } from "../../constants/constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomHeader from "./../../components/CustomHeader";
+import styles from "./../../theme/style";
 
-import styles from "../../theme/style";
-import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
-
-import toastConfig from "../../constants/alerts";
-
-export default function PersonalInfo({ navigation, route }) {
-  const [formData, setFormData] = useState([]);
-
+export default function AddUser({ route, navigation }) {
   const [isLoading, setLoading] = React.useState(false);
-  const [loading, handleLoading] = React.useState(false);
-  const [feilds, setFeilds] = useState("");
+  const [data, setData] = useState([]);
 
-  useEffect(() => {
+  const [user_name, setUserName] = useState("");
+  const [user_email, setUserEmail] = useState("");
+  const [user_phone, setUserPhone] = useState("");
+
+  const screenTitle = "إضافة مستخدم جديد";
+
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
     _retrieveData();
+    wait(2000).then(() => setRefreshing(false));
   }, []);
 
-  const _retrieveData = async () => {
+  const createUser = async () => {
     try {
-      const cache_text = await AsyncStorage.getItem("aqar_cache_data");
-      const cache = JSON.parse(cache_text);
-      const feilds = cache.add_agent_fields;
-      setFeilds(feilds);
-    } catch (error) {
-      //console.log(error);
-    }
-  };
-
-  const PushValue = (id, value) => {
-    const obj = formData.find(item => item.field_id === id);
-    if (obj === undefined) {
-      const new_obj = { field_id: id, input_value: value };
-      formData.push(new_obj);
-    } else {
-      formData.map(item => {
-        if (item.field_id === id) {
-          item.input_value = value;
-        }
-      });
-    }
-    console.log(formData);
-
-  };
-
-  const Validate_form = async () => {
-    var x = true;
-    for (var i = 0; i < formData.length; i++) {
-      if (formData[i].input_value == "") {
-        x = false;
-        break;
-      }
-    }
-    AddUser(x);
-  };
-
-
-  const validateEmail = (text) => {
-    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-    if (reg.test(text) === false) {
-      return false;
-    }
-    else {
-      return true;
-    }
-  }
-
-  const AddUser = async flag => {
-
-    const email = formData.find(item => item.field_id === "aa_email").input_value;
-    if (flag == false) {
-      Toast.show({
-        type: "erorrToast",
-        text1: "الرجاء ملئ جميع الحقول",
-        topOffset: 80,
-        visibilityTime: 2000
-      });
-
-    } else {
-      if(validateEmail(email) == false){
-        Toast.show({
-          type: "erorrToast",
-          text1: "الرجاء ادخال بريد الكتروني صحيح",
-          topOffset: 80,
-          visibilityTime: 2000
-        });
-      }
-
-      else
-      {
-      const token = await AsyncStorage.getItem("user_token");
-      let submitForm = new FormData();
-      {
-        formData.map(item => {
-          submitForm.append(item.field_id, item.input_value);
-        });
-      }
+      const user_id = await AsyncStorage.getItem("user_token");
+      let formData = new FormData();
+      formData.append("user_id", user_id);
+      formData.append("name", user_name);
+      formData.append("email", user_email);
+      formData.append("phone", user_phone);
       setLoading(true);
-      fetch(url.base_url + "add-agent", {
+      fetch(url.base_url + "profile/create_user.php", {
         method: "POST",
         headers: {
           Accept: "*/*",
-          Authorization: "Bearer " + token,
           "Content-type": "multipart/form-data;",
           "Accept-Encoding": "gzip, deflate, br",
+          "cache-control": "no-cache",
           Connection: "keep-alive"
         },
-        body: submitForm
+        body:formData
       })
         .then(response => response.json())
-        .then(responseJson => {
-          if (responseJson.data !== undefined) {
-
-            Toast.show({
-              type: "successModal",
-              text1: " تم اضافة المستخدم بنجاح",
-              text2: "سيتم توجيهك الأن لصفحة المستخدمين",
-              visibilityTime: 2000
-            });
-         
-            setTimeout(() => {
-              navigation.navigate("UsersScreen");
-            }, 2000);
-
+        .then(json => {
+          //alert(JSON.stringify(json));
+          if (json.success == true) {
+            alert("تم انشاء الحساب");
+            navigation.navigate("UsersScreen");
             setLoading(false);
-          } 
-          else {
-            Toast.show({
-              type: "erorrToast",
-              text1: responseJson.message,
-              topOffset: 80,
-              visibilityTime: 2000
-            });
+          } else {
+            //alert(JSON.stringify(json));
             setLoading(false);
           }
-        });
+        })
+        .catch(error => console.error(error));
+    } catch (error) {
+      console.log(error);
     }
-  }
-  };
-
-  function renderTextInput({ item }) {
-    PushValue(item.field_id, "");
-    return (
-      <View style={styles.inputContainer}>
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Feather name="user" size={18} color="#230D33" />
-        </View>
-        <View style={{ paddingHorizontal: 10 }}>
-          <Text style={styles.inputPlaceHolder}>
-            {item.label}
-          </Text>
-          <TextInput
-            selectionColor={"grey"}
-            onChangeText={value => PushValue(item.field_id, value)}
-            placeholder={item.placeholder}
-            defaultValue={item.value}
-            style={{
-              fontFamily: "Regular",
-              textAlign: "right",
-              paddingBottom: 2
-            }}
-          />
-        </View>
-      </View>
-    );
-  }
-
-  function renderNumberInput({ item }) {
-    PushValue(item.field_id, "");
-    return (
-      <View style={styles.inputContainer}>
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Feather name="user" size={18} color="#230D33" />
-        </View>
-        <View style={{ paddingHorizontal: 10 }}>
-          <Text style={styles.inputPlaceHolder}>
-            {item.label}
-          </Text>
-          <TextInput
-            selectionColor={"grey"}
-            keyboardType="numeric"
-            onChangeText={value => PushValue(item.field_id, value)}
-            placeholder={item.placeholder}
-            defaultValue={item.value}
-            style={{
-              fontFamily: "Regular",
-              textAlign: "right",
-              paddingBottom: 2
-            }}
-          />
-        </View>
-      </View>
-    );
-  }
-
-  function renderEmailInput({ item }) {
-    PushValue(item.field_id, "");
-    return (
-      <View style={styles.inputContainer}>
-        <View style={{ justifyContent: "center", alignItems: "center" }}>
-          <Feather name="user" size={18} color="#230D33" />
-        </View>
-        <View style={{ paddingHorizontal: 10 }}>
-          <Text style={styles.inputPlaceHolder}>
-            {item.label}
-          </Text>
-
-          <TextInput
-            selectionColor={"grey"}
-            keyboardType="email-address"
-            onChangeText={value => PushValue(item.field_id, value)}
-            placeholder={item.placeholder}
-            defaultValue={item.value}
-            style={{
-              fontFamily: "Regular",
-              textAlign: "right",
-              paddingBottom: 2
-            }}
-          />
-        </View>
-      </View>
-    );
-  }
-
-  const showConfirmDialog = () => {
-    return Alert.alert("خطأ", "لابد من اكمال جميع البيانات", [
-      // The "Yes" button
-      {
-        text: "اغلاق",
-        onPress: () => {}
-      }
-    ]);
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#F8FBFF" }}>
-      <NativeBaseProvider>
-        <View
-          style={{
-            marginBottom: 20,
-            paddingHorizontal: 20,
-            flexDirection: "row-reverse",
-            justifyContent: "space-between",
-            backgroundColor: "#fe7e25",
-            alignItems: "center",
-            height: 60
-          }}
-        >
-          <Text style={{ fontFamily: "Regular", fontSize: 15, color: "#FFF" }}>
-            اضافة مستخدم
-          </Text>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons name="chevron-back-circle-sharp" size={24} color="#FFF" />
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          style={{
-            width: "100%",
-            paddingHorizontal: 20,
-            paddingVertical: 10
-          }}
-          data={feilds}
-          keyExtractor={item => {
-            item.field_id;
-          }}
-          renderItem={({ item }) => {
-            switch (item.type) {
-              case "text":
-                return renderTextInput({ item });
-                break;
-
-              case "number":
-                return renderNumberInput({ item });
-                break;
-
-              case "password":
-                return renderTextInput({ item });
-                break;
-
-              case "eamil":
-                return renderEmailInput({ item });
-                break;
-            }
-          }}
-        />
-
-        <View
-          style={{
-            paddingHorizontal: 20,
-            marginTop: 10,
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => Validate_form()}
+    <View style={{ flex: 1 }}>
+      <CustomHeader text={screenTitle} />
+      <View style={styles.rootContainer}>
+        <ScrollView style={{}}>
+          <View
             style={{
-              backgroundColor: "#230D33",
-              paddingVertical: 10,
-              borderRadius: 10,
-              marginBottom: 10,
-              width: "60%"
+              flex: 1,
+              alignItems: "center",
+              paddingHorizontal: 10
             }}
           >
-            {isLoading == false
-              ? <Text
+            {/* Mobile Input */}
+            <View
+              style={{
+                flexDirection: "row-reverse",
+                borderColor: "#fe7e25",
+                width: "100%",
+                borderWidth: 1,
+                borderRadius: 10,
+                paddingHorizontal: 10,
+                paddingVertical: 2,
+                marginVertical: 10,
+                height: 58
+              }}
+            >
+              <View
+                style={{
+                  paddingHorizontal: 10,
+                  alignItems: "flex-end",
+                  position: "absolute",
+                  marginTop: -10
+                }}
+              >
+                <Text
                   style={{
-                    color: "white",
-                    textAlign: "center",
+                    color: "grey",
                     fontFamily: "Regular",
-                    paddingHorizontal: 50
+                    backgroundColor: "#FFF",
+                    textAlign: "right",
+                    paddingHorizontal: 10
                   }}
                 >
-                  اضافة
+                  أسم المستخدم
                 </Text>
-              : <ActivityIndicator size="large" color={"#FFF"} />}
-          </TouchableOpacity>
-        </View>
-      </NativeBaseProvider>
-      <Toast config={toastConfig} />
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row-reverse",
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <TextInput
+                  selectionColor={"#fe7e25"}
+                  onChangeText={val => setUserName(val)}
+                  style={{
+                    fontFamily: "Regular",
+                    textAlign: "right",
+                    paddingBottom: 2,
+                    height: "100%",
+                    width: "100%",
+                    fontSize: 20,
+                    fontFamily: "Bold",
+                    color: "grey"
+                  }}
+                />
+
+                <TouchableOpacity
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    right: 0,
+                    position: "absolute",
+                    flexDirection: "row-reverse"
+                  }}
+                >
+                  <Feather name="user" size={35} color="grey" />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Mobile Input */}
+            <View
+              style={{
+                flexDirection: "row-reverse",
+                borderColor: "#fe7e25",
+                width: "100%",
+                borderWidth: 1,
+                borderRadius: 10,
+                paddingHorizontal: 10,
+                paddingVertical: 2,
+                marginVertical: 10,
+                height: 58
+              }}
+            >
+              <View
+                style={{
+                  paddingHorizontal: 10,
+                  alignItems: "flex-end",
+                  position: "absolute",
+                  marginTop: -10
+                }}
+              >
+                <Text
+                  style={{
+                    color: "grey",
+                    fontFamily: "Regular",
+                    backgroundColor: "#FFF",
+                    textAlign: "right",
+                    paddingHorizontal: 10
+                  }}
+                >
+                  رقم الجوال
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row-reverse",
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <TextInput
+                  selectionColor={"#fe7e25"}
+                  onChangeText={val => setUserPhone(val)}
+                  keyboardType="numeric"
+                  style={{
+                    fontFamily: "Regular",
+                    textAlign: "right",
+                    paddingBottom: 2,
+                    height: "100%",
+                    width: "100%",
+                    fontSize: 20,
+                    fontFamily: "Bold",
+                    color: "grey"
+                  }}
+                />
+
+                <TouchableOpacity
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    right: 0,
+                    position: "absolute",
+                    flexDirection: "row-reverse"
+                  }}
+                >
+                  <AntDesign
+                    name="caretdown"
+                    size={12}
+                    color="grey"
+                    style={{ marginRight: 10 }}
+                  />
+                  <Text
+                    style={{
+                      fontFamily: "Regular",
+                      fontSize: 16,
+                      color: "grey",
+                      marginHorizontal: 5
+                    }}
+                  >
+                    +966
+                  </Text>
+                  <Image
+                    source={require("./../../assets/ksa.png")}
+                    style={{ width: 30, height: 25, borderRadius: 5 }}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Mobile Input */}
+            <View
+              style={{
+                flexDirection: "row-reverse",
+                borderColor: "#fe7e25",
+                width: "100%",
+                borderWidth: 1,
+                borderRadius: 10,
+                paddingHorizontal: 10,
+                paddingVertical: 2,
+                marginVertical: 10,
+                height: 58
+              }}
+            >
+              <View
+                style={{
+                  paddingHorizontal: 10,
+                  alignItems: "flex-end",
+                  position: "absolute",
+                  marginTop: -10
+                }}
+              >
+                <Text
+                  style={{
+                    color: "grey",
+                    fontFamily: "Regular",
+                    backgroundColor: "#FFF",
+                    textAlign: "right",
+                    paddingHorizontal: 10
+                  }}
+                >
+                  البريد الإلكتروني
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row-reverse",
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <TextInput
+                  selectionColor={"#fe7e25"}
+                  onChangeText={val => setUserEmail(val)}
+                  keyboardType="email-address"
+                  style={{
+                    fontFamily: "Regular",
+                    textAlign: "right",
+                    paddingBottom: 2,
+                    height: "100%",
+                    width: "100%",
+                    fontSize: 20,
+                    fontFamily: "Bold",
+                    color: "grey"
+                  }}
+                />
+
+                <TouchableOpacity
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    right: 0,
+                    position: "absolute",
+                    flexDirection: "row-reverse"
+                  }}
+                >
+                  <MaterialIcons name="email" size={35} color="grey" />
+                </TouchableOpacity>
+              </View>
+            </View>
+            {isLoading == true
+              ? 
+              <TouchableOpacity
+                  style={{
+                    width: "100%",
+                    marginVertical: 10,
+                    backgroundColor: "#fe7e25",
+                    padding: 10,
+                    borderRadius: 10
+                  }}
+                >
+                  <ActivityIndicator size={40} color={"#FFF"} />
+                </TouchableOpacity>
+              : 
+              <TouchableOpacity
+                  onPress={() => createUser()}
+                  style={{
+                    width: "100%",
+                    marginVertical: 10,
+                    backgroundColor: "#fe7e25",
+                    padding: 10,
+                    borderRadius: 10
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Bold",
+                      textAlign: "center",
+                      color: "#FFF"
+                    }}
+                  >
+                    إضافة مستخدم جديد
+                  </Text>
+                </TouchableOpacity>
+              }
+          </View>
+        </ScrollView>
+      </View>
     </View>
   );
 }

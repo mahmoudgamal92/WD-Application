@@ -13,11 +13,12 @@ import { url } from "../../constants/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomHeader from "./../../components/CustomHeader";
 import styles from "./../../theme/style";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function FavoriteScreen({ route, navigation }) {
   const [isLoading, setLoading] = React.useState(false);
   const [data, setData] = useState([]);
-  const screenTitle = "تفاصيل الإشتراك";
+  const screenTitle = "المستخدمين";
 
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -30,10 +31,13 @@ export default function FavoriteScreen({ route, navigation }) {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
-  useEffect(() => {
-    _retrieveData();
-  }, []);
 
+
+  useFocusEffect(
+    React.useCallback(() => {
+      _retrieveData();
+    }, [])
+  );
   const _retrieveData = async () => {
     try {
       const token = await AsyncStorage.getItem("user_token");
@@ -69,51 +73,32 @@ export default function FavoriteScreen({ route, navigation }) {
     }
   };
 
-  const deleteProperity = prop_id => {
-    fetch(url.base_url + "profile/delete_prop.php?prop_id=" + prop_id, {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        "cache-control": "no-cache",
-        "Content-type": "multipart/form-data;",
-        "Accept-Encoding": "gzip, deflate, br",
-        Connection: "keep-alive"
-      }
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.success == true) {
-          alert("تم حذف المستخدم بنجاح");
-          _retrieveData();
-        } else {
-          alert(responseJson.message);
-        }
-      });
-  };
-
+ 
   const handleEmptyProp = () => {
     return (
       <View
         style={{
+          flex: 1,
           justifyContent: "center",
           alignItems: "center",
-          marginTop: 260
+          paddingHorizontal: 20,
+          marginTop: 160
         }}
       >
+        <Image source={require('./../../assets/no_result.png')} />
         <Text
           style={{
-            fontFamily: "Regular",
-            color: "#c9c9c9",
+            fontFamily: "Bold",
+            color: "#000",
             fontSize: 18,
             marginTop: 10
           }}
         >
-          لا توجد لديك أي عقارات حاليا
+          لا يوجد لديك أي مستخدمين حاليا
         </Text>
       </View>
     );
   };
-
   return (
     <View style={{ flex: 1 }}>
       <CustomHeader text={screenTitle} />
@@ -208,6 +193,26 @@ export default function FavoriteScreen({ route, navigation }) {
             >
               <ActivityIndicator size={70} color="#fe7e25" />
             </View>}
+      </View>
+
+      <View style={{
+        margin:20
+      }}>
+        <TouchableOpacity 
+        onPress={() => navigation.navigate("AddUser")}
+        style={{
+          backgroundColor:"#fe7e25",
+          padding:10,
+          borderRadius:10
+        }}>
+          <Text style={{
+            fontFamily:"Bold",
+            textAlign:"center",
+            color:"#FFF"
+          }}>
+            إضافة مستخدم جديد
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

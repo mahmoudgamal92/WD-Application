@@ -129,7 +129,6 @@ export default function PersonalProps({ route, navigation }) {
         )
           .then(response => response.json())
           .then(json => {
-            // alert(JSON.stringify(json));
             if (json.success == true) {
               setData(json.data);
               setLoading(false);
@@ -207,6 +206,7 @@ export default function PersonalProps({ route, navigation }) {
           ? <FlatList
               data={data}
               style={{width:"100%"}}
+              ListEmptyComponent={handleEmptyProp()}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) =>
                 <View style={{ flex: 1, width: "100%" }}>
@@ -362,7 +362,7 @@ export default function PersonalProps({ route, navigation }) {
                             color: "grey"
                           }}
                         >
-                          {item.address.substring(0, 25)}...
+                          {item.prop_state + " , "+ item.prop_city}
                         </Text>
                       </View>
 
