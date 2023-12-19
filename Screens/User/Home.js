@@ -899,7 +899,8 @@ export default function UserHome() {
               <Text
                 style={{
                   fontFamily: "Bold",
-                  marginVertical: 10
+                  marginVertical: 10,
+                  textAlign:"right"
                 }}
               >
                 إختر نوع العقار
