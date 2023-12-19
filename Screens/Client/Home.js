@@ -14,6 +14,8 @@ export default function ClientHome() {
     <View style={{ flex: 1, backgroundColor: "#fafafa" }}>
       <StatusBar backgroundColor="#fe7e25" />
       <DefaultHeader />
+
+      <View style={styles.rootContainer}>
       <ScrollView
         style={{
           width: "100%"
@@ -121,7 +123,11 @@ export default function ClientHome() {
             </Text>
           </TouchableOpacity>
 
-          <View style={styles.sectionContainer}>
+       
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Deals")}
+            style={styles.sectionContainer}
+          >
             <Iconify icon="ri:shake-hands-fill" size={32} color="#fe7e25" />
             <Text
               style={{
@@ -130,7 +136,7 @@ export default function ClientHome() {
             >
               صفقاتي
             </Text>
-          </View>
+          </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => navigation.navigate("Clients")}
@@ -237,6 +243,7 @@ export default function ClientHome() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      </View>
     </View>
   );
 }

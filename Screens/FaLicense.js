@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Image,
   Platform,
+  TextInput,
   ScrollView
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
@@ -13,7 +14,8 @@ import Constants from "expo-constants";
 import {
   MaterialIcons,
   Ionicons,
-  MaterialCommunityIcons
+  MaterialCommunityIcons,
+  AntDesign
 } from "@expo/vector-icons";
 import styles from "./../theme/style";
 import CustomHeader from "./../components/CustomHeader";
@@ -109,39 +111,98 @@ export default function AddImg({ route, navigation }) {
                 fontSize: 16
               }}
             >
-              من فضلك قم بالتقاط صورة لرخصة هيئة العقار او رفعها من خلال جهازك{" "}
+              من فضلك أختر الطريقة لربط رخصة فال الخاصة بك
             </Text>
 
-            <TouchableOpacity
-              onPress={() => _pickImage()}
+             {/* Mobile Input */}
+             <View
               style={{
-                marginBottom: 20,
-                backgroundColor: "#FFF",
-
-                marginTop: 10,
-                backgroundColor: "#FFF",
+                flexDirection: "row-reverse",
                 borderColor: "#fe7e25",
-                borderStyle: "dashed",
-                borderWidth: 2,
-                width: 172,
-                height: 122,
-                alignItems: "center",
-                justifyContent: "center"
+                width: "100%",
+                borderWidth: 1,
+                borderRadius: 10,
+                paddingHorizontal: 10,
+                paddingVertical: 2,
+                marginVertical: 10,
+                height: 58
               }}
-            >
-              <Iconify icon="solar:camera-bold" size={60} color={"#fe7e25"} />
-              <Text
+             >
+              <View
                 style={{
-                  fontFamily: "Bold",
-                  color: "#000"
+                  paddingHorizontal: 10,
+                  alignItems: "flex-end",
+                  position: "absolute",
+                  marginTop: -10
                 }}
               >
-                إلتقاط صورة
+                <Text
+                  style={{
+                    color: "grey",
+                    fontFamily: "Regular",
+                    backgroundColor: "#FFF",
+                    textAlign: "right",
+                    paddingHorizontal: 10
+                  }}
+                >
+                  رابط أو رقم الرخصة
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  flexDirection: "row-reverse",
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <TextInput
+                  selectionColor={"#fe7e25"}
+                  onChangeText={phone_number => setPhone(phone_number)}
+                  keyboardType="numeric"
+                  style={{
+                    fontFamily: "Regular",
+                    textAlign: "right",
+                    paddingBottom: 2,
+                    height: "100%",
+                    width: "100%",
+                    fontSize: 20,
+                    fontFamily: "Bold",
+                    color: "grey"
+                  }}
+                />
+
+                <TouchableOpacity
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    right: 0,
+                    position: "absolute",
+                    padding: 17,
+                    flexDirection: "row-reverse"
+                  }}
+                >
+                 
+                  <Iconify icon="iconamoon:scanner-bold" size={20} color={"#fe7e25"} />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#000",
+                  textAlign:"center",
+                  marginVertical:10
+                }}
+              >
+                أو
               </Text>
-            </TouchableOpacity>
+
 
             <TouchableOpacity
-              onPress={() => _pickImage()}
+              onPress={() => navigation.navigate("FaLicenseScan")}
               style={{
                 marginBottom: 20,
                 backgroundColor: "#FFF",
@@ -156,19 +217,19 @@ export default function AddImg({ route, navigation }) {
                 justifyContent: "center"
               }}
             >
-              <Iconify icon="solar:upload-bold" size={60} color={"#fe7e25"} />
+              <Iconify icon="iconamoon:scanner-bold" size={60} color={"#fe7e25"} />
               <Text
                 style={{
                   fontFamily: "Bold",
                   color: "#000"
                 }}
               >
-                تحميل صورة
+                مسح باركود الرخصة
               </Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            onPress={() => insertAdd()}
+           // onPress={() => insertAdd()}
             style={{
               backgroundColor: "#fe7e25",
               marginBottom: 40,
@@ -192,10 +253,10 @@ export default function AddImg({ route, navigation }) {
                     style={{
                       color: "white",
                       textAlign: "center",
-                      fontFamily: "Regular"
+                      fontFamily: "Bold"
                     }}
                   >
-                    انشاء الإعلان
+                    متابعة
                   </Text>
                   <MaterialIcons
                     name="keyboard-arrow-left"

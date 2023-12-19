@@ -169,6 +169,27 @@ export const adv_type = [
   }
 ];
 
+
+export const client_type = [
+  {
+    title: "مالك",
+    slug: "owner"
+  },
+  {
+    title: "مستأجر",
+    slug: "renter"
+  },
+  {
+    title: "مستثمر",
+    slug: "investor"
+  },
+  {
+    title: "مشتري",
+    slug: "buyer"
+  }
+];
+
+
 export const prop_type = [
   {
     id: "3",

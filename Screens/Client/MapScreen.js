@@ -144,6 +144,40 @@ import React, {
    
   
   
+    const toggleFavorite = async prop_id => {
+      const user_token = await AsyncStorage.getItem("user_token");
+      try {
+        //setFavLoading(prop_id);
+        fetch(
+          url.base_url +
+          "favourite/toggle.php?prop_id=" +
+          prop_id +
+          "&user_token=" +
+          user_token,
+          {
+            headers: {
+              Accept: "*/*",
+              "Content-type": "multipart/form-data;",
+              "Accept-Encoding": "gzip, deflate, br",
+              "cache-control": "no-cache",
+              Connection: "keep-alive"
+            }
+          }
+        )
+          .then(response => response.json())
+          .then(responseJson => {
+            //alert(JSON.stringify(responseJson));
+            Toast.show({
+              type: "successToast",
+              text1: "تم الاضافه للمفضله بنجاح",
+              bottomOffset: 80,
+              visibilityTime: 2000
+            });
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
     const _MapReLocation = async (lat, long) => {
       mapRef?.current.animateToRegion({
         latitude: parseFloat(lat),

@@ -5,7 +5,8 @@ import {
   FlatList,
   RefreshControl,
   ActivityIndicator,
-  Image
+  Image,
+  Linking
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Entypo, AntDesign, Feather } from "@expo/vector-icons";
@@ -109,7 +110,7 @@ export default function FavoriteScreen({ route, navigation }) {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
               data={data}
-              keyExtractor={(item, index) => `${item.prop_id}`}
+              keyExtractor={(item, index) => `${item.user_id}`}
               ListEmptyComponent={handleEmptyProp()}
               renderItem={({ item }) =>
                 <TouchableOpacity

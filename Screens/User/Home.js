@@ -6,13 +6,11 @@ import React, {
   useMemo
 } from "react";
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
   TextInput,
   FlatList,
-  Image,
   ActivityIndicator,
   StatusBar,
   ImageBackground,
@@ -35,6 +33,8 @@ import * as Location from "expo-location";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../../theme/style";
+import {getAdvType , getPropType} from './../../utils/functions';
+
 import { url } from "../../constants/constants";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { Dropdown } from "react-native-element-dropdown";
@@ -175,18 +175,7 @@ export default function UserHome() {
     }
   };
 
-  const getAdvType = val => {
-    switch (val) {
-      case "for_sale":
-        return "للبيع";
-      case "for_rent":
-        return "للإيجار";
-      case "for_invest":
-        return "للإستثمار";
-      default:
-        return "للبيع";
-    }
-  };
+
 
   const ApplySearch = (param) => {
 
@@ -275,32 +264,6 @@ export default function UserHome() {
 
   };
 
-  const getPropType = val => {
-    switch (val) {
-      case "3":
-        return "شقة";
-      case "4":
-        return "فيلا";
-      case "5":
-        return "أرض";
-      case "6":
-        return "عمارة";
-      case "7":
-        return "محل تجاري";
-      case "8":
-        return "مول";
-      case "9":
-        return "شاليه";
-      case "10":
-        return "إستراحة";
-      case "11":
-        return "مستودع";
-      case "12":
-        return "مصنع";
-      default:
-        return "أخرى";
-    }
-  };
 
   const toggleFavorite = async prop_id => {
     const user_token = await AsyncStorage.getItem("user_token");

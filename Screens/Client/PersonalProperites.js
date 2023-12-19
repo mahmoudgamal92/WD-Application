@@ -13,85 +13,16 @@ import {
 } from "react-native";
 import React, { Component, useState, useEffect } from "react";
 import { Entypo, AntDesign } from "@expo/vector-icons";
-import {url} from "../../constants/constants";
+import { url } from "../../constants/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomHeader from "../../components/CustomHeader";
 import styles from "../../theme/style";
+import { getAdvType, getPropType, getPropStatus } from "./../../utils/functions";
 
 export default function PersonalProps({ route, navigation }) {
   const [isLoading, setLoading] = React.useState(false);
   const screenTitle = "عقاراتي";
-  const getAdvType = val => {
-    switch (val) {
-      case "for_sale":
-        return "للبيع";
-      case "for_rent":
-        return "للإيجار";
-      case "for_invest":
-        return "للإستثمار";
-      default:
-        return "للبيع";
-    }
-  };
-
-  const render_color = val => {
-    switch (val) {
-      case "draft":
-        return {
-          color: "#ff0000",
-          text: "غير منشور"
-        };
-
-      case "pending":
-        return {
-          color: "#ecc100",
-          text: "قيد الإنتظار"
-        };
-
-      case "active":
-        return {
-          color: "#008036",
-          text: "نشط"
-        };
-
-      default:
-        return {
-          color: "#fe7e25",
-          text: "غير معروف"
-        };
-    }
-  };
-
-  const getPropType = val => {
-    switch (val) {
-      case "3":
-        return "شقة";
-      case "4":
-        return "فيلا";
-      case "5":
-        return "أرض";
-      case "6":
-        return "عمارة";
-      case "7":
-        return "محل تجاري";
-      case "8":
-        return "مول";
-      case "9":
-        return "شاليه";
-      case "10":
-        return "إستراحة";
-      case "11":
-        return "مستودع";
-      case "12":
-        return "مصنع";
-      default:
-        return "أخرى";
-    }
-  };
-
   const [data, setData] = useState([]);
-  const [user_id, setUserID] = useState("");
-  const [user_name, setUserName] = useState("");
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -114,19 +45,16 @@ export default function PersonalProps({ route, navigation }) {
       if (token == null) {
         navigation.navigate("SignInScreen");
       } else {
-        fetch(
-          url.base_url + "profile/properties.php?user_token=" + token,
-          {
-            method: "GET",
-            headers: {
-              Accept: "*/*",
-              "Content-type": "multipart/form-data;",
-              "Accept-Encoding": "gzip, deflate, br",
-              "cache-control": "no-cache",
-              Connection: "keep-alive"
-            }
+        fetch(url.base_url + "profile/properties.php?user_token=" + token, {
+          method: "GET",
+          headers: {
+            Accept: "*/*",
+            "Content-type": "multipart/form-data;",
+            "Accept-Encoding": "gzip, deflate, br",
+            "cache-control": "no-cache",
+            Connection: "keep-alive"
           }
-        )
+        })
           .then(response => response.json())
           .then(json => {
             if (json.success == true) {
@@ -205,7 +133,7 @@ export default function PersonalProps({ route, navigation }) {
         {isLoading == false
           ? <FlatList
               data={data}
-              style={{width:"100%"}}
+              style={{ width: "100%" }}
               ListEmptyComponent={handleEmptyProp()}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) =>
@@ -231,8 +159,7 @@ export default function PersonalProps({ route, navigation }) {
                     <View style={{ width: "40%" }}>
                       <ImageBackground
                         source={{
-                          uri:
-                            url.media_url + item.prop_images.split(",")[0]
+                          uri: url.media_url + item.prop_images.split(",")[0]
                         }}
                         style={{
                           width: "100%",
@@ -280,7 +207,7 @@ export default function PersonalProps({ route, navigation }) {
                           >
                             <View
                               style={{
-                                backgroundColor: render_color(item.prop_status)
+                                backgroundColor: getPropStatus(item.prop_status)
                                   .color,
                                 borderRadius: 50,
                                 paddingHorizontal: 10,
@@ -293,7 +220,7 @@ export default function PersonalProps({ route, navigation }) {
                                   color: "#FFF"
                                 }}
                               >
-                                {render_color(item.prop_status).text}
+                                {getPropStatus(item.prop_status).text}
                               </Text>
                             </View>
                           </View>
@@ -362,7 +289,7 @@ export default function PersonalProps({ route, navigation }) {
                             color: "grey"
                           }}
                         >
-                          {item.prop_state + " , "+ item.prop_city}
+                          {item.prop_state + " , " + item.prop_city}
                         </Text>
                       </View>
 

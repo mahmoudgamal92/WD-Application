@@ -851,8 +851,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexWrap: "wrap"
   },
+
   sectionContainer: {
-    width: 110,
+    width: 100,
     height: 100,
     backgroundColor: "#FFF",
     alignItems: "center",
@@ -866,7 +867,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   }
 });
 export default styles;

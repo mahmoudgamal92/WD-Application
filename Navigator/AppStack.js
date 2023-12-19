@@ -11,7 +11,7 @@ import CurrentSubscription from '../Screens/Client/CurrentSubscription';
 import UsersScreen from '../Screens/Client/UsersScreen';
 import AddUser from '../Screens/Client/AddUser';
 import Favourite from '../Screens/FavoriteScreen';
-
+import Deals from '../Screens/Client/Deals';
 import Invoices from '../Screens/Client/Invoices';
 import InvoiceDetails from '../Screens/Client/InvoiceDetails';
 import PrivacyPolicy from '../Screens/Shared/PrivacyPolicy';
@@ -30,7 +30,7 @@ import AdBasicInfo from "../Screens/Ad/BasicInfo";
 import AdMapInfo from "./../Screens/Ad/MapInfo";
 import AdMediaInfo from "./../Screens/Ad/MediaInfo";
 import FaLicense from "./../Screens/FaLicense";
-
+import FaLicenseScan from "./../Screens/FaLicenseScan";
 import Clients from "./../Screens/Client/Clients";
 import AddClient from "./../Screens/Client/AddClient";
 
@@ -70,7 +70,11 @@ export const AppStack = () => {
         <HomeStack.Screen name="MapScreen" component={MapScreen} />    
         <HomeStack.Screen name="Clients" component={Clients} />        
         <HomeStack.Screen name="AddClient" component={AddClient} />  
-        <HomeStack.Screen name="Interests" component={Interests} />        
+        <HomeStack.Screen name="Interests" component={Interests} />   
+        <HomeStack.Screen name="Deals" component={Deals} />     
+        <HomeStack.Screen name="FaLicenseScan" component={FaLicenseScan} />     
+
+           
         </HomeStack.Navigator>
       )
   }

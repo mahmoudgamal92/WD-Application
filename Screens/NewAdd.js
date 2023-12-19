@@ -67,6 +67,8 @@ export default function NewAdd({ route, navigation }) {
     }
   };
 
+
+
   const Validate_form = () => {
     if (
       prop_type == "" ||
@@ -319,6 +321,7 @@ export default function NewAdd({ route, navigation }) {
             >
               أختر نوع العقار
             </Text>
+            
             <Dropdown
               style={[
                 styles.dropdown,

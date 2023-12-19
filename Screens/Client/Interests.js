@@ -173,7 +173,7 @@ export default function Interests({ route, navigation }) {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
               data={data}
-              keyExtractor={(item, index) => `${item.prop_id}`}
+              keyExtractor={(item, index) => `${item.id}`}
               ListEmptyComponent={handleEmptyProp()}
               renderItem={({ item }) =>
                 <TouchableOpacity
@@ -185,38 +185,35 @@ export default function Interests({ route, navigation }) {
                     marginHorizontal: 10,
                     marginVertical: 10,
                     borderRadius: 10,
-                    paddingHorizontal:10
+                    paddingHorizontal: 10
                   }}
                 >
-                  <View style={{ width: "30%" ,alignItems:"flex-end"}}>
-                  <MaterialIcons name="my-location" size={40} color="#fe7e25" />
+                  <View style={{ width: "20%", alignItems: "flex-end" }}>
+                    <MaterialIcons
+                      name="my-location"
+                      size={40}
+                      color="#fe7e25"
+                    />
                   </View>
 
-                  <View style={{ width: "40%", justifyContent: "center" }}>
-                    <View
-                      style={{
-                        flexDirection: "row-reverse",
-                        alignItems: "center",
-                        justifyContent: "center"
-                      }}
-                    >
+                  <View style={{ width: "60%", justifyContent: "center" }}>
+                
                       <Text
                         style={{
                           color: "grey",
-                          fontFamily: "Regular",
-                          textAlign: "center",
+                          fontFamily: "Bold",
+                          textAlign: "right",
                           fontSize: 15,
                           marginHorizontal: 5
                         }}
                       >
                         {item.city_name}
                       </Text>
-                    </View>
                   </View>
 
                   <View
                     style={{
-                      width: "30%",
+                      width: "20%",
                       alignItems: "center",
                       justifyContent: "space-around",
                       flexDirection: "row"
@@ -237,31 +234,34 @@ export default function Interests({ route, navigation }) {
             >
               <ActivityIndicator size={70} color="#fe7e25" />
             </View>}
-      </View>
 
-      <View
-        style={{
-          margin: 20
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => openBottomSheet()}
+        <View
           style={{
-            backgroundColor: "#fe7e25",
-            padding: 10,
-            borderRadius: 10
+            margin: 20,
+            width:"100%",
+            paddingHorizontal:20
           }}
         >
-          <Text
+          <TouchableOpacity
+            onPress={() => openBottomSheet()}
             style={{
-              fontFamily: "Bold",
-              textAlign: "center",
-              color: "#FFF"
+              backgroundColor: "#fe7e25",
+              padding: 10,
+              borderRadius: 10,
+              width:"100%",
             }}
           >
-            إضافة جديد
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{
+                fontFamily: "Bold",
+                textAlign: "center",
+                color: "#FFF"
+              }}
+            >
+              إضافة جديد
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <BottomSheet
@@ -349,13 +349,15 @@ export default function Interests({ route, navigation }) {
               );
             })}
           </ScrollView>
+
           <TouchableOpacity
             onPress={() => addInterest()}
             style={{
               backgroundColor: "#fe7e25",
               padding: 10,
               borderRadius: 10,
-              marginBottom: 20
+              marginBottom: 20,
+              width: "100%"
             }}
           >
             <Text
@@ -368,6 +370,7 @@ export default function Interests({ route, navigation }) {
               تأكيد
             </Text>
           </TouchableOpacity>
+
         </View>
       </BottomSheet>
     </View>

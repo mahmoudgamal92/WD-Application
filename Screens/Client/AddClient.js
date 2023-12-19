@@ -10,20 +10,23 @@ import {
     ScrollView
   } from "react-native";
   import React, { useState, useEffect } from "react";
-  import { Entypo, AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
-  import { url } from "../../constants/constants";
+  import { MaterialCommunityIcons, AntDesign, Feather, MaterialIcons } from "@expo/vector-icons";
+  import { url,client_type } from "../../constants/constants";
   import AsyncStorage from "@react-native-async-storage/async-storage";
   import CustomHeader from "./../../components/CustomHeader";
   import styles from "./../../theme/style";
-  
+  import { Dropdown } from "react-native-element-dropdown";
+
   export default function AddUser({ route, navigation }) {
     const [isLoading, setLoading] = React.useState(false);
     const [data, setData] = useState([]);
-  
+    const [isFocus, setIsFocus] = useState(false);
+
     const [user_name, setUserName] = useState("");
     const [user_email, setUserEmail] = useState("");
     const [user_phone, setUserPhone] = useState("");
-  
+    const [user_type, setUserType] = useState("");
+
     const screenTitle = "إضافة عميل جديد";
   
     const wait = timeout => {
@@ -45,6 +48,7 @@ import {
         formData.append("name", user_name);
         formData.append("email", user_email);
         formData.append("phone", user_phone);
+        formData.append("type", user_type);
         setLoading(true);
         fetch(url.base_url + "profile/create_client.php", {
           method: "POST",
@@ -59,13 +63,11 @@ import {
         })
           .then(response => response.json())
           .then(json => {
-            //alert(JSON.stringify(json));
             if (json.success == true) {
               alert("تم انشاء الحساب");
               navigation.navigate("Clients");
               setLoading(false);
             } else {
-              //alert(JSON.stringify(json));
               setLoading(false);
             }
           })
@@ -79,7 +81,9 @@ import {
       <View style={{ flex: 1 }}>
         <CustomHeader text={screenTitle} />
         <View style={styles.rootContainer}>
-          <ScrollView style={{}}>
+          <ScrollView
+          showsVerticalScrollIndicator={false}
+          >
             <View
               style={{
                 flex: 1,
@@ -264,7 +268,7 @@ import {
                   marginVertical: 10,
                   height: 58
                 }}
-              >
+                >
                 <View
                   style={{
                     paddingHorizontal: 10,
@@ -323,6 +327,56 @@ import {
                   </TouchableOpacity>
                 </View>
               </View>
+
+
+
+              <View
+            style={{
+              paddingHorizontal: 5,
+              paddingVertical: 10,
+              marginTop: 10,
+              width: "100%"
+            }}
+          >
+            <Dropdown
+              style={[
+                styles.dropdown,{ borderRadius: 10,borderColor:"#fe7e25",height:60 }
+              ]}
+              itemContainerStyle	={{width:"100%"}}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              itemTextStyle={{ fontFamily: "Regular", fontSize: 12,textAlign:"right" }}
+              data={client_type}
+              //search
+              maxHeight={300}
+              labelField="title"
+              valueField="slug"
+              placeholder={ "أختر نوع العميل "}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={item => {
+                setUserType(item.slug);
+                setIsFocus(false);
+              }}
+              renderLeftIcon={() =>
+
+                <Feather name="user"   
+                style={styles.icon}
+                size={30}
+                color="grey" />
+              }
+              renderRightIcon={() =>
+                <MaterialIcons
+                  name="keyboard-arrow-down"
+                  size={30}
+                  color="grey"
+                />}
+            />
+          </View>
+
+
               {isLoading == true
                 ? 
                 <TouchableOpacity

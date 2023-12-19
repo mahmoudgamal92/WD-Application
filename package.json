@@ -58,7 +58,9 @@
     "react-native-web": "~0.18.10",
     "react-native-webview": "11.26.0",
     "react-redux": "^8.1.2",
-    "toggle-switch-react-native": "^3.3.0"
+    "toggle-switch-react-native": "^3.3.0",
+    "expo-barcode-scanner": "~12.3.2",
+    "expo-camera": "~13.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

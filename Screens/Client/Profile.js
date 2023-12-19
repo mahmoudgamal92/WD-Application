@@ -21,8 +21,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import styles from "./../../theme/style";
 import { url } from "./../../constants/constants";
 import DefaultHeader from "./../../components/DefaultHeader";
-import { useNavigation } from '@react-navigation/native';
-
+import { useNavigation } from "@react-navigation/native";
 
 export default function ProfilePage() {
   const [failed_alert, SetFailedAlert] = React.useState(false);
@@ -245,7 +244,8 @@ export default function ProfilePage() {
             justifyContent: "space-between",
             width: "100%",
             paddingHorizontal: 20,
-            marginVertical: 10
+            marginTop: 20,
+            marginBottom: 40
           }}
         >
           <TouchableOpacity
@@ -256,9 +256,15 @@ export default function ProfilePage() {
               padding: 10,
               borderRadius: 10,
               alignItems: "center",
-              justifyContent: "center"
+              justifyContent: "space-between"
             }}
           >
+            <Iconify
+              icon="icon-park-twotone:check-one"
+              size={24}
+              color="#FFF"
+            />
+
             <Text
               style={{
                 fontFamily: "Bold",
@@ -267,11 +273,12 @@ export default function ProfilePage() {
             >
               توثيق نفاذ
             </Text>
+
             <Iconify icon="fluent:ios-arrow-24-filled" size={24} color="#FFF" />
           </TouchableOpacity>
 
           <TouchableOpacity
-          onPress={() => navigation.navigate("FaLicense")}
+            onPress={() => navigation.navigate("FaLicense")}
             style={{
               width: "45%",
               flexDirection: "row-reverse",
@@ -279,9 +286,10 @@ export default function ProfilePage() {
               padding: 10,
               borderRadius: 10,
               alignItems: "center",
-              justifyContent: "center"
+              justifyContent: "space-between"
             }}
           >
+            <Iconify icon="mdi:drivers-license" size={24} color="#FFF" />
             <Text
               style={{
                 fontFamily: "Bold",
@@ -372,7 +380,7 @@ export default function ProfilePage() {
         </TouchableOpacity>
 
         <TouchableOpacity
-         onPress={() => navigation.navigate("PricingPlans")}
+          onPress={() => navigation.navigate("PricingPlans")}
           style={styles.profileItem}
         >
           <View style={{ flexDirection: "row" }}>
@@ -383,10 +391,14 @@ export default function ProfilePage() {
                 marginHorizontal: 10
               }}
             >
-             باقات الإشتراك
+              باقات الإشتراك
             </Text>
             <View style={styles.profileItemIcon}>
-              <Iconify icon="fluent:payment-16-filled" size={30} color="#fe7e25" />
+              <Iconify
+                icon="fluent:payment-16-filled"
+                size={30}
+                color="#fe7e25"
+              />
             </View>
           </View>
           <View>
