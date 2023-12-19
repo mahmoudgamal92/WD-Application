@@ -33,7 +33,7 @@ export default function SignInScreen({ navigation, route }) {
   const [failed_alert, SetFailedAlert] = React.useState(false);
 
   const backAction = () => {
-    navigation.replace("AppFlow");
+    navigation.replace("UserFlow");
     return true;
   };
 
@@ -168,7 +168,7 @@ export default function SignInScreen({ navigation, route }) {
             عودة
           </Text>
 
-          <TouchableOpacity onPress={() => navigation.replace("AppFlow")}>
+          <TouchableOpacity onPress={() => navigation.replace("UserFlow")}>
             <MaterialIcons name="arrow-forward-ios" size={35} color="black" />
           </TouchableOpacity>
         </View>

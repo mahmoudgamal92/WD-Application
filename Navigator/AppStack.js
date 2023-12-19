@@ -16,7 +16,6 @@ import Invoices from '../Screens/Client/Invoices';
 import InvoiceDetails from '../Screens/Client/InvoiceDetails';
 import PrivacyPolicy from '../Screens/Shared/PrivacyPolicy';
 import Terms from '../Screens/Shared/Terms';
-import FilterScreen from '../Screens/OldFlow/FilterScreen';
 import ResultScreen from './../Screens/ResultScreen';
 import SellerInfo from './../Screens/SellerInfo';
 import Logout from '../Screens/Auth/Logout';
@@ -53,7 +52,6 @@ export const AppStack = () => {
         <HomeStack.Screen name="AddUser" component={AddUser} />
         <HomeStack.Screen name="Invoices" component={Invoices} />
         <HomeStack.Screen name="InvoiceDetails" component={InvoiceDetails} />
-        <HomeStack.Screen name="FilterScreen" component={FilterScreen} />
         <HomeStack.Screen name="ResultScreen" component={ResultScreen} />
         <HomeStack.Screen name="Logout" component={Logout} />
         <HomeStack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />

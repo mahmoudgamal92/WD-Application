@@ -18,7 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url } from "../../constants/constants";
 import { useDispatch } from "react-redux";
 import { userSlice } from "../../store/userSlice";
-import Constants from 'expo-constants';
+import Constants from "expo-constants";
 
 export default function SignUpScreen({ navigation, route }) {
   const dispatch = useDispatch();
@@ -72,9 +72,11 @@ export default function SignUpScreen({ navigation, route }) {
             responseJson.data.phone,
             responseJson.data.user_type
           );
-          dispatch(userSlice.actions.setUserInfo(JSON.stringify(responseJson.data)));
+          dispatch(
+            userSlice.actions.setUserInfo(JSON.stringify(responseJson.data))
+          );
           setLoading(false);
-          navigation.replace("AppFlow");
+          navigation.replace("UserFlow");
         } else if (responseJson.success == "pending") {
           alert(responseJson.message);
           setLoading(false);
@@ -84,7 +86,13 @@ export default function SignUpScreen({ navigation, route }) {
       });
   };
 
-  const _storeData = async (data, user_token, user_name, user_phone, user_type) => {
+  const _storeData = async (
+    data,
+    user_token,
+    user_name,
+    user_phone,
+    user_type
+  ) => {
     try {
       await AsyncStorage.setItem("user_info", JSON.stringify(data));
       await AsyncStorage.setItem("user_token", user_token);
@@ -106,8 +114,9 @@ export default function SignUpScreen({ navigation, route }) {
         backgroundColor: "#FFF"
       }}
       keyboardVerticalOffset={10}
-      behavior = {Platform.OS === "ios" ? "padding" : null}>
-      <StatusBar backgroundColor="#FFF" barStyle="light-content" translucent/>
+      behavior={Platform.OS === "ios" ? "padding" : null}
+    >
+      <StatusBar backgroundColor="#FFF" barStyle="light-content" translucent />
       <View
         style={{
           width: "100%",
@@ -129,7 +138,7 @@ export default function SignUpScreen({ navigation, route }) {
           عودة
         </Text>
 
-        <TouchableOpacity onPress={() => navigation.replace("AppFlow")}>
+        <TouchableOpacity onPress={() => navigation.replace("UserFlow")}>
           <MaterialIcons name="arrow-forward-ios" size={35} color="black" />
         </TouchableOpacity>
       </View>
@@ -312,8 +321,6 @@ export default function SignUpScreen({ navigation, route }) {
             </View>
           </View>
 
-
-
           <TouchableOpacity
             onPress={() => Validate_form()}
             style={{
@@ -326,14 +333,14 @@ export default function SignUpScreen({ navigation, route }) {
           >
             {isLoading == false
               ? <Text
-                style={{
-                  color: "white",
-                  textAlign: "center",
-                  fontFamily: "Bold"
-                }}
-              >
-                إنشاء حساب
-              </Text>
+                  style={{
+                    color: "white",
+                    textAlign: "center",
+                    fontFamily: "Bold"
+                  }}
+                >
+                  إنشاء حساب
+                </Text>
               : <ActivityIndicator size="large" color={"#FFF"} />}
           </TouchableOpacity>
         </View>

@@ -105,7 +105,7 @@ export default function RealEstateInfo({ navigation, route }) {
                 if (responseJson.success == true) {
                     alert("تم إرسال طلبك للعقاريين , نتوقع منهم الإتصال بك قريبا جدا ");
                     setLoading(false);
-                    navigation.replace("AppFlow")
+                    navigation.replace("")
                 } else {
                     setLoading(false);
                     alert(responseJson.message);

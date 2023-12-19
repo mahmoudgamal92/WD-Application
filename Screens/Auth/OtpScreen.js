@@ -13,13 +13,15 @@ import React, { useState } from "react";
 import {url} from "../../constants/constants";
 import OtpInput from "../../components/otp_input";
 import Toast from "react-native-toast-message";
-
+import { useSelector, useDispatch } from 'react-redux';
 import toastConfig from "../../components/Toast";
 import CountDown from "react-native-countdown-component";
-
 import Constants from 'expo-constants';
 
 const OtpScreen = ({ route, navigation }) => {
+
+  const user_info = useSelector(state => state.userReducer.user);
+
   const {phone , code , action} = route.params;
   const [resend_loading, setResendLoading] = useState(false);
   const [resend_status, setResendStatus] = useState(true);
@@ -43,7 +45,25 @@ const OtpScreen = ({ route, navigation }) => {
         }
         else if (action == 'signin')
         {
-        navigation.replace("AppFlow");
+          if(user_info == null || user_info == "" || user_info == undefined)
+          {
+           navigation.replace("UserFlow");
+          }
+        
+          else 
+          {
+            const user = JSON.parse(user_info);
+
+            if (user.user_type == "client") {
+              navigation.replace("ClientFlow");
+            } 
+            else(user.user_type == "user") 
+            {
+              navigation.replace("UserFlow");
+            } 
+          }
+
+
         }
       } 
       else {

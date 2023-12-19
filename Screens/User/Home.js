@@ -648,7 +648,6 @@ export default function UserHome() {
               width: "100%",
               height: "100%"
             }}
-            provider="google"
             rotateEnabled={false}
             scrollEnabled={scrollEnabled}
             zoomEnabled={zoomEnabled}

@@ -195,11 +195,6 @@ export default function ProfilePage() {
               <FontAwesome name="close" size={24} color="black" />
             </TouchableOpacity>
 
-            <Image
-              source={require("./../../assets/user.png")}
-              style={{ width: 100, height: 100 }}
-            />
-
             <Text style={styles.modalText}>حذف حسابك</Text>
 
             <Text style={styles.modalBody}>
