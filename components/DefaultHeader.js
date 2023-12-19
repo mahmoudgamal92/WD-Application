@@ -14,7 +14,7 @@ const DefaultHeader = () => {
         backgroundColor: "#fe7e25",
         alignItems: "center",
         width: "100%",
-        height: Platform.OS == "ios" ? 140 : 100
+        height: Platform.OS == "ios" ? 130 : 100
       }}
     >
       <View

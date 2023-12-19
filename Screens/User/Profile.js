@@ -235,6 +235,10 @@ export default function ProfilePage() {
         />
 
         <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          alignItems:"center"
+        }}
           style={{
             width: "100%"
           }}

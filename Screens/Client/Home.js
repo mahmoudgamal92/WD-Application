@@ -17,6 +17,7 @@ export default function ClientHome() {
 
       <View style={styles.rootContainer}>
       <ScrollView
+      showsVerticalScrollIndicator={false}
         style={{
           width: "100%"
         }}

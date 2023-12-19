@@ -111,6 +111,7 @@ export default function FavoriteScreen({ route, navigation }) {
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
+              showsVerticalScrollIndicator={false}
               data={data}
               keyExtractor={(item, index) => `${item.client_id}`}
               ListEmptyComponent={handleEmptyProp()}

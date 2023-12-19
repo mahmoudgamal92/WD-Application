@@ -5,7 +5,8 @@ import {
   View,
   TouchableOpacity,
   Modal,
-  StyleSheet
+  StyleSheet,
+  ScrollView
 } from "react-native";
 import {
   MaterialCommunityIcons,
@@ -227,6 +228,16 @@ export default function ProfilePage() {
       {failedAlert()}
       {deleteAlert()}
       <View style={styles.rootContainer}>
+
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          alignItems:"center"
+        }}
+          style={{
+            width: "100%"
+          }}
+        >
         <Image
           source={require("./../../assets/man.png")}
           style={{
@@ -428,6 +439,8 @@ export default function ProfilePage() {
             <MaterialIcons name="arrow-back-ios" size={24} color="black" />
           </View>
         </TouchableOpacity>
+        </ScrollView>
+
       </View>
     </View>
   );

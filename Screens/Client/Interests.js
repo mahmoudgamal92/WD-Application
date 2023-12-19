@@ -169,6 +169,7 @@ export default function Interests({ route, navigation }) {
       <View style={styles.rootContainer}>
         {isLoading == false
           ? <FlatList
+              showsVerticalScrollIndicator={false}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
