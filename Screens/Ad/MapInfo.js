@@ -20,6 +20,8 @@ import { url } from "../../constants/constants";
 import MapView from "react-native-maps";
 import CustomHeader from "./../../components/CustomHeader";
 import * as Progress from "react-native-progress";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Location from "expo-location";
 
 export default function AddMap({ route, navigation }) {
 
@@ -32,8 +34,43 @@ export default function AddMap({ route, navigation }) {
   const [latitude, setLatitude] = useState(21.4858);
   const [longitude, SetLongitude] = useState(39.1925);
   const [search_param, setSearchParam] = useState("");
+  const [map_view , setMapView] = useState("standard");
+
+  // User Current Coords 
+  const [user_latitude, setUserLatitude] = useState("");
+  const [user_longitude, SetUserLongitude] = useState("");
+
+
+
+  useEffect(() => {
+    getLocation();
+  }, []);
+
+
   const reReq = async param => {
     autoComplete(param);
+  };
+
+
+  
+  const getLocation = async () => {
+    const location_coordinates = await AsyncStorage.getItem("current_location");
+    if (location_coordinates !== null) {
+      setUserLatitude(JSON.parse(location_coordinates).latitude);
+      SetUserLongitude(JSON.parse(location_coordinates).longitude);
+    } 
+    else 
+    {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setUserLatitude(location.coords.latitude);
+      SetUserLongitude(location.coords.longitude);
+      AsyncStorage.setItem("current_location", JSON.stringify(location.coords));
+    }
   };
 
   const autoComplete = async param => {
@@ -62,6 +99,17 @@ export default function AddMap({ route, navigation }) {
       setSearchParam(item.display_address);
       setAutoComplete([]);
   };
+
+
+  const _userMapReLocate = async (lat, long) => {
+    mapRef?.current.animateToRegion({
+      latitude: parseFloat(lat),
+      longitude: parseFloat(long),
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
+    });
+  };
+
 
   const _Proceed = async () => {
 
@@ -138,6 +186,7 @@ export default function AddMap({ route, navigation }) {
               </TouchableOpacity>
 
               <TouchableOpacity
+              onPress={() => setMapView(map_view == "satellite" ? "standard" : "satellite")}
                 style={{
                   width: 50,
                   height: 50,
@@ -154,6 +203,7 @@ export default function AddMap({ route, navigation }) {
               </TouchableOpacity>
 
               <TouchableOpacity
+               onPress={() => _userMapReLocate(user_latitude,user_longitude)}
                 style={{
                   width: 50,
                   height: 50,
@@ -287,6 +337,7 @@ export default function AddMap({ route, navigation }) {
 
             <MapView
               ref={mapRef}
+              mapType = {map_view}
               showsUserLocation
               style={{ flex: 1, width: "100%", height: "100%" }}
               initialRegion={{

@@ -493,6 +493,7 @@ export default function UserHome() {
             <FontAwesome5 name="satellite" size={24} color="#FFF" />
           </TouchableOpacity>
 
+
           <TouchableOpacity 
           onPress={() => _MapReLocation(user_latitude,user_longitude)}
           style={{

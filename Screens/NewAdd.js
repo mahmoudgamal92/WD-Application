@@ -79,7 +79,7 @@ export default function NewAdd({ route, navigation }) {
     ) {
       Toast.show({
         type: "erorrToast",
-        text1: "لابد من ادخال البيانات بشطتن ",
+        text1: "جميع المدخلات مطلوبة",
         bottomOffset: 80,
         visibilityTime: 2000
       });

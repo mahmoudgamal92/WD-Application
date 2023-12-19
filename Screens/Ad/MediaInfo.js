@@ -443,7 +443,7 @@ export default function AddImg({ route, navigation }) {
                     style={{
                       color: "white",
                       textAlign: "center",
-                      fontFamily: "Regular"
+                      fontFamily: "Bold"
                     }}
                   >
                     انشاء الإعلان
