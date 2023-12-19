@@ -5,7 +5,8 @@ import {
   View,
   TouchableOpacity,
   Modal,
-  StyleSheet
+  StyleSheet,
+  ScrollView
 } from "react-native";
 import {
   MaterialCommunityIcons,
@@ -17,7 +18,7 @@ import {
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
 
 import styles from "./../../theme/style";
@@ -32,8 +33,6 @@ export default function ProfilePage() {
   const [user_name, setName] = useState("");
   const [user_token, setToken] = useState(null);
   const [img, setProfileImg] = useState(null);
-
-
 
   useFocusEffect(
     React.useCallback(() => {
@@ -235,183 +234,188 @@ export default function ProfilePage() {
           }}
         />
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate("ProfileInfo")}
-          style={styles.profileItem}
+        <ScrollView
+          style={{
+            width: "100%"
+          }}
         >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              حسابي
-            </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ProfileInfo")}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                حسابي
+              </Text>
 
-            <View style={styles.profileItemIcon}>
-              <Iconify
-                icon="iconamoon:profile-fill"
-                size={30}
-                color="#fe7e25"
-              />
+              <View style={styles.profileItemIcon}>
+                <Iconify
+                  icon="iconamoon:profile-fill"
+                  size={30}
+                  color="#fe7e25"
+                />
+              </View>
             </View>
-          </View>
 
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={30} color="black" />
-          </View>
-        </TouchableOpacity>
-
-
-
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Terms")}
-          style={styles.profileItem}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              شروط الأعلان
-            </Text>
-            <View style={styles.profileItemIcon}>
-              <Iconify icon="ic:round-flag" size={30} color="#fe7e25" />
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={30} color="black" />
             </View>
-          </View>
+          </TouchableOpacity>
 
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("PrivacyPolicy")}
-          style={styles.profileItem}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              السياسات و التعليمات
-            </Text>
-            <View style={styles.profileItemIcon}>
-              <Iconify icon="mdi:chat-warning" size={30} color="#fe7e25" />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Terms")}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                شروط الأعلان
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <Iconify icon="ic:round-flag" size={30} color="#fe7e25" />
+              </View>
             </View>
-          </View>
 
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("PricingPlans")}
-          style={styles.profileItem}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              باقات الإشتراك
-            </Text>
-            <View style={styles.profileItemIcon}>
-              <Iconify icon="fluent:payment-16-filled" size={30} color="#fe7e25" />
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
             </View>
-          </View>
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
 
-
-
-        <TouchableOpacity
-          onPress={() => FailedAlert()}
-          style={styles.profileItem}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              تسجيل الخروج
-            </Text>
-            <View style={styles.profileItemIcon}>
-              <Iconify icon="majesticons:logout" size={30} color="#fe7e25" />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PrivacyPolicy")}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                السياسات و التعليمات
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <Iconify icon="mdi:chat-warning" size={30} color="#fe7e25" />
+              </View>
             </View>
-          </View>
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
 
-
-
-        <TouchableOpacity
-          onPress={() => SetDeleteAlert(true)}
-          style={styles.profileItem}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              حذف الحساب
-            </Text>
-            <View style={styles.profileItemIcon}>
-              <MaterialIcons name="delete" size={30} color="red" />
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
             </View>
-          </View>
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
 
-
-
-        <TouchableOpacity
-          onPress={() => FailedAlert()}
-          style={styles.profileItem}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              اعلن معنا
-            </Text>
-            <View style={styles.profileItemIcon}>
-              <MaterialCommunityIcons name="offer" size={24} color="#fe7e25" />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PricingPlans")}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                باقات الإشتراك
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <Iconify
+                  icon="fluent:payment-16-filled"
+                  size={30}
+                  color="#fe7e25"
+                />
+              </View>
             </View>
-          </View>
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => FailedAlert()}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                تسجيل الخروج
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <Iconify icon="majesticons:logout" size={30} color="#fe7e25" />
+              </View>
+            </View>
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => SetDeleteAlert(true)}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                حذف الحساب
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <MaterialIcons name="delete" size={30} color="red" />
+              </View>
+            </View>
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => FailedAlert()}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                اعلن معنا
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <MaterialCommunityIcons
+                  name="offer"
+                  size={24}
+                  color="#fe7e25"
+                />
+              </View>
+            </View>
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
+            </View>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
     </View>
   );
