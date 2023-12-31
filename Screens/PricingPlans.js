@@ -301,10 +301,10 @@ export default function PricingPlans({ route, navigation }) {
                   }}
                 >
                   <TouchableOpacity
-                    // onPress={() =>
-                    //   navigation.replace("PaymentWideget", {
-                    //     pack_id: item.pack_id
-                    //   })}
+                    onPress={() =>
+                      navigation.replace("CompleteOrder", {
+                        item: item
+                      })}
                     style={{
                       backgroundColor: "#FFF",
                       paddingVertical: 15,

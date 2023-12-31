@@ -593,7 +593,7 @@ export default function NewAdd({ route, navigation }) {
               marginVertical: 10,
               width: "100%"
             }}
-          >
+           >
             <View
               style={{
                 backgroundColor: "#FFF",

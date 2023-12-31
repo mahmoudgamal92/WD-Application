@@ -627,7 +627,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderColor: "#DDDDDD",
     borderWidth: 1,
-    textAlign:"right"
+    textAlign: "right"
   },
   icon: {
     marginRight: 5
@@ -652,12 +652,12 @@ const styles = StyleSheet.create({
   },
   selectedTextStyle: {
     fontSize: 13,
-    textAlign:"right",
+    textAlign: "right",
     fontFamily: "Regular",
     marginHorizontal: 10,
-    textAlign:"right"
+    textAlign: "right"
   },
-  iconStyle: { 
+  iconStyle: {
     width: 20,
     height: 20
   },
@@ -665,7 +665,7 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
     fontFamily: "Regular",
-    textAlign:"right"
+    textAlign: "right"
   },
   btnText: {
     fontSize: 20,
@@ -868,6 +868,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+
+
+  // Payment Methods 
+
+  paymentMethod: {
+    flexDirection: "row-reverse",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#FFF",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#DDDDDD",
+    width: "100%",
+    paddingHorizontal: 10,
+    marginVertical: 5
   }
 });
 export default styles;

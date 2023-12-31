@@ -114,8 +114,8 @@ export default function AddImg({ route, navigation }) {
               من فضلك أختر الطريقة لربط رخصة فال الخاصة بك
             </Text>
 
-             {/* Mobile Input */}
-             <View
+            {/* Mobile Input */}
+            <View
               style={{
                 flexDirection: "row-reverse",
                 borderColor: "#fe7e25",
@@ -127,7 +127,7 @@ export default function AddImg({ route, navigation }) {
                 marginVertical: 10,
                 height: 58
               }}
-             >
+            >
               <View
                 style={{
                   paddingHorizontal: 10,
@@ -183,22 +183,22 @@ export default function AddImg({ route, navigation }) {
                     flexDirection: "row-reverse"
                   }}
                 >
-                 
+
                   <Iconify icon="iconamoon:scanner-bold" size={20} color={"#fe7e25"} />
                 </TouchableOpacity>
               </View>
             </View>
 
             <Text
-                style={{
-                  fontFamily: "Bold",
-                  color: "#000",
-                  textAlign:"center",
-                  marginVertical:10
-                }}
-              >
-                أو
-              </Text>
+              style={{
+                fontFamily: "Bold",
+                color: "#000",
+                textAlign: "center",
+                marginVertical: 10
+              }}
+            >
+              أو
+            </Text>
 
 
             <TouchableOpacity
@@ -229,7 +229,7 @@ export default function AddImg({ route, navigation }) {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-           // onPress={() => insertAdd()}
+            // onPress={() => insertAdd()}
             style={{
               backgroundColor: "#fe7e25",
               marginBottom: 40,
@@ -244,26 +244,26 @@ export default function AddImg({ route, navigation }) {
           >
             {loading == false
               ? <View
+                style={{
+                  flexDirection: "row-reverse",
+                  alignItems: "center"
+                }}
+              >
+                <Text
                   style={{
-                    flexDirection: "row-reverse",
-                    alignItems: "center"
+                    color: "white",
+                    textAlign: "center",
+                    fontFamily: "Bold"
                   }}
                 >
-                  <Text
-                    style={{
-                      color: "white",
-                      textAlign: "center",
-                      fontFamily: "Bold"
-                    }}
-                  >
-                    متابعة
-                  </Text>
-                  <MaterialIcons
-                    name="keyboard-arrow-left"
-                    size={24}
-                    color="#FFF"
-                  />
-                </View>
+                  متابعة
+                </Text>
+                <MaterialIcons
+                  name="keyboard-arrow-left"
+                  size={24}
+                  color="#FFF"
+                />
+              </View>
               : <ActivityIndicator size="large" color="#FFF" />}
           </TouchableOpacity>
         </ScrollView>

@@ -12,7 +12,6 @@ import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import {
   MaterialIcons,
-  Ionicons,
   MaterialCommunityIcons
 } from "@expo/vector-icons";
 import styles from "./../../theme/style";
@@ -69,8 +68,6 @@ export default function AddImg({ route, navigation }) {
         input_value: conflict
       }
     ];
-
-
 
     const concatenatedJson = [...jsonForm, ...formData];
     concatenatedJson.map((item, index) => {

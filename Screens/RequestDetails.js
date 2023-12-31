@@ -25,14 +25,12 @@ import {
     Ionicons,
     FontAwesome5,
     Feather,
-    FontAwesome,
     AntDesign,
     MaterialCommunityIcons
 } from "@expo/vector-icons";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url } from "./../constants/constants";
-import Constants from "expo-constants";
 import { Dropdown } from 'react-native-element-dropdown';
 import CustomHeader from "./../components/CustomHeader";
 import styles from "./../theme/style";
@@ -516,9 +514,9 @@ export default function RequestDetails({ route, navigation }) {
                             <View style={{
                                 width: "50%",
                                 backgroundColor: "#fe7e25",
-                                borderRadius:20,
-                                alignItems:"center",
-                                padding:5
+                                borderRadius: 20,
+                                alignItems: "center",
+                                padding: 5
 
                             }}>
                                 {
@@ -526,14 +524,14 @@ export default function RequestDetails({ route, navigation }) {
 
                                         <Text style={{
                                             fontFamily: "Bold",
-                                            color:"#FFF"
+                                            color: "#FFF"
                                         }}>
 
                                             {prop.min_price} :  {prop.max_price}  ريال سعودي
                                         </Text>
                                         :
 
-                                        <Text style={{ fontFamily:"Bold",color:"#FFF",paddingHorizontal: 10, borderRadius: 10 }}>
+                                        <Text style={{ fontFamily: "Bold", color: "#FFF", paddingHorizontal: 10, borderRadius: 10 }}>
                                             سعر السوق
                                         </Text>
                                 }
@@ -682,7 +680,7 @@ export default function RequestDetails({ route, navigation }) {
                         </View>
 
                         <View style={{
-                            paddingHorizontal:10
+                            paddingHorizontal: 10
                         }}>
                             <TouchableOpacity
                                 onPress={() =>
