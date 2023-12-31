@@ -21,6 +21,9 @@ export default function CompleteOrder({ route, navigation }) {
 
   const { item } = route.params;
   const [data, setData] = useState([]);
+  const [autoRenew, setAutoRenew] = useState(true);
+
+  
   const [isLoading, setLoading] = React.useState(false);
   useEffect(() => {
     _retrieveData();
@@ -51,6 +54,35 @@ export default function CompleteOrder({ route, navigation }) {
   };
 
 
+  
+  const _pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1
+      });
+      if (!result.canceled) {
+        let localUri = result.uri;
+        let filename = localUri.split("/").pop();
+        let match = /\.(\w+)$/.exec(filename);
+        let img_type = match ? `image/${match[1]}` : `image`;
+        setImages([
+          ...images,
+          {
+            uri: localUri,
+            name: filename,
+            type: img_type
+          }
+        ]);
+      }
+    } catch (E) {
+      console.log(E);
+    }
+  };
+
+  
   return (
     <View style={{ flex: 1, justifyContent: "center" }}>
       <StatusBar backgroundColor="#fe7e25" barStyle="light-content" />
@@ -63,7 +95,8 @@ export default function CompleteOrder({ route, navigation }) {
             alignItems: "center"
           }}
           style={{
-            width: "100%"
+            width: "100%",
+            paddingHorizontal:10
           }}>
 
           <View style={{ width: "100%", paddingHorizontal: 20 }}>
@@ -102,7 +135,7 @@ export default function CompleteOrder({ route, navigation }) {
                   fontFamily: "Regular"
                 }}
               >
-                350 SAR
+              {item.package_price} SAR
               </Text>
               <Text style={{
                 fontFamily: "Bold"
@@ -125,7 +158,7 @@ export default function CompleteOrder({ route, navigation }) {
                   fontFamily: "Regular"
                 }}
               >
-                5646 SAR
+                {item.package_price} SAR
               </Text>
               <Text style={{
                 fontFamily: "Bold"
@@ -147,7 +180,7 @@ export default function CompleteOrder({ route, navigation }) {
                   fontFamily: "Regular"
                 }}
               >
-                5646 SAR
+                {item.package_price} SAR
               </Text>
               <Text style={{
                 fontFamily: "Bold"
@@ -173,7 +206,7 @@ export default function CompleteOrder({ route, navigation }) {
                   fontFamily: "Regular"
                 }}
               >
-                5646 SAR
+                 {item.package_price} SAR
               </Text>
               <Text style={{
                 fontFamily: "Bold"
@@ -215,6 +248,7 @@ export default function CompleteOrder({ route, navigation }) {
                 selectionColor={"#fe7e25"}
                 //onChangeText={phone_number => setPhone(phone_number)}
                 //keyboardType="numeric"
+                placeholder="أدخل الكوبون"
                 style={{
                   fontFamily: "Regular",
                   textAlign: "right",
@@ -224,6 +258,7 @@ export default function CompleteOrder({ route, navigation }) {
                   fontSize: 20,
                   fontFamily: "Bold",
                   color: "grey"
+                
                 }}
               />
 
@@ -333,13 +368,14 @@ export default function CompleteOrder({ route, navigation }) {
 
               <View style={{
                 width: "20%",
+                alignItems:"flex-end"
               }}>
                 <ToggleSwitch
-                  isOn={true}
+                  isOn={autoRenew}
                   onColor="#fe7e25"
                   offColor="grey"
                   size="large"
-                // onToggle={isOn => PushValue(item.input_key, isOn)}
+                  onToggle={isOn => setAutoRenew(!autoRenew)}
                 />
               </View>
             </View>
@@ -372,7 +408,7 @@ export default function CompleteOrder({ route, navigation }) {
                 </Text>
               </View>
               <View>
-                <Ionicons name="radio-button-on" size={24} color="#fe7e25" />
+                <Ionicons name="radio-button-off" size={24} color="#fe7e25" />
               </View>
             </View>
 
@@ -399,7 +435,7 @@ export default function CompleteOrder({ route, navigation }) {
                 </Text>
               </View>
               <View>
-                <Ionicons name="radio-button-on" size={24} color="#fe7e25" />
+                <Ionicons name="radio-button-off" size={24} color="#fe7e25" />
               </View>
             </View>
 
@@ -423,9 +459,36 @@ export default function CompleteOrder({ route, navigation }) {
                 </Text>
               </View>
               <View>
+                <Ionicons name="radio-button-off" size={24} color="#fe7e25" />
+              </View>
+            </View>
+
+
+            <View style={styles.paymentMethod}>
+              <View style={{
+                alignItems: "center",
+                flexDirection: "row-reverse"
+              }}>
+                <Image source={require('./../assets/payment/bank.png')} style={{
+                  width: 40,
+                  height: 40,
+                  resizeMode: "contain"
+                }} />
+
+                <Text style={{
+                  fontFamily: "Bold",
+                  marginHorizontal: 20
+                }}>
+                تحويل بنكي
+                </Text>
+              </View>
+              <View>
                 <Ionicons name="radio-button-on" size={24} color="#fe7e25" />
               </View>
             </View>
+
+
+
           </View>
 
 

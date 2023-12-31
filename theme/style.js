@@ -884,6 +884,104 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 10,
     marginVertical: 5
-  }
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    marginHorizontal: 20,
+    paddingVertical: 10,
+    width: "95%",
+    height: height * 0.8,
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingHorizontal: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+
+  reportModalView: {
+    marginHorizontal: 20,
+    paddingVertical: 10,
+    width: "95%",
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingHorizontal: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  dropdown: {
+    backgroundColor: "#fff",
+    height: 50,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    fontFamily: "Regular",
+    width: "100%",
+    borderColor: "#DDDDDD",
+    borderWidth: 1
+
+
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    fontFamily: "Regular",
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 14,
+    fontFamily: "Regular"
+  },
+  selectedTextStyle: {
+    fontSize: 13,
+    fontFamily: "Regular",
+    marginHorizontal: 10,
+    textAlign: "right"
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+    fontFamily: "Regular"
+  },
+  btnText: {
+    fontSize: 20,
+    color: "#FFF",
+    fontFamily: "Bold"
+  },
+  headline: {
+    fontSize: 20,
+    marginTop: 10,
+    textAlign: "center",
+    fontFamily: "Bold"
+  },
 });
 export default styles;

@@ -683,9 +683,6 @@ export default function RequestDetails({ route, navigation }) {
                             paddingHorizontal: 10
                         }}>
                             <TouchableOpacity
-                                onPress={() =>
-                                    setReportModalVisible(true)
-                                }
                                 style={{
                                     paddingVertical: 5,
                                     paddingHorizontal: 20,

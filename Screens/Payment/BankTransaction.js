@@ -339,12 +339,9 @@ export default function AddImg({ route, navigation }) {
                                 </Text>
                             </View>
                         </View>
-
-
                     </View>
-
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("FaLicenseScan")}
+                        onPress={() => _pickImage()}
                         style={{
                             marginBottom: 20,
                             backgroundColor: "#FFF",
