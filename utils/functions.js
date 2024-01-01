@@ -40,6 +40,9 @@ export const getPropType = val => {
     }
    };
 
+   //export const defaultImageSource = require('./path/to/default-image.png');
+
+
     export const getPropStatus = val => {
       switch (val) {
         case "draft":

@@ -115,7 +115,7 @@ export default function UserHome() {
   };
 
   const _applyFilter = async () => {
-    if (filter_cat == "" || filter_state == "" || min_price == "" || max_price == "" || selected_type == "") {
+    if (filter_cat == "" || filter_state == "") {
       Toast.show({
         type: "erorrToast",
         text1: "يجب إكمال الخيارات المتاحة",
@@ -350,12 +350,13 @@ export default function UserHome() {
     return data.map(item => {
       return (
         <Marker
-          key={item.id}
+          key={item.prop_id}
           // title={item.title}
           // description={item.description}
           onPress={() => {
             setSelected(true);
             setSelectedItem(item);
+            //console.log(item);
           }}
           coordinate={{
             latitude: parseFloat(item.prop_coords.split(",")[0]) || 0,
@@ -409,7 +410,7 @@ export default function UserHome() {
     return states.map(item => {
       return (
         <Marker
-          key={item.id}
+          key={item.state_id}
           onPress={() => {
             _getProps(
               item.name,
@@ -690,7 +691,7 @@ export default function UserHome() {
             }}
           >
             <View style={{ width: "40%" }}>
-              <ImageBackground
+             <ImageBackground
                 source={{
                   uri: url.media_url + selectedItem.prop_images.split(",")[0]
                 }}
@@ -703,7 +704,7 @@ export default function UserHome() {
                   borderTopRightRadius: 10,
                   resizeMode: "stretch"
                 }}
-              >
+              > 
                 <View
                   style={{
                     alignItems: "flex-end",
@@ -785,6 +786,7 @@ export default function UserHome() {
                     fontSize: 16
                   }}
                 >
+                  
                   {getPropType(selectedItem.prop_type) +
                     " " +
                     getAdvType(selectedItem.adv_type)}
@@ -802,7 +804,7 @@ export default function UserHome() {
                   paddingHorizontal: 10
                 }}
               >
-                {selectedItem.prop_price} ريال
+               {selectedItem.prop_price} ريال 
               </Text>
 
               <View />
@@ -821,7 +823,7 @@ export default function UserHome() {
                     color: "grey"
                   }}
                 >
-                  {item.prop_state + " , "+ item.prop_city}
+                   {selectedItem.prop_state + " , "+ selectedItem.prop_city}
                 </Text>
               </View>
             </View>
@@ -916,11 +918,11 @@ export default function UserHome() {
                 }}
               >
                 <TouchableOpacity
-                  onPress={() => setSelectedType("for_sale")}
+                  onPress={() => setSelectedType("buy")}
                   style={{
                     width: "30%",
                     backgroundColor:
-                      selected_type == "for_sale" ? "#fe7e25" : "#FFF",
+                      selected_type == "buy" ? "#fe7e25" : "#FFF",
                     paddingVertical: 10,
                     borderRadius: 30,
                     alignItems: "center",
@@ -932,7 +934,7 @@ export default function UserHome() {
                     style={{
                       color: "#FFF",
                       fontFamily: "Bold",
-                      color: selected_type == "for_sale" ? "#FFF" : "#fe7e25"
+                      color: selected_type == "buy" ? "#FFF" : "#fe7e25"
                     }}
                   >
                     للبيع
@@ -940,11 +942,11 @@ export default function UserHome() {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() => setSelectedType("for_rent")}
+                  onPress={() => setSelectedType("rent")}
                   style={{
                     width: "30%",
                     backgroundColor:
-                      selected_type == "for_rent" ? "#fe7e25" : "#FFF",
+                      selected_type == "rent" ? "#fe7e25" : "#FFF",
                     paddingVertical: 10,
                     borderRadius: 30,
                     alignItems: "center",
@@ -956,7 +958,7 @@ export default function UserHome() {
                 >
                   <Text
                     style={{
-                      color: selected_type == "for_rent" ? "#FFF" : "#fe7e25",
+                      color: selected_type == "rent" ? "#FFF" : "#fe7e25",
                       fontFamily: "Bold"
                     }}
                   >
@@ -965,11 +967,11 @@ export default function UserHome() {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() => setSelectedType("for_invest")}
+                  onPress={() => setSelectedType("invest")}
                   style={{
                     width: "30%",
                     backgroundColor:
-                      selected_type == "for_invest" ? "#fe7e25" : "#FFF",
+                      selected_type == "invest" ? "#fe7e25" : "#FFF",
                     paddingVertical: 10,
                     borderRadius: 30,
                     alignItems: "center",
@@ -979,7 +981,7 @@ export default function UserHome() {
                 >
                   <Text
                     style={{
-                      color: selected_type == "for_invest" ? "#FFF" : "#fe7e25",
+                      color: selected_type == "invest" ? "#FFF" : "#fe7e25",
                       fontFamily: "Bold"
                     }}
                   >

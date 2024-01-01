@@ -157,15 +157,15 @@ export const icons = [
 export const adv_type = [
   {
     title: "للبيع",
-    slug: "for_sale"
+    slug: "buy"
   },
   {
     title: "للإيجار",
-    slug: "for_rent"
+    slug: "rent"
   },
   {
     title: "للإستثمار",
-    slug: "for_invest"
+    slug: "invest"
   }
 ];
 
