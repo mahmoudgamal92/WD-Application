@@ -25,6 +25,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import toastConfig from "../components/Toast";
+import {regions,cities,districts} from "./../utils/address";
 
 export default function NewAdd({ route, navigation }) {
   const screenTitle = "إضافة عقار جديد";
@@ -33,8 +34,8 @@ export default function NewAdd({ route, navigation }) {
   const [cats, setCatigories] = useState([]);
 
   const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [districts, setDistricts] = useState([]);
+  const [filtered_cities, setCities] = useState([]);
+  const [filtered_districts, setDistricts] = useState([]);
 
   const [prop_type, setPropType] = useState("");
   const [prop_price, setPropPrice] = useState("");
@@ -117,65 +118,19 @@ export default function NewAdd({ route, navigation }) {
       navigation.navigate("AdBasicInfo", {
         jsonForm: formData
       });
-
-      // alert(JSON.stringify(formData));
     }
   };
 
-  const getCities = state_id => {
-    fetch(url.base_url + "address/city.php?state_id=" + state_id, {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        "cache-control": "no-cache",
-        "Content-type": "multipart/form-data;",
-        "Accept-Encoding": "gzip, deflate, br",
-        Connection: "keep-alive"
-      }
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.success == true) {
-          setCities(responseJson.data);
-        } else {
-          setCities([
-            {
-              name: "لا يوجد مدن متاحة",
-              state_id: 0,
-              city_id: 0
-            }
-          ]);
-        }
-      });
+
+
+  const getCitiessByRegionId = (id) => {
+    setCities(cities.filter(city => city.region_id === id));
   };
 
-  const getDistricts = city_id => {
-    fetch(url.base_url + "address/district.php?city_id=" + city_id, {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        "cache-control": "no-cache",
-        "Content-type": "multipart/form-data;",
-        "Accept-Encoding": "gzip, deflate, br",
-        Connection: "keep-alive"
-      }
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.success == true) {
-          setDistricts(responseJson.data);
-        } else {
-          setDistricts([
-            {
-              name: "لا يوجد أحياء متاحة",
-              state_id: 0,
-              city_id: 0
-            }
-          ]);
-        }
-      });
+  const getDistrictsByCityID = (id) => {
+    setDistricts(districts.filter(district => district.city_id === id));
   };
-
+ 
   return (
     <KeyboardAvoidingView
     style={{
@@ -450,16 +405,16 @@ export default function NewAdd({ route, navigation }) {
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
               itemTextStyle={{ fontFamily: "Regular", fontSize: 12,textAlign:"right" }}
-              data={states}
+              data={regions}
               //search
               maxHeight={300}
-              labelField="name"
-              valueField="state_id"
+              labelField="name_ar"
+              valueField="region_id"
               placeholder={"أختر المنطقة المطلوبة"}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
               onChange={item => {
-                getCities(item.state_id);
+                getCitiessByRegionId(item.region_id);
                 setPropState(item.name);
               }}
               renderRightIcon={() =>
@@ -504,17 +459,17 @@ export default function NewAdd({ route, navigation }) {
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
               itemTextStyle={{ fontFamily: "Regular", fontSize: 12,textAlign:"right" }}
-              data={cities}
+              data={filtered_cities}
               //search
               maxHeight={300}
-              labelField="name"
+              labelField="name_ar"
               valueField="city_id"
               
               placeholder={"أختر المدينة المطلوبة"}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
               onChange={item => {
-                getDistricts(item.city_id);
+                getDistrictsByCityID(item.city_id);
                 setPropCity(item.name);
               }}
               renderRightIcon={() =>
@@ -559,11 +514,11 @@ export default function NewAdd({ route, navigation }) {
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
               itemTextStyle={{ fontFamily: "Regular", fontSize: 12 ,textAlign:"right"}}
-              data={districts}
+              data={filtered_districts}
               //search
               maxHeight={300}
-              labelField="name"
-              valueField="id"
+              labelField="name_ar"
+              valueField="district_id"
               placeholder={"أختر الحي"}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}

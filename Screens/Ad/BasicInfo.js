@@ -15,7 +15,6 @@ import CustomHeader from "./../../components/CustomHeader";
 import { Dropdown } from "react-native-element-dropdown";
 import * as Progress from "react-native-progress";
 import ToggleSwitch from "toggle-switch-react-native";
-
 export default function NewAdd({ route, navigation }) {
 
   const { jsonForm } = route.params;
