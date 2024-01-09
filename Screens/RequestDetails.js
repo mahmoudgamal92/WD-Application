@@ -34,6 +34,8 @@ import { url } from "./../constants/constants";
 import { Dropdown } from "react-native-element-dropdown";
 import CustomHeader from "./../components/CustomHeader";
 import styles from "./../theme/style";
+import { getAdvType, getPropType, getRegionById, getCityById } from './../utils/functions';
+import { regions, cities, districts } from "./../utils/address";
 
 export default function RequestDetails({ route, navigation }) {
   const screenTitle = "تفاصيل الطلب";
@@ -49,50 +51,23 @@ export default function RequestDetails({ route, navigation }) {
   const Screenwidth = Dimensions.get("window").width;
   const Screenheight = Dimensions.get("window").height;
 
-  const getAdvType = val => {
-    switch (val) {
-      case "sale":
-        return "للبيع";
-      case "rent":
-        return "للإيجار";
-      case "for_invest":
-        return "للإستثمار";
-      default:
-        return "للبيع";
-    }
-  };
-
-  const getPropType = val => {
-    switch (val) {
-      case "3":
-        return "شقة";
-      case "4":
-        return "فيلا";
-      case "5":
-        return "أرض";
-      case "6":
-        return "عمارة";
-      case "7":
-        return "محل تجاري";
-      case "8":
-        return "مول";
-      case "9":
-        return "شاليه";
-      case "10":
-        return "إستراحة";
-      case "11":
-        return "مستودع";
-      case "12":
-        return "مصنع";
-      default:
-        return "أخرى";
-    }
-  };
-
   useEffect(() => {
     _retrieveData();
   }, []);
 
+
+  function getCenterByRegionId(regionId) {
+    const region = regions.find(r => r.region_id == regionId);
+
+    if (region) {
+      return region.center;
+    } else {
+      return null;
+    }
+  }
+
+
+  const coords = getCenterByRegionId(prop.state);
   const _retrieveData = async () => {
     try {
       const token = prop.prop_owner;
@@ -295,7 +270,7 @@ export default function RequestDetails({ route, navigation }) {
                     style={styles.input}
                     placeholder="هل تريد إضافة شئ أخر ؟"
                     placeholderTextColor="#afaac2"
-                    //onChangeText={text => setPrice(text)}
+                  //onChangeText={text => setPrice(text)}
                   />
                 </View>
 
@@ -334,8 +309,8 @@ export default function RequestDetails({ route, navigation }) {
               rotateEnabled={false}
               scrollEnabled={false}
               initialRegion={{
-                latitude: parseFloat(24.7136),
-                longitude: parseFloat(46.6753),
+                latitude: parseFloat(coords[0] || 0),
+                longitude: parseFloat(coords[1] || 0),
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421
               }}
@@ -343,8 +318,8 @@ export default function RequestDetails({ route, navigation }) {
               <Marker
                 key={prop.prop_id}
                 coordinate={{
-                  latitude: parseFloat(24.7136),
-                  longitude: parseFloat(46.6753)
+                  latitude: parseFloat(coords[0] || 0),
+                  longitude: parseFloat(coords[1] || 0)
                 }}
               >
                 <Image
@@ -527,23 +502,23 @@ export default function RequestDetails({ route, navigation }) {
               >
                 {prop.price_type == "fixed"
                   ? <Text
-                      style={{
-                        fontFamily: "Regular",
-                        color: "#FFF"
-                      }}
-                    >
-                      {prop.min_price} : {prop.max_price} ريال سعودي
-                    </Text>
+                    style={{
+                      fontFamily: "Regular",
+                      color: "#FFF"
+                    }}
+                  >
+                    {prop.min_price} : {prop.max_price} ريال سعودي
+                  </Text>
                   : <Text
-                      style={{
-                        fontFamily: "Regular",
-                        color: "#FFF",
-                        paddingHorizontal: 10,
-                        borderRadius: 10
-                      }}
-                    >
-                      سعر السوق
-                    </Text>}
+                    style={{
+                      fontFamily: "Regular",
+                      color: "#FFF",
+                      paddingHorizontal: 10,
+                      borderRadius: 10
+                    }}
+                  >
+                    سعر السوق
+                  </Text>}
               </View>
             </View>
 
@@ -634,7 +609,7 @@ export default function RequestDetails({ route, navigation }) {
                     fontFamily: "Regular"
                   }}
                 >
-                  {prop.state}
+                  {getRegionById(prop.state)}
                 </Text>
               </View>
             </View>
@@ -687,7 +662,7 @@ export default function RequestDetails({ route, navigation }) {
                     fontFamily: "Regular"
                   }}
                 >
-                  {prop.city}
+                  {getCityById(prop.city)}
                 </Text>
               </View>
             </View>

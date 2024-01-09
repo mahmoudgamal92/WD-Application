@@ -22,45 +22,53 @@ import CustomHeader from "./../../components/CustomHeader";
 import * as Progress from "react-native-progress";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Location from "expo-location";
+import { regions } from "./../../utils/address";
 
 export default function AddMap({ route, navigation }) {
 
-  const {jsonForm}  = route.params;
+  const { jsonForm } = route.params;
+  const region = jsonForm.find(r => r.input_key === "prop_state");
+  const coords = getCenterByRegionId(region.input_value);
   const screenTitle = "إختر عنوان العقار";
   const [sidear_visible, setSideBarVisible] = useState(true);
 
   const mapRef = useRef(null);
   const [auto_complete, setAutoComplete] = useState([]);
-  const [latitude, setLatitude] = useState(21.4858);
-  const [longitude, SetLongitude] = useState(39.1925);
+  const [latitude, setLatitude] = useState(coords[0]);
+  const [longitude, SetLongitude] = useState(coords[1]);
   const [search_param, setSearchParam] = useState("");
-  const [map_view , setMapView] = useState("standard");
+  const [map_view, setMapView] = useState("standard");
 
   // User Current Coords 
   const [user_latitude, setUserLatitude] = useState("");
   const [user_longitude, SetUserLongitude] = useState("");
 
-
-
   useEffect(() => {
+    console.log(coords);
     getLocation();
   }, []);
 
+  function getCenterByRegionId(regionId) {
+    const region = regions.find(r => r.region_id === regionId);
+
+    if (region) {
+      return region.center;
+    } else {
+      return null;
+    }
+  }
 
   const reReq = async param => {
     autoComplete(param);
   };
 
-
-  
   const getLocation = async () => {
     const location_coordinates = await AsyncStorage.getItem("current_location");
     if (location_coordinates !== null) {
       setUserLatitude(JSON.parse(location_coordinates).latitude);
       SetUserLongitude(JSON.parse(location_coordinates).longitude);
-    } 
-    else 
-    {
+    }
+    else {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         return;
@@ -88,16 +96,16 @@ export default function AddMap({ route, navigation }) {
   };
 
   const _MapReLocation = async item => {
-      setLatitude(parseFloat(item.lat));
-      SetLongitude(parseFloat(item.lon));
-      mapRef?.current?.animateCamera({
-          center: {
-              latitude: parseFloat(item.lat),
-              longitude: parseFloat(item.lon)
-          }
-      })
-      setSearchParam(item.display_address);
-      setAutoComplete([]);
+    setLatitude(parseFloat(item.lat));
+    SetLongitude(parseFloat(item.lon));
+    mapRef?.current?.animateCamera({
+      center: {
+        latitude: parseFloat(item.lat),
+        longitude: parseFloat(item.lon)
+      }
+    })
+    setSearchParam(item.display_address);
+    setAutoComplete([]);
   };
 
 
@@ -113,22 +121,22 @@ export default function AddMap({ route, navigation }) {
 
   const _Proceed = async () => {
 
-  const formData = [
-    {
-      input_key : "address",
-      input_value : search_param
-    },
-    {
-      input_key : "prop_coords",
-      input_value : latitude + "," +longitude
-    },
-  ];
+    const formData = [
+      {
+        input_key: "address",
+        input_value: search_param
+      },
+      {
+        input_key: "prop_coords",
+        input_value: latitude + "," + longitude
+      },
+    ];
 
-  const concatenatedJson = [...jsonForm, ...formData]; 
-    navigation.navigate("AdMediaInfo",{
-      jsonForm : concatenatedJson
+    const concatenatedJson = [...jsonForm, ...formData];
+    navigation.navigate("AdMediaInfo", {
+      jsonForm: concatenatedJson
     });
-   // console.log(concatenatedJson);
+    // console.log(concatenatedJson);
   };
 
 
@@ -161,64 +169,64 @@ export default function AddMap({ route, navigation }) {
 
         {sidear_visible == true
           ? <View
+            style={{
+              position: "absolute",
+              width: 50,
+              right: 10,
+              zIndex: 1,
+              top: 250
+            }}
+          >
+            <TouchableOpacity
               style={{
-                position: "absolute",
                 width: 50,
-                right: 10,
-                zIndex: 1,
-                top: 250
+                height: 50,
+                backgroundColor: "#fe7e25",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 25,
+                marginVertical: 10,
+                borderColor: "#FFF",
+                borderWidth: 2
               }}
             >
-              <TouchableOpacity
-                style={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: "#fe7e25",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 25,
-                  marginVertical: 10,
-                  borderColor: "#FFF",
-                  borderWidth: 2
-                }}
-              >
-                <FontAwesome name="th-list" size={24} color="#FFF" />
-              </TouchableOpacity>
+              <FontAwesome name="th-list" size={24} color="#FFF" />
+            </TouchableOpacity>
 
-              <TouchableOpacity
+            <TouchableOpacity
               onPress={() => setMapView(map_view == "satellite" ? "standard" : "satellite")}
-                style={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: "#fe7e25",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 25,
-                  marginVertical: 10,
-                  borderColor: "#FFF",
-                  borderWidth: 2
-                }}
-              >
-                <FontAwesome5 name="satellite" size={24} color="#FFF" />
-              </TouchableOpacity>
+              style={{
+                width: 50,
+                height: 50,
+                backgroundColor: "#fe7e25",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 25,
+                marginVertical: 10,
+                borderColor: "#FFF",
+                borderWidth: 2
+              }}
+            >
+              <FontAwesome5 name="satellite" size={24} color="#FFF" />
+            </TouchableOpacity>
 
-              <TouchableOpacity
-               onPress={() => _userMapReLocate(user_latitude,user_longitude)}
-                style={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: "#fe7e25",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 25,
-                  marginVertical: 10,
-                  borderColor: "#FFF",
-                  borderWidth: 2
-                }}
-              >
-                <Ionicons name="ios-location-sharp" size={24} color="#FFF" />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              onPress={() => _userMapReLocate(user_latitude, user_longitude)}
+              style={{
+                width: 50,
+                height: 50,
+                backgroundColor: "#fe7e25",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 25,
+                marginVertical: 10,
+                borderColor: "#FFF",
+                borderWidth: 2
+              }}
+            >
+              <Ionicons name="ios-location-sharp" size={24} color="#FFF" />
+            </TouchableOpacity>
+          </View>
           : null}
         <View
           style={{
@@ -283,61 +291,61 @@ export default function AddMap({ route, navigation }) {
 
             {auto_complete.length > 0
               ? <View
-                  style={{
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 11
-                    },
-                    shadowOpacity: 0.7,
-                    shadowRadius: 14.78,
-                    elevation: 22,
-                    marginVertical: 20,
-                    position: "absolute",
-                    backgroundColor: "#FFF",
-                    zIndex: 27494,
-                    top: 80,
-                    paddingVertical: 20,
-                    paddingHorizontal: 10,
-                    borderRadius: 10
-                  }}
-                >
-                  {auto_complete.map((item, index) => {
-                    return (
-                      <TouchableOpacity
-                        onPress={() => _MapReLocation(item)}
+                style={{
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 11
+                  },
+                  shadowOpacity: 0.7,
+                  shadowRadius: 14.78,
+                  elevation: 22,
+                  marginVertical: 20,
+                  position: "absolute",
+                  backgroundColor: "#FFF",
+                  zIndex: 27494,
+                  top: 80,
+                  paddingVertical: 20,
+                  paddingHorizontal: 10,
+                  borderRadius: 10
+                }}
+              >
+                {auto_complete.map((item, index) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => _MapReLocation(item)}
+                      style={{
+                        flexDirection: "row-reverse",
+                        borderBottomColor: "#dadce4",
+                        borderBottomWidth: 1,
+                        paddingVertical: 5
+                      }}
+                    >
+                      <EvilIcons
+                        name="location"
+                        size={24}
+                        color="#1DA0C9"
+                        style={{ marginHorizontal: 5 }}
+                      />
+                      <Text
                         style={{
-                          flexDirection: "row-reverse",
-                          borderBottomColor: "#dadce4",
-                          borderBottomWidth: 1,
-                          paddingVertical: 5
+                          fontFamily: "Regular",
+                          width: "90%",
+                          fontSize: 14,
+                          color: "grey"
                         }}
                       >
-                        <EvilIcons
-                          name="location"
-                          size={24}
-                          color="#1DA0C9"
-                          style={{ marginHorizontal: 5 }}
-                        />
-                        <Text
-                          style={{
-                            fontFamily: "Regular",
-                            width: "90%",
-                            fontSize: 14,
-                            color: "grey"
-                          }}
-                        >
-                          {item.display_address}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
+                        {item.display_address}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
               : <View />}
 
             <MapView
               ref={mapRef}
-              mapType = {map_view}
+              mapType={map_view}
               showsUserLocation
               style={{ flex: 1, width: "100%", height: "100%" }}
               initialRegion={{
@@ -352,11 +360,11 @@ export default function AddMap({ route, navigation }) {
                 SetLongitude(parseFloat(region.longitude));
                 fetch(
                   url.geocode_url +
-                    "lat=" +
-                    region.latitude +
-                    "&lon=" +
-                    region.longitude +
-                    "&format=json&accept-language=ar",
+                  "lat=" +
+                  region.latitude +
+                  "&lon=" +
+                  region.longitude +
+                  "&format=json&accept-language=ar",
                   {
                     method: "GET"
                   }

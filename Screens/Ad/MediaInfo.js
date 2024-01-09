@@ -85,7 +85,7 @@ export default function AddImg({ route, navigation }) {
   };
 
   const insertAdd = async () => {
-    //setLoading(true);
+    setLoading(true);
     fetch("https://bnookholding.com/wd/api/properties/new_insert.php", {
       method: "POST",
       headers: {

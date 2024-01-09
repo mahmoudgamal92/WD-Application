@@ -17,7 +17,7 @@ import { url } from "../../constants/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomHeader from "../../components/CustomHeader";
 import styles from "../../theme/style";
-import { getAdvType, getPropType, getPropStatus } from "./../../utils/functions";
+import { getAdvType, getPropType, getPropStatus, getCityById, getRegionById } from "./../../utils/functions";
 
 export default function PersonalProps({ route, navigation }) {
   const [isLoading, setLoading] = React.useState(false);
@@ -132,203 +132,203 @@ export default function PersonalProps({ route, navigation }) {
       <View style={styles.rootContainer}>
         {isLoading == false
           ? <FlatList
-              data={data}
-              style={{ width: "100%" }}
-              ListEmptyComponent={handleEmptyProp()}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) =>
-                <View style={{ flex: 1, width: "100%" }}>
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("ProperityDetail", {
-                        prop: item
-                      })}
-                    style={{
-                      backgroundColor: "#FFF",
-                      borderRadius: 10,
-                      marginHorizontal: 20,
-                      flexDirection: "row-reverse",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      borderWidth: 0.8,
-                      borderColor: "#DDDDDD",
-                      height: 140,
-                      marginVertical: 5
-                    }}
-                  >
-                    <View style={{ width: "40%" }}>
-                      <ImageBackground
-                        source={{
-                          uri: url.media_url + item.prop_images.split(",")[0]
-                        }}
+            data={data}
+            style={{ width: "100%" }}
+            ListEmptyComponent={handleEmptyProp()}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) =>
+              <View style={{ flex: 1, width: "100%" }}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate("ProperityDetail", {
+                      prop: item
+                    })}
+                  style={{
+                    backgroundColor: "#FFF",
+                    borderRadius: 10,
+                    marginHorizontal: 20,
+                    flexDirection: "row-reverse",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    borderWidth: 0.8,
+                    borderColor: "#DDDDDD",
+                    height: 140,
+                    marginVertical: 5
+                  }}
+                >
+                  <View style={{ width: "40%" }}>
+                    <ImageBackground
+                      source={{
+                        uri: url.media_url + item.prop_images.split(",")[0]
+                      }}
+                      style={{
+                        width: "100%",
+                        height: "100%"
+                      }}
+                      imageStyle={{
+                        borderBottomRightRadius: 10,
+                        borderTopRightRadius: 10,
+                        resizeMode: "stretch"
+                      }}
+                    >
+                      <View
                         style={{
+                          alignItems: "flex-end",
                           width: "100%",
-                          height: "100%"
-                        }}
-                        imageStyle={{
-                          borderBottomRightRadius: 10,
-                          borderTopRightRadius: 10,
-                          resizeMode: "stretch"
+                          height: "100%",
+                          padding: 5
                         }}
                       >
                         <View
                           style={{
-                            alignItems: "flex-end",
+                            backgroundColor: "#FFF",
+                            borderRadius: 40,
+                            height: 35,
+                            width: 35,
+                            alignItems: "center",
+                            justifyContent: "center"
+                          }}
+                        >
+                          <TouchableOpacity
+                            onPress={() => toggleFavorite(item.prop_id)}
+                          >
+                            <AntDesign name="hearto" size={24} color="grey" />
+                          </TouchableOpacity>
+                        </View>
+
+                        <View
+                          style={{
                             width: "100%",
-                            height: "100%",
+                            flex: 1,
+                            alignItems: "flex-end",
+                            justifyContent: "flex-end",
                             padding: 5
                           }}
                         >
                           <View
                             style={{
-                              backgroundColor: "#FFF",
-                              borderRadius: 40,
-                              height: 35,
-                              width: 35,
-                              alignItems: "center",
-                              justifyContent: "center"
+                              backgroundColor: getPropStatus(item.prop_status)
+                                .color,
+                              borderRadius: 50,
+                              paddingHorizontal: 10,
+                              paddingVertical: 5
                             }}
                           >
-                            <TouchableOpacity
-                              onPress={() => toggleFavorite(item.prop_id)}
-                            >
-                              <AntDesign name="hearto" size={24} color="grey" />
-                            </TouchableOpacity>
-                          </View>
-
-                          <View
-                            style={{
-                              width: "100%",
-                              flex: 1,
-                              alignItems: "flex-end",
-                              justifyContent: "flex-end",
-                              padding: 5
-                            }}
-                          >
-                            <View
+                            <Text
                               style={{
-                                backgroundColor: getPropStatus(item.prop_status)
-                                  .color,
-                                borderRadius: 50,
-                                paddingHorizontal: 10,
-                                paddingVertical: 5
+                                fontFamily: "Regular",
+                                color: "#FFF"
                               }}
                             >
-                              <Text
-                                style={{
-                                  fontFamily: "Regular",
-                                  color: "#FFF"
-                                }}
-                              >
-                                {getPropStatus(item.prop_status).text}
-                              </Text>
-                            </View>
+                              {getPropStatus(item.prop_status).text}
+                            </Text>
                           </View>
                         </View>
-                      </ImageBackground>
+                      </View>
+                    </ImageBackground>
+                  </View>
+
+                  <View
+                    style={{
+                      alignItems: "flex-end",
+                      paddingVertical: 5,
+                      width: "60%"
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: "60%",
+                        flexDirection: "row-reverse",
+                        alignItems: "center",
+                        borderRadius: 10,
+                        backgroundColor: "#FFF",
+                        paddingHorizontal: 5
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontFamily: "Bold",
+                          color: "#0e2e3b",
+                          textAlign: "right",
+                          fontSize: 16
+                        }}
+                      >
+                        {getPropType(item.prop_type) +
+                          " " +
+                          getAdvType(item.adv_type)}
+                      </Text>
+                    </View>
+
+                    <Text
+                      style={{
+                        fontFamily: "Bold",
+                        fontSize: 15,
+                        width: "90%",
+                        color: "#fe7e25",
+                        marginVertical: 5,
+                        textAlign: "right",
+                        paddingHorizontal: 10
+                      }}
+                    >
+                      {item.prop_price} ريال
+                    </Text>
+
+                    <View />
+
+                    <View
+                      style={{
+                        flexDirection: "row-reverse",
+                        width: "100%",
+                        alignItems: "center"
+                      }}
+                    >
+                      <Entypo name="location-pin" size={30} color="grey" />
+                      <Text
+                        style={{
+                          fontFamily: "Regular",
+                          color: "grey"
+                        }}
+                      >
+                        {getRegionById(item.prop_state) + " , " + getCityById(item.prop_city)}
+                      </Text>
                     </View>
 
                     <View
                       style={{
-                        alignItems: "flex-end",
-                        paddingVertical: 5,
-                        width: "60%"
+                        flexDirection: "row",
+                        width: "100%",
+                        alignItems: "center",
+                        marginVertical: 10
                       }}
                     >
-                      <View
-                        style={{
-                          width: "60%",
-                          flexDirection: "row-reverse",
-                          alignItems: "center",
-                          borderRadius: 10,
-                          backgroundColor: "#FFF",
-                          paddingHorizontal: 5
-                        }}
+                      <TouchableOpacity>
+                        <AntDesign
+                          name="edit"
+                          size={30}
+                          color="grey"
+                          style={{ marginHorizontal: 5 }}
+                        />
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        onPress={() => deleteProperity(item.id)}
                       >
-                        <Text
-                          style={{
-                            fontFamily: "Bold",
-                            color: "#0e2e3b",
-                            textAlign: "right",
-                            fontSize: 16
-                          }}
-                        >
-                          {getPropType(item.prop_type) +
-                            " " +
-                            getAdvType(item.adv_type)}
-                        </Text>
-                      </View>
-
-                      <Text
-                        style={{
-                          fontFamily: "Bold",
-                          fontSize: 15,
-                          width: "90%",
-                          color: "#fe7e25",
-                          marginVertical: 5,
-                          textAlign: "right",
-                          paddingHorizontal: 10
-                        }}
-                      >
-                        {item.prop_price} ريال
-                      </Text>
-
-                      <View />
-
-                      <View
-                        style={{
-                          flexDirection: "row-reverse",
-                          width: "100%",
-                          alignItems: "center"
-                        }}
-                      >
-                        <Entypo name="location-pin" size={30} color="grey" />
-                        <Text
-                          style={{
-                            fontFamily: "Regular",
-                            color: "grey"
-                          }}
-                        >
-                          {item.prop_state + " , " + item.prop_city}
-                        </Text>
-                      </View>
-
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          width: "100%",
-                          alignItems: "center",
-                          marginVertical: 10
-                        }}
-                      >
-                        <TouchableOpacity>
-                          <AntDesign
-                            name="edit"
-                            size={30}
-                            color="grey"
-                            style={{ marginHorizontal: 5 }}
-                          />
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                          onPress={() => deleteProperity(item.id)}
-                        >
-                          <AntDesign name="delete" size={30} color="red" />
-                        </TouchableOpacity>
-                      </View>
+                        <AntDesign name="delete" size={30} color="red" />
+                      </TouchableOpacity>
                     </View>
-                  </TouchableOpacity>
-                </View>}
-            />
+                  </View>
+                </TouchableOpacity>
+              </View>}
+          />
           : <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <ActivityIndicator size={70} color="#fe7e25" />
-            </View>}
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <ActivityIndicator size={70} color="#fe7e25" />
+          </View>}
       </View>
     </View>
   );

@@ -12,10 +12,11 @@ import {
   ImageBackground
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { url } from "../constants/constants";
-import {Entypo} from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import DefaultHeader from "./../components/DefaultHeader";
+import { getAdvType, getPropType, getRegionById, getCityById } from './../utils/functions';
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function FavoriteScreen({ route, navigation }) {
@@ -136,45 +137,7 @@ export default function FavoriteScreen({ route, navigation }) {
     );
   };
 
-  const getAdvType = val => {
-    switch (val) {
-      case "sale":
-        return "للبيع";
-      case "rent":
-        return "للإيجار";
-      case "for_invest":
-        return "للإستثمار";
-      default:
-        return "للبيع";
-    }
-  };
 
-  const getPropType = val => {
-    switch (val) {
-      case "3":
-        return "شقة";
-      case "4":
-        return "فيلا";
-      case "5":
-        return "أرض";
-      case "6":
-        return "عمارة";
-      case "7":
-        return "محل تجاري";
-      case "8":
-        return "مول";
-      case "9":
-        return "شاليه";
-      case "10":
-        return "إستراحة";
-      case "11":
-        return "مستودع";
-      case "12":
-        return "مصنع";
-      default:
-        return "أخرى";
-    }
-  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -330,7 +293,7 @@ export default function FavoriteScreen({ route, navigation }) {
                         fontFamily: "Regular",
                         color: "grey"
                       }}
-                    > {item.state} , {item.city}
+                    > {getRegionById(item.state)} , {getCityById(item.city)}
                     </Text>
                   </View>
 

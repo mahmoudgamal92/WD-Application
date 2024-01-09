@@ -621,7 +621,7 @@ const styles = StyleSheet.create({
   dropdown: {
     backgroundColor: "#fff",
     height: 55,
-    borderRadius: 50,
+    borderRadius: 100,
     paddingHorizontal: 8,
     fontFamily: "Regular",
     width: "100%",
@@ -661,12 +661,7 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20
   },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-    fontFamily: "Regular",
-    textAlign: "right"
-  },
+
   btnText: {
     fontSize: 20,
     color: "#FFF",
@@ -928,18 +923,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5
   },
-  dropdown: {
-    backgroundColor: "#fff",
-    height: 50,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-    fontFamily: "Regular",
-    width: "100%",
-    borderColor: "#DDDDDD",
-    borderWidth: 1
-
-
-  },
   icon: {
     marginRight: 5,
   },
@@ -968,9 +951,10 @@ const styles = StyleSheet.create({
     height: 20,
   },
   inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-    fontFamily: "Regular"
+    borderRadius: 10,
+    marginHorizontal: 10,
+    fontFamily: "Regular",
+    textAlign: "right"
   },
   btnText: {
     fontSize: 20,

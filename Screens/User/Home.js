@@ -33,7 +33,7 @@ import * as Location from "expo-location";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../../theme/style";
-import {getAdvType , getPropType} from './../../utils/functions';
+import { getAdvType, getPropType, getRegionById, getCityById } from './../../utils/functions';
 
 import { url } from "../../constants/constants";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -41,27 +41,28 @@ import { Dropdown } from "react-native-element-dropdown";
 import Toast from "react-native-toast-message";
 import toastConfig from "../../components/Toast";
 import { useNavigation } from '@react-navigation/native';
+import { regions, cities, districts } from "./../../utils/address";
 
 export default function UserHome() {
   const navigation = useNavigation();
   const windowWidth = Dimensions.get("window").width;
   const windowHeight = Dimensions.get("window").height;
   const [search_param, setSearchParam] = useState("");
-  const [map_view , setMapView] = useState("standard");
+  const [map_view, setMapView] = useState("standard");
   const [filter_cat, setFilterCat] = useState("");
   const [filter_city, setFilterCity] = useState("");
   const [filter_state, setFilterState] = useState("");
   const [filter_district, setFilterDistrict] = useState("");
   const [min_price, setminPrice] = useState("");
   const [max_price, setMaxPrice] = useState("");
-  const [cities, setCities] = useState([]);
   const [selected_type, setSelectedType] = useState(null);
   const [data, setData] = useState([]);
   const [cats, setCatigories] = useState([]);
   const [isLoading, setLoading] = React.useState(false);
   const [prop_cat, setPropCat] = useState("");
   const [bottomSheetState, SetBottomSheetState] = useState(-1);
-
+  const [filtered_cities, setCities] = useState([]);
+  const [filtered_districts, setDistricts] = useState([]);
   const [isActive, setIsActive] = useState();
   const [ref, setRef] = useState(null);
   const mapRef = useRef(null);
@@ -92,6 +93,24 @@ export default function UserHome() {
 
   const bottomSheetRef = useRef();
   const handleSheetChanges = useCallback(index => { }, []);
+
+  const getCitiessByRegionId = (id) => {
+    setCities(cities.filter(city => city.region_id === id));
+  };
+
+  const getDistrictsByCityID = (id) => {
+    const s_dist = districts.filter(district => district.city_id === id);
+    if (s_dist.length > 0) {
+      setDistricts(s_dist);
+    }
+    else {
+      setDistricts([{
+        "district_id": 0,
+        "name_ar": "لا توجد احياء",
+        "name_en": "لا توجد احياء"
+      }]);
+    }
+  };
 
   const openBottomSheet = () => {
     setSideBarVisible(false);
@@ -137,10 +156,10 @@ export default function UserHome() {
     }
   };
 
-  const _getProps = async (state_name, lat, long) => {
+  const _getProps = async (region_id, lat, long) => {
     try {
       setLoading(true);
-      fetch(url.base_url + "properties/map.php?prop_state=" + state_name, {
+      fetch(url.base_url + "properties/map.php?prop_state=" + region_id, {
         method: "GET",
         headers: {
           Accept: "*/*",
@@ -198,9 +217,8 @@ export default function UserHome() {
     if (location_coordinates !== null) {
       setUserLatitude(JSON.parse(location_coordinates).latitude);
       SetUserLongitude(JSON.parse(location_coordinates).longitude);
-    } 
-    else 
-    {
+    }
+    else {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         return;
@@ -407,20 +425,20 @@ export default function UserHome() {
   };
 
   const renderStates = () => {
-    return states.map(item => {
+    return regions.map(item => {
       return (
         <Marker
-          key={item.state_id}
+          key={item.region_id}
           onPress={() => {
             _getProps(
-              item.name,
-              parseFloat(item.coords.split(",")[0]),
-              parseFloat(item.coords.split(",")[1])
+              item.region_id,
+              parseFloat(item.center[0]),
+              parseFloat(item.center[1])
             );
           }}
           coordinate={{
-            latitude: parseFloat(item.coords.split(",")[0]) || 0,
-            longitude: parseFloat(item.coords.split(",")[1]) || 0
+            latitude: parseFloat(item.center[0]) || 0,
+            longitude: parseFloat(item.center[1]) || 0
           }}
         >
           <View
@@ -440,7 +458,7 @@ export default function UserHome() {
             }}
           >
             <Text style={{ color: "#FFF", fontFamily: "Bold", fontSize: 12 }}>
-              {item.name}
+              {item.name_ar.replace('منطقة', '')}
             </Text>
           </View>
         </Marker>
@@ -477,38 +495,38 @@ export default function UserHome() {
             <FontAwesome name="th-list" size={24} color="#FFF" />
           </TouchableOpacity>
 
-          <TouchableOpacity 
-          onPress={() => setMapView(map_view == "satellite" ? "standard" : "satellite")}
-          style={{
-            width: 50,
-            height: 50,
-            backgroundColor: "#fe7e25",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 25,
-            marginVertical: 10,
-            borderColor: "#FFF",
-            borderWidth: 2,
+          <TouchableOpacity
+            onPress={() => setMapView(map_view == "satellite" ? "standard" : "satellite")}
+            style={{
+              width: 50,
+              height: 50,
+              backgroundColor: "#fe7e25",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 25,
+              marginVertical: 10,
+              borderColor: "#FFF",
+              borderWidth: 2,
 
-          }}>
+            }}>
             <FontAwesome5 name="satellite" size={24} color="#FFF" />
           </TouchableOpacity>
 
 
-          <TouchableOpacity 
-          onPress={() => _MapReLocation(user_latitude,user_longitude)}
-          style={{
-            width: 50,
-            height: 50,
-            backgroundColor: "#fe7e25",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: 25,
-            marginVertical: 10,
-            borderColor: "#FFF",
-            borderWidth: 2,
+          <TouchableOpacity
+            onPress={() => _MapReLocation(user_latitude, user_longitude)}
+            style={{
+              width: 50,
+              height: 50,
+              backgroundColor: "#fe7e25",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 25,
+              marginVertical: 10,
+              borderColor: "#FFF",
+              borderWidth: 2,
 
-          }}>
+            }}>
             <Ionicons name="ios-location-sharp" size={24} color="#FFF" />
           </TouchableOpacity>
         </View>
@@ -653,8 +671,8 @@ export default function UserHome() {
             rotateEnabled={false}
             scrollEnabled={scrollEnabled}
             zoomEnabled={zoomEnabled}
-           showsUserLocation={true}
-            mapType= {map_view}
+            showsUserLocation={true}
+            mapType={map_view}
             //minZoomLevelLevel={14}
             onRegionChangeComplete={this.onRegionChange}
             initialRegion={{
@@ -691,7 +709,7 @@ export default function UserHome() {
             }}
           >
             <View style={{ width: "40%" }}>
-             <ImageBackground
+              <ImageBackground
                 source={{
                   uri: url.media_url + selectedItem.prop_images.split(",")[0]
                 }}
@@ -704,7 +722,7 @@ export default function UserHome() {
                   borderTopRightRadius: 10,
                   resizeMode: "stretch"
                 }}
-              > 
+              >
                 <View
                   style={{
                     alignItems: "flex-end",
@@ -786,7 +804,7 @@ export default function UserHome() {
                     fontSize: 16
                   }}
                 >
-                  
+
                   {getPropType(selectedItem.prop_type) +
                     " " +
                     getAdvType(selectedItem.adv_type)}
@@ -804,7 +822,7 @@ export default function UserHome() {
                   paddingHorizontal: 10
                 }}
               >
-               {selectedItem.prop_price} ريال 
+                {selectedItem.prop_price} ريال
               </Text>
 
               <View />
@@ -823,7 +841,7 @@ export default function UserHome() {
                     color: "grey"
                   }}
                 >
-                   {selectedItem.prop_state + " , "+ selectedItem.prop_city}
+                  {getRegionById(selectedItem.prop_state) + " , " + getCityById(selectedItem.prop_city)}
                 </Text>
               </View>
             </View>
@@ -902,7 +920,7 @@ export default function UserHome() {
                 style={{
                   fontFamily: "Bold",
                   marginVertical: 10,
-                  textAlign:"right"
+                  textAlign: "right"
                 }}
               >
                 إختر نوع العقار
@@ -1043,27 +1061,24 @@ export default function UserHome() {
               }}
             >
               <Dropdown
-                style={[
-                  styles.dropdown,
-                  isFocus == "state" && { borderColor: "blue" }
-                ]}
+                style={styles.dropdown}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
-                data={states}
-                //search
+                itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
+                data={regions}
+                search
+                searchPlaceholder="ابحث عن المنطقه"
                 maxHeight={300}
-                labelField="name"
-                valueField="name"
-                placeholder={isFocus !== "state" ? "أختر منطقة العقار" : "..."}
+                labelField="name_ar"
+                valueField="region_id"
+                placeholder={"أختر المنطقة المطلوبة"}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
-                  getCities(item.state_id);
-                  setFilterState(item.name);
-                  setIsFocus(false);
+                  getCitiessByRegionId(item.region_id);
+                  setFilterState(item.region_id);
                 }}
                 renderRightIcon={() =>
                   <Ionicons
@@ -1073,7 +1088,11 @@ export default function UserHome() {
                     color="#fe7e25"
                   />}
                 renderLeftIcon={() =>
-                  <SimpleLineIcons name="arrow-down" size={24} color="grey" />}
+                  <MaterialIcons
+                    name="keyboard-arrow-down"
+                    size={30}
+                    color="grey"
+                  />}
               />
             </View>
 
@@ -1086,26 +1105,24 @@ export default function UserHome() {
               }}
             >
               <Dropdown
-                style={[
-                  styles.dropdown,
-                  isFocus == "state" && { borderColor: "blue" }
-                ]}
+                style={styles.dropdown}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
-                data={cities}
-                //search
+                itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
+                data={filtered_cities}
+                search
+                searchPlaceholder="ابحث عن المدينة"
                 maxHeight={300}
-                labelField="name"
-                valueField="name"
-                placeholder={isFocus !== "city" ? "أختر المدينة" : "..."}
+                labelField="name_ar"
+                valueField="city_id"
+                placeholder={"أختر المدينة المطلوبة"}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
-                  setFilterCity(item.name);
-                  setIsFocus(false);
+                  getDistrictsByCityID(item.city_id);
+                  setFilterCity(item.city_id);
                 }}
                 renderRightIcon={() =>
                   <Ionicons
@@ -1115,7 +1132,11 @@ export default function UserHome() {
                     color="#fe7e25"
                   />}
                 renderLeftIcon={() =>
-                  <SimpleLineIcons name="arrow-down" size={24} color="grey" />}
+                  <MaterialIcons
+                    name="keyboard-arrow-down"
+                    size={30}
+                    color="grey"
+                  />}
               />
             </View>
 
@@ -1129,27 +1150,23 @@ export default function UserHome() {
               }}
             >
               <Dropdown
-                style={[
-                  styles.dropdown,
-                  isFocus == "state" && { borderColor: "blue" }
-                ]}
+                style={styles.dropdown}
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
-                data={states}
-                //search
+                itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
+                data={filtered_districts}
+                search
+                searchPlaceholder="ابحث عن الحي"
                 maxHeight={300}
-                labelField="name"
-                valueField="name"
-                placeholder={isFocus !== "disrict" ? "أختر الحي" : "..."}
+                labelField="name_ar"
+                valueField="district_id"
+                placeholder={"أختر الحي"}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
-                  getCities(item.state_id);
-                  setFilterDistrict(item.name);
-                  setIsFocus(false);
+                  setFilterCity(item.district_id);
                 }}
                 renderRightIcon={() =>
                   <Ionicons
@@ -1159,7 +1176,11 @@ export default function UserHome() {
                     color="#fe7e25"
                   />}
                 renderLeftIcon={() =>
-                  <SimpleLineIcons name="arrow-down" size={24} color="grey" />}
+                  <MaterialIcons
+                    name="keyboard-arrow-down"
+                    size={30}
+                    color="grey"
+                  />}
               />
             </View>
 

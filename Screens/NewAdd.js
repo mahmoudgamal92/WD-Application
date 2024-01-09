@@ -25,7 +25,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import toastConfig from "../components/Toast";
-import {regions,cities,districts} from "./../utils/address";
+import { regions, cities, districts } from "./../utils/address";
 
 export default function NewAdd({ route, navigation }) {
   const screenTitle = "إضافة عقار جديد";
@@ -43,7 +43,6 @@ export default function NewAdd({ route, navigation }) {
   const [prop_city, setPropCity] = useState("");
   const [prop_district, setPropDistrict] = useState("");
   const [prop_desc, setPropDesc] = useState("");
-
   const [adv_type, setAdvType] = useState("");
 
   useEffect(() => {
@@ -128,17 +127,27 @@ export default function NewAdd({ route, navigation }) {
   };
 
   const getDistrictsByCityID = (id) => {
-    setDistricts(districts.filter(district => district.city_id === id));
+    const s_dist = districts.filter(district => district.city_id === id);
+    if (s_dist.length > 0) {
+      setDistricts(s_dist);
+    }
+    else {
+      setDistricts([{
+        "district_id": 0,
+        "name_ar": "لا توجد احياء",
+        "name_en": "لا توجد احياء"
+      }]);
+    }
   };
- 
+
   return (
     <KeyboardAvoidingView
-    style={{
-      flex: 1,
-      width: "100%",
-    }}
-    keyboardVerticalOffset={10}
-    behavior = {Platform.OS === "ios" ? "padding" : null}>
+      style={{
+        flex: 1,
+        width: "100%",
+      }}
+      keyboardVerticalOffset={10}
+      behavior={Platform.OS === "ios" ? "padding" : null}>
       <CustomHeader text={screenTitle} />
       <View style={styles.rootContainer}>
         <ScrollView
@@ -276,20 +285,21 @@ export default function NewAdd({ route, navigation }) {
             >
               أختر نوع العقار
             </Text>
-            
+
             <Dropdown
               style={[
                 styles.dropdown,
                 isFocus == "prop_type" && { borderColor: "blue" }
               ]}
-              itemContainerStyle	={{width:"100%"}}
+              itemContainerStyle={{ width: "100%" }}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12,textAlign:"right" }}
+              itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
               data={cats}
-              //search
+              search
+              searchPlaceholder="ابحث عن نوع العقار"
               maxHeight={300}
               labelField="title"
               valueField="title"
@@ -404,9 +414,10 @@ export default function NewAdd({ route, navigation }) {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12,textAlign:"right" }}
+              itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
               data={regions}
-              //search
+              search
+              searchPlaceholder="ابحث عن المنطقه"
               maxHeight={300}
               labelField="name_ar"
               valueField="region_id"
@@ -415,7 +426,7 @@ export default function NewAdd({ route, navigation }) {
               onBlur={() => setIsFocus(false)}
               onChange={item => {
                 getCitiessByRegionId(item.region_id);
-                setPropState(item.name);
+                setPropState(item.region_id);
               }}
               renderRightIcon={() =>
                 <Ionicons
@@ -458,19 +469,19 @@ export default function NewAdd({ route, navigation }) {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12,textAlign:"right" }}
+              itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
               data={filtered_cities}
-              //search
+              search
+              searchPlaceholder="ابحث عن المدينة"
               maxHeight={300}
               labelField="name_ar"
               valueField="city_id"
-              
               placeholder={"أختر المدينة المطلوبة"}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
               onChange={item => {
                 getDistrictsByCityID(item.city_id);
-                setPropCity(item.name);
+                setPropCity(item.city_id);
               }}
               renderRightIcon={() =>
                 <Ionicons
@@ -513,9 +524,10 @@ export default function NewAdd({ route, navigation }) {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12 ,textAlign:"right"}}
+              itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
               data={filtered_districts}
-              //search
+              search
+              searchPlaceholder="ابحث عن الحي"
               maxHeight={300}
               labelField="name_ar"
               valueField="district_id"
@@ -548,7 +560,7 @@ export default function NewAdd({ route, navigation }) {
               marginVertical: 10,
               width: "100%"
             }}
-           >
+          >
             <View
               style={{
                 backgroundColor: "#FFF",

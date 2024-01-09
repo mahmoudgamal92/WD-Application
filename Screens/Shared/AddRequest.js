@@ -17,11 +17,14 @@ import { Dropdown } from 'react-native-element-dropdown';
 import CheckBox from 'react-native-check-box';
 import { url } from "../../constants/constants";
 import CustomHeader from "../../components/CustomHeader";
+import { regions, cities, districts } from "./../../utils/address";
 
 export default function RealEstateInfo({ navigation, route }) {
     const screenTitle = "اضافه طلب جديد";
 
-    const [isChecked, setChecked] = useState(false);
+    const [mobile_phone, setMobileSelected] = useState(false);
+    const [whatsapp, setWhatsapp] = useState(false);
+
     const [user_token, setUserToken] = useState(null);
     const [price_type, setPriceType] = useState(null);
     const [min_price, setminPrice] = useState(0);
@@ -36,19 +39,39 @@ export default function RealEstateInfo({ navigation, route }) {
     const [prop_state, setPropState] = useState("");
     const [prop_city, setPropCity] = useState("");
     const [prop_district, setPropDistrict] = useState("");
-
+    const [filtered_cities, setCities] = useState([]);
+    const [filtered_districts, setDistricts] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
     const [cats, setCatigories] = useState([]);
 
     const [states, setStates] = useState([]);
-    const [cities, setCities] = useState([]);
-    const [districts, setDistricts] = useState([]);
+
     const [req_type, setType] = useState("");
     const [desc, setDesc] = useState("");
 
     useEffect(() => {
         _retrieveData();
     }, []);
+
+
+
+    const getCitiessByRegionId = (id) => {
+        setCities(cities.filter(city => city.region_id === id));
+    };
+
+    const getDistrictsByCityID = (id) => {
+        const s_dist = districts.filter(district => district.city_id === id);
+        if (s_dist.length > 0) {
+            setDistricts(s_dist);
+        }
+        else {
+            setDistricts([{
+                "district_id": 0,
+                "name_ar": "لا توجد احياء",
+                "name_en": "لا توجد احياء"
+            }]);
+        }
+    };
 
 
     const _retrieveData = async () => {
@@ -105,7 +128,7 @@ export default function RealEstateInfo({ navigation, route }) {
                 if (responseJson.success == true) {
                     alert("تم إرسال طلبك للعقاريين , نتوقع منهم الإتصال بك قريبا جدا ");
                     setLoading(false);
-                    navigation.replace("")
+                    navigation.goBack();
                 } else {
                     setLoading(false);
                     alert(responseJson.message);
@@ -227,7 +250,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                     onPress={() => setType("rent")}
                                     style={{
                                         height: 50,
-                                        width: 160,
+                                        width: '45%',
                                         marginHorizontal: 20,
                                         borderColor: req_type == "rent" ? "#fe7e25" : "#DDDDDD",
                                         borderWidth: 2,
@@ -250,7 +273,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                     onPress={() => setType("buy")}
                                     style={{
                                         height: 50,
-                                        width: 160,
+                                        width: '45%',
                                         marginHorizontal: 20,
                                         borderColor: req_type == "buy" ? "#fe7e25" : "#DDDDDD",
                                         borderWidth: 2,
@@ -345,34 +368,38 @@ export default function RealEstateInfo({ navigation, route }) {
                                     أختر  المنطقة
                                 </Text>
                                 <Dropdown
-                                    style={[styles.dropdown,
-                                    isFocus == "type" && { borderColor: 'blue' }]}
+                                    style={styles.dropdown}
                                     placeholderStyle={styles.placeholderStyle}
                                     selectedTextStyle={styles.selectedTextStyle}
                                     inputSearchStyle={styles.inputSearchStyle}
                                     iconStyle={styles.iconStyle}
-                                    itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
-                                    data={states}
-                                    //search
+                                    itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
+                                    data={regions}
+                                    search
+                                    searchPlaceholder="ابحث عن المنطقه"
                                     maxHeight={300}
-                                    labelField="name"
-                                    valueField="state_id"
-                                    placeholder={isFocus !== "type" ? 'أختر المنطقة المطلوبة' : '...'}
-                                    //  value={prop_cat}
+                                    labelField="name_ar"
+                                    valueField="region_id"
+                                    placeholder={"أختر المنطقة المطلوبة"}
                                     onFocus={() => setIsFocus(true)}
                                     onBlur={() => setIsFocus(false)}
                                     onChange={item => {
-                                        getCities(item.state_id)
-                                        setPropState(item.name);
-                                        setIsFocus(false);
+                                        getCitiessByRegionId(item.region_id);
+                                        setPropState(item.region_id);
                                     }}
-                                    renderRightIcon={() => (
-                                        <Ionicons style={styles.icon} name="location-sharp" size={24} color="#fe7e25" />
-                                    )}
-
-                                    renderLeftIcon={() => (
-                                        <MaterialIcons name="keyboard-arrow-down" size={30} color="grey" />
-                                    )}
+                                    renderRightIcon={() =>
+                                        <Ionicons
+                                            style={styles.icon}
+                                            name="location-sharp"
+                                            size={24}
+                                            color="#fe7e25"
+                                        />}
+                                    renderLeftIcon={() =>
+                                        <MaterialIcons
+                                            name="keyboard-arrow-down"
+                                            size={30}
+                                            color="grey"
+                                        />}
                                 />
                             </View>
 
@@ -399,33 +426,38 @@ export default function RealEstateInfo({ navigation, route }) {
                                     أختر  المدينة
                                 </Text>
                                 <Dropdown
-                                    style={[styles.dropdown,
-                                    isFocus == "type" && { borderColor: 'blue' }]}
+                                    style={styles.dropdown}
                                     placeholderStyle={styles.placeholderStyle}
                                     selectedTextStyle={styles.selectedTextStyle}
                                     inputSearchStyle={styles.inputSearchStyle}
                                     iconStyle={styles.iconStyle}
-                                    itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
-                                    data={cities}
-                                    //search
+                                    itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
+                                    data={filtered_cities}
+                                    search
+                                    searchPlaceholder="ابحث عن المدينة"
                                     maxHeight={300}
-                                    labelField="name"
+                                    labelField="name_ar"
                                     valueField="city_id"
-                                    placeholder={'أختر المدينة المطلوبة'}
-                                    //  value={prop_cat}
+                                    placeholder={"أختر المدينة المطلوبة"}
                                     onFocus={() => setIsFocus(true)}
                                     onBlur={() => setIsFocus(false)}
                                     onChange={item => {
-                                        getDistricts(item.city_id);
-                                        setPropCity(item.name);
+                                        getDistrictsByCityID(item.city_id);
+                                        setPropCity(item.city_id);
                                     }}
-                                    renderRightIcon={() => (
-                                        <Ionicons style={styles.icon} name="location-sharp" size={24} color="#fe7e25" />
-                                    )}
-
-                                    renderLeftIcon={() => (
-                                        <MaterialIcons name="keyboard-arrow-down" size={30} color="grey" />
-                                    )}
+                                    renderRightIcon={() =>
+                                        <Ionicons
+                                            style={styles.icon}
+                                            name="location-sharp"
+                                            size={24}
+                                            color="#fe7e25"
+                                        />}
+                                    renderLeftIcon={() =>
+                                        <MaterialIcons
+                                            name="keyboard-arrow-down"
+                                            size={30}
+                                            color="grey"
+                                        />}
                                 />
                             </View>
 
@@ -455,25 +487,32 @@ export default function RealEstateInfo({ navigation, route }) {
                                     selectedTextStyle={styles.selectedTextStyle}
                                     inputSearchStyle={styles.inputSearchStyle}
                                     iconStyle={styles.iconStyle}
-                                    itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
-                                    data={districts}
-                                    //search
+                                    itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
+                                    data={filtered_districts}
+                                    search
+                                    searchPlaceholder="ابحث عن الحي"
                                     maxHeight={300}
-                                    labelField="name"
-                                    valueField="id"
-                                    placeholder={'أختر الحي'}
+                                    labelField="name_ar"
+                                    valueField="district_id"
+                                    placeholder={"أختر الحي"}
                                     onFocus={() => setIsFocus(true)}
                                     onBlur={() => setIsFocus(false)}
                                     onChange={item => {
                                         setPropDistrict(item.name);
                                     }}
-                                    renderRightIcon={() => (
-                                        <Ionicons style={styles.icon} name="location-sharp" size={24} color="#fe7e25" />
-                                    )}
-
-                                    renderLeftIcon={() => (
-                                        <MaterialIcons name="keyboard-arrow-down" size={30} color="grey" />
-                                    )}
+                                    renderRightIcon={() =>
+                                        <Ionicons
+                                            style={styles.icon}
+                                            name="location-sharp"
+                                            size={24}
+                                            color="#fe7e25"
+                                        />}
+                                    renderLeftIcon={() =>
+                                        <MaterialIcons
+                                            name="keyboard-arrow-down"
+                                            size={30}
+                                            color="grey"
+                                        />}
                                 />
                             </View>
                         </View>
@@ -822,9 +861,9 @@ export default function RealEstateInfo({ navigation, route }) {
                                 <CheckBox
                                     style={{ flex: 1, padding: 10 }}
                                     onClick={() => {
-                                        setChecked(!isChecked);
+                                        setMobileSelected(!mobile_phone);
                                     }}
-                                    isChecked={isChecked}
+                                    isChecked={mobile_phone}
                                     rightText={"اتصال هاتفي"}
                                     rightTextStyle={{
                                         fontFamily: "Bold",
@@ -853,9 +892,9 @@ export default function RealEstateInfo({ navigation, route }) {
                                 <CheckBox
                                     style={{ flex: 1, padding: 10 }}
                                     onClick={() => {
-                                        setChecked(!isChecked);
+                                        setWhatsapp(!whatsapp);
                                     }}
-                                    isChecked={isChecked}
+                                    isChecked={whatsapp}
                                     rightText={"واتساب"}
                                     rightTextStyle={{
                                         fontFamily: "Bold",
