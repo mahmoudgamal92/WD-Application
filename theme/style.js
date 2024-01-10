@@ -478,7 +478,6 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    marginBottom: 50,
     width: "80%",
     backgroundColor: "white",
     borderRadius: 20,
@@ -887,24 +886,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22
   },
-  modalView: {
-    marginHorizontal: 20,
-    paddingVertical: 10,
-    width: "95%",
-    height: height * 0.8,
-    backgroundColor: "white",
-    borderRadius: 20,
-    paddingHorizontal: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
+
 
   reportModalView: {
     marginHorizontal: 20,
