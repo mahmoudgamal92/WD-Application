@@ -36,10 +36,19 @@ export default function NewAdd({ route, navigation }) {
     }, [])
   );
 
+
+  function getInputValue(inputKey) {
+    const inputObject = jsonForm.find(item => item.input_key === inputKey);
+    return inputObject ? inputObject.input_value : null;
+  }
+
   const _retrieveData = async () => {
     try {
+      const cat_id = getInputValue('prop_type');
+      alert(cat_id);
+      console.log(jsonForm);
       setLoader(true);
-      fetch("https://bnookholding.com/wd/api/input/list.php", {
+      fetch("https://bnookholding.com/wd/api/input/list.php?cat_id=" + cat_id, {
         method: "GET",
         headers: {
           "Content-type": "multipart/form-data;",
@@ -84,6 +93,9 @@ export default function NewAdd({ route, navigation }) {
     }
     return false;
   };
+
+
+
 
   const Validate_form = () => {
     const concatenatedJson = [...jsonForm, ...formData];
