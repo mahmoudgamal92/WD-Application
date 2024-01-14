@@ -20,7 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import { Iconify } from "react-native-iconify";
-
+import { FontAwesome5 } from '@expo/vector-icons';
 import styles from "./../../theme/style";
 import { url } from "./../../constants/constants";
 import DefaultHeader from "./../../components/DefaultHeader";
@@ -29,6 +29,7 @@ export default function ProfilePage() {
 
   const [failed_alert, SetFailedAlert] = React.useState(false);
   const [delete_alert, SetDeleteAlert] = React.useState(false);
+  const [confirm_alert, SetConfirmAlert] = React.useState(false);
 
   const [user_name, setName] = useState("");
   const [user_token, setToken] = useState(null);
@@ -76,19 +77,6 @@ export default function ProfilePage() {
       setToken(user_token);
     }
   };
-  const FailedAlert = React.useCallback(
-    () => {
-      SetFailedAlert(!failed_alert);
-    },
-    [failed_alert]
-  );
-
-  const DeleteAlert = React.useCallback(
-    () => {
-      SetDeleteAlert(!delete_alert);
-    },
-    [delete_alert]
-  );
 
   // LogOut Function
   const _removeSession = async () => {
@@ -103,114 +91,6 @@ export default function ProfilePage() {
     }
   };
 
-  const failedAlert = () => {
-    return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={failed_alert}
-        onRequestClose={() => {
-          SetFailedAlert(!failed_alert);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View
-              style={{
-                backgroundColor: "red",
-                width: 50,
-                height: 50,
-                marginTop: -25,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 25
-              }}
-            >
-              <FontAwesome name="exclamation" size={24} color="#FFF" />
-            </View>
-
-            <TouchableOpacity
-              onPress={() => SetFailedAlert(!failed_alert)}
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                paddingHorizontal: 20
-              }}
-            >
-              <FontAwesome name="close" size={24} color="black" />
-            </TouchableOpacity>
-
-            <Text style={styles.modalText}>تسجيل الخروج</Text>
-            <Text style={styles.modalBody}>
-              هل أنت متأكد من تسجيل الخروج من التطبيق ؟ لابد من أن تكون متذكر كل
-              بياناتك جيدا قبل تسجيل الخروج
-            </Text>
-            <TouchableOpacity
-              style={[styles.button]}
-              onPress={() => _removeSession()}
-            >
-              <Text style={styles.textStyle}> تسجيل الخروج</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    );
-  };
-
-  const deleteAlert = () => {
-    return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={delete_alert}
-        onRequestClose={() => SetDeleteAlert(!delete_alert)}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View
-              style={{
-                backgroundColor: "red",
-                width: 50,
-                height: 50,
-                marginTop: -25,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 25
-              }}
-            >
-              <AntDesign name="delete" size={24} color="#FFF" />
-            </View>
-
-            <TouchableOpacity
-              onPress={() => SetDeleteAlert(!delete_alert)}
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                paddingHorizontal: 20
-              }}
-            >
-              <FontAwesome name="close" size={24} color="black" />
-            </TouchableOpacity>
-
-            <Text style={styles.modalText}>حذف حسابك</Text>
-
-            <Text style={styles.modalBody}>
-              هل متأكد من حذف حسابك من التطبيق ؟ سيتم حذف جميع بياناتك و لن
-              تستطيع الرجوع مرة أخرى
-            </Text>
-            <TouchableOpacity
-              style={[styles.button]}
-              onPress={() => _deleteAccount(user_token)}
-            >
-              <Text style={styles.textStyle}>تأكيد</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    );
-  };
 
   return (
     <View
@@ -221,8 +101,6 @@ export default function ProfilePage() {
       }}
     >
       <DefaultHeader />
-      {failedAlert()}
-      {deleteAlert()}
       <View style={styles.rootContainer}>
         <Image
           source={require("./../../assets/man.png")}
@@ -245,8 +123,7 @@ export default function ProfilePage() {
         >
           <TouchableOpacity
             onPress={() => navigation.navigate("ProfileInfo")}
-            style={styles.profileItem}
-          >
+            style={styles.profileItem}>
             <View style={{ flexDirection: "row" }}>
               <Text
                 style={{
@@ -272,10 +149,34 @@ export default function ProfilePage() {
             </View>
           </TouchableOpacity>
 
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PersonalProperites")}
+            style={styles.profileItem}>
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                عقاراتي
+              </Text>
+
+              <View style={styles.profileItemIcon}>
+              <FontAwesome5 name="clipboard-list" size={30} color="#fe7e25" />
+               
+              </View>
+            </View>
+
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={30} color="black" />
+            </View>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate("Terms")}
-            style={styles.profileItem}
-          >
+            style={styles.profileItem}>
             <View style={{ flexDirection: "row" }}>
               <Text
                 style={{
@@ -394,7 +295,7 @@ export default function ProfilePage() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => FailedAlert()}
+            onPress={() => SetConfirmAlert(!confirm_alert)}
             style={styles.profileItem}
           >
             <View style={{ flexDirection: "row" }}>
@@ -421,6 +322,162 @@ export default function ProfilePage() {
           </TouchableOpacity>
         </ScrollView>
       </View>
+
+
+      {/* Modals Start */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={failed_alert}
+        onRequestClose={() => {
+          SetFailedAlert(!failed_alert);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View
+              style={{
+                backgroundColor: "red",
+                width: 50,
+                height: 50,
+                marginTop: -25,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 25
+              }}
+            >
+              <FontAwesome name="exclamation" size={24} color="#FFF" />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => SetFailedAlert(!failed_alert)}
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                paddingHorizontal: 20
+              }}
+            >
+              <FontAwesome name="close" size={24} color="black" />
+            </TouchableOpacity>
+
+            <Text style={styles.modalText}>تسجيل الخروج</Text>
+            <Text style={styles.modalBody}>
+              هل أنت متأكد من تسجيل الخروج من التطبيق ؟ لابد من أن تكون متذكر كل
+              بياناتك جيدا قبل تسجيل الخروج
+            </Text>
+            <TouchableOpacity
+              style={[styles.button]}
+              onPress={() => _removeSession()}
+            >
+              <Text style={styles.textStyle}> تسجيل الخروج</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={delete_alert}
+        onRequestClose={() => SetDeleteAlert(!delete_alert)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View
+              style={{
+                backgroundColor: "red",
+                width: 50,
+                height: 50,
+                marginTop: -25,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 25
+              }}
+            >
+              <AntDesign name="delete" size={24} color="#FFF" />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => SetDeleteAlert(!delete_alert)}
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                paddingHorizontal: 20
+              }}
+            >
+              <FontAwesome name="close" size={24} color="black" />
+            </TouchableOpacity>
+
+            <Text style={styles.modalText}>حذف حسابك</Text>
+
+            <Text style={styles.modalBody}>
+              هل متأكد من حذف حسابك من التطبيق ؟ سيتم حذف جميع بياناتك و لن
+              تستطيع الرجوع مرة أخرى
+            </Text>
+            <TouchableOpacity
+              style={[styles.button]}
+              onPress={() => _deleteAccount(user_token)}
+            >
+              <Text style={styles.textStyle}>تأكيد</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={confirm_alert}
+        onRequestClose={() => SetConfirmAlert(!confirm_alert)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View
+              style={{
+                backgroundColor: "#fe7e25",
+                width: 50,
+                height: 50,
+                marginTop: -25,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 25
+              }}
+            >
+              <Feather name="alert-triangle" size={24} color="#FFF" />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => SetConfirmAlert(!confirm_alert)}
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                paddingHorizontal: 20
+              }}
+            >
+              <FontAwesome name="close" size={24} color="black" />
+            </TouchableOpacity>
+
+            <Text style={styles.modalText}>
+              تنبية
+            </Text>
+
+            <Text style={styles.modalBody}>
+              إذا كنت تريد الإشتراك معنا كمعلن لابد من توثيق حسابك في نفاذ و أيضا توثيق الرخصة العقارية الخاصة بك
+            </Text>
+            <TouchableOpacity
+              style={[styles.button,{backgroundColor: "#fe7e25"}]}
+              onPress={() => navigation.navigate("FaLicense")}
+            >
+              <Text style={styles.textStyle}>متابعة</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/* Modals End */}
     </View>
   );
 }

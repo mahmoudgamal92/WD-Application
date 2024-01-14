@@ -691,11 +691,8 @@ export default function UserHome() {
         ? <View
           style={{ flex: 1, position: "absolute", bottom: 20, width: "100%" }}
         >
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("ProperityDetail", {
-                prop: selectedItem
-              })}
+          <View
+
             style={{
               backgroundColor: "#FFF",
               borderRadius: 10,
@@ -708,7 +705,25 @@ export default function UserHome() {
               height: 140
             }}
           >
-            <View style={{ width: "40%" }}>
+
+            <TouchableOpacity
+              onPress={() => setSelectedItem(null)}
+              style={{
+                position: "absolute",
+                right: 10,
+                top: 10,
+                width: 50,
+                height: 50,
+              }}>
+              <AntDesign name="close" size={24} color="black" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("ProperityDetail", {
+                  prop: selectedItem
+                })}
+              style={{ width: "40%" }}>
               <ImageBackground
                 source={{
                   uri: url.media_url + selectedItem.prop_images.split(",")[0]
@@ -777,7 +792,7 @@ export default function UserHome() {
                   </View>
                 </View>
               </ImageBackground>
-            </View>
+            </TouchableOpacity>
 
             <View
               style={{
@@ -845,7 +860,7 @@ export default function UserHome() {
                 </Text>
               </View>
             </View>
-          </TouchableOpacity>
+          </View>
         </View>
         : <View />}
 

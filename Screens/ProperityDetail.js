@@ -27,13 +27,16 @@ import {
   Entypo
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {url} from "../constants/constants";
+import { url } from "../constants/constants";
 import Constants from "expo-constants";
 import { Dropdown } from 'react-native-element-dropdown';
-import { getAdvType, getPropType} from "./../utils/functions";
+import { getAdvType, getPropType } from "./../utils/functions";
+import { Video, ResizeMode } from 'expo-av';
 
 const ProperityDetail = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [video_modal, setVideoModal] = useState(false);
+
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const [adv_val, setAdvVal] = useState("for_sale");
@@ -90,7 +93,7 @@ const ProperityDetail = ({ route, navigation }) => {
 
 
   const _retriveLike = () => {
-    fetch(url.base_url + "properties/list.php?type=" + prop.prop_type, {
+    fetch(url.base_url + "properties/like.php?type=" + prop.prop_type, {
       method: "GET",
       headers: {
         Accept: "*/*",
@@ -103,7 +106,7 @@ const ProperityDetail = ({ route, navigation }) => {
       .then(response => response.json())
       .then(json => {
         if (json.success == "true") {
-         // alert(JSON.stringify(json.data));
+          // alert(JSON.stringify(json.data));
           setData(json.data);
 
         }
@@ -210,7 +213,7 @@ const ProperityDetail = ({ route, navigation }) => {
     <View style={{ flex: 1, width: "100%" }}>
       <StatusBar translucent backgroundColor={"transparent"} />
       <View style={{ flex: 1 }}>
-        <Modal
+        {/* <Modal
           animationType="slide"
           transparent={true}
           visible={modalVisible}
@@ -250,7 +253,7 @@ const ProperityDetail = ({ route, navigation }) => {
                   return (
                     <View style={{ width: "100%" }}>
                       <Image
-                      defaultSource={require('./../assets/logo.png')}
+                        defaultSource={require('./../assets/logo.png')}
                         source={{
                           uri: url.media_url + item
                         }}
@@ -266,22 +269,9 @@ const ProperityDetail = ({ route, navigation }) => {
                   );
                 })}
               </ScrollView>
-
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "#fc910f",
-                  width: "100%",
-                  alignItems: "center",
-                  padding: 10,
-                  borderRadius: 10
-                }}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={{ fontFamily: "Bold", color: "#FFF" }}>اغلاق</Text>
-              </TouchableOpacity>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
 
 
 
@@ -365,13 +355,10 @@ const ProperityDetail = ({ route, navigation }) => {
                     setIsFocus(false);
                   }}
                   renderLeftIcon={() => (
-
                     <MaterialIcons
                       style={styles.icon}
                       color={isFocus == "type" ? 'blue' : 'grey'}
                       name="report" size={20} />
-
-
                   )}
                 />
               </View>
@@ -394,9 +381,6 @@ const ProperityDetail = ({ route, navigation }) => {
                 />
               </View>
 
-
-
-
               <TouchableOpacity
                 style={{
                   marginVertical: 20,
@@ -416,6 +400,59 @@ const ProperityDetail = ({ route, navigation }) => {
           </View>
         </Modal>
 
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={video_modal}
+          onRequestClose={() => {
+            setVideoModal(!video_modal);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.reportModalView}>
+
+              <View style={{
+                flexDirection: "row",
+                paddingHorizontal: 20,
+                paddingVertical: 10
+              }}>
+                <TouchableOpacity
+                  style={{
+                    width: "100%",
+                    alignItems: "flex-start",
+                  }}
+                  onPress={() => setVideoModal(!video_modal)}
+                >
+                  <AntDesign name="closesquareo" size={30} color="red" />
+                </TouchableOpacity>
+
+                <Text style={{
+                  fontFamily: "Bold"
+                }}>
+                  فيديو العقار
+                </Text>
+              </View>
+
+              <Video
+                style={{
+                  width: 300,
+                  height: 500
+                }}
+                source={{
+                  uri: url.media_url + prop.prop_video,
+                }}
+                useNativeControls
+                resizeMode={"stretch"}
+                isLooping
+              //onPlaybackStatusUpdate={status => setStatus(() => status)}
+              />
+
+
+            </View>
+          </View>
+        </Modal>
+
         <View
           style={{
             backgroundColor: "#F8F8F8",
@@ -428,7 +465,7 @@ const ProperityDetail = ({ route, navigation }) => {
                 <ScrollView
                   horizontal
                   pagingEnabled
-                  style={{flexDirection:"row-reverse", height: Screenheight * 0.35, }}>
+                  style={{ flexDirection: "row-reverse", height: Screenheight * 0.35, }}>
                   {prop.prop_images.split(",").map((item) => {
                     return (
                       <ImageBackground
@@ -458,14 +495,16 @@ const ProperityDetail = ({ route, navigation }) => {
                             marginTop: 50
                           }}>
                             <Ionicons name="notifications" size={40} color="#FFF" />
-                            <TouchableOpacity style={{
-                              width: 40,
-                              height: 40,
-                              backgroundColor: "#FFF",
-                              borderRadius: 10,
-                              alignItems: "center",
-                              justifyContent: "center"
-                            }}>
+                            <TouchableOpacity
+                              onPress={() => navigation.goBack()}
+                              style={{
+                                width: 40,
+                                height: 40,
+                                backgroundColor: "#FFF",
+                                borderRadius: 10,
+                                alignItems: "center",
+                                justifyContent: "center"
+                              }}>
                               <MaterialIcons name="keyboard-arrow-right" size={30} color="#fe7e25" />
                             </TouchableOpacity>
                           </View>
@@ -522,7 +561,24 @@ const ProperityDetail = ({ route, navigation }) => {
                     }}
                   />)
               })}
-
+              {prop.prop_video == null || prop.prop_video == "" ?
+                null :
+                <TouchableOpacity
+                  onPress={() => setVideoModal(true)}
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: 10,
+                    margin: 5,
+                    borderWidth: 1,
+                    borderColor: "#DDDDDD",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <FontAwesome name="video-camera" size={24} color="black" />
+                </TouchableOpacity>
+              }
             </ScrollView>
 
 
@@ -723,96 +779,7 @@ const ProperityDetail = ({ route, navigation }) => {
                   {prop.prop_desc}
                 </Text>
               </View>
-
             </View>
-
-            {/* <View style={{
-              paddingHorizontal:15
-            }}>
-              <Text
-                style={{
-                  fontFamily: "Bold",
-                  fontSize: 20,
-                  textAlign: "right",
-                  marginTop: 20
-                }}
-              >
-                التفاصيل :
-              </Text>
-            </View>
-
-            <View
-              style={{
-                flexDirection: "row-reverse",
-                flexWrap: "wrap",
-                marginTop: SIZES.base,
-                justifyContent: "space-between",
-                paddingBottom: 10,
-                borderBottomWidth: 1,
-                borderBottomColor: "#C8DAEB",
-                width: "100%"
-              }}>
-
-              {details.map((item, index) =>
-                <View
-                  style={{
-                    alignItems: "center",
-                    flexDirection: "row-reverse",
-                    justifyContent: "flex-start",
-                    width: "33.3%",
-                    marginVertical: 5
-                  }}
-                >
-                  <View
-                    style={{
-                      borderWidth: 1,
-                      borderColor: "#7B8EA0",
-                      padding: 5,
-                      borderRadius: 5,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: 40,
-                      height: 40
-                    }}
-                  >
-                    <FontAwesome5
-                      name={item.icon_class.replace("fas fa-", "").trim()}
-                      size={20}
-                      color="#7B8EA0"
-                    />
-                  </View>
-
-                  <View
-                    style={{ alignItems: "flex-end", marginHorizontal: 5 }}
-                  >
-                    <Text
-                      style={{
-                        textAlign: "right",
-                        fontFamily: "Medium",
-                        fontSize: 10,
-                        color: "#1F79CE",
-                        marginBottom: 2
-                      }}
-                    >
-                      {item.value}
-                    </Text>
-
-                    <Text
-                      style={{
-                        fontSize: 10,
-                        color: "#7B8EA0",
-                        fontFamily: "Medium",
-                        textAlign: "right"
-                      }}
-                    >
-                      {item.title}
-                    </Text>
-                  </View>
-                </View>
-              )}
-            </View> */}
-
-
             <View
               style={{
                 alignItems: "center",
@@ -879,7 +846,7 @@ const ProperityDetail = ({ route, navigation }) => {
             </View>
 
             <View style={{ paddingHorizontal: 15, marginTop: 50, marginBottom: 20 }}>
-            <Text
+              <Text
                 style={{
                   width: "100%",
                   fontFamily: "Bold",
@@ -896,7 +863,7 @@ const ProperityDetail = ({ route, navigation }) => {
                   padding: 10,
                   borderWidth: 1,
                   borderColor: "#DDDDDD",
-                  backgroundColor:"#FFF",
+                  backgroundColor: "#FFF",
                   borderRadius: 10,
                   alignItems: "center",
                   justifyContent: "center"
@@ -907,33 +874,33 @@ const ProperityDetail = ({ route, navigation }) => {
                     style={{
                       alignItems: "center",
                       justifyContent: "center",
-                      flexDirection:"row",
+                      flexDirection: "row",
                     }}>
-                   
-                   <View>
 
-                   <Text
-                      style={{
-                        fontFamily: "Bold",
-                        textAlign: "center",
-                        fontSize: 16
+                    <View>
+
+                      <Text
+                        style={{
+                          fontFamily: "Bold",
+                          textAlign: "center",
+                          fontSize: 16
+                        }}>
+                        {user !== null ? user.user_name : "معلن مجهول"}
+                      </Text>
+
+
+                      <View style={{
+                        flexDirection: "row"
                       }}>
-                      {user !== null ? user.user_name : "معلن مجهول"}
-                    </Text>
+                        <AntDesign name="star" size={20} color="#DDDDDD" />
+                        <AntDesign name="star" size={20} color="#FCF566" />
+                        <AntDesign name="star" size={20} color="#FCF566" />
+                        <AntDesign name="star" size={20} color="#FCF566" />
+                        <AntDesign name="star" size={20} color="#FCF566" />
+                      </View>
 
-
-                    <View style={{
-                      flexDirection:"row"
-                    }}> 
-                      <AntDesign name="star" size={20} color="#DDDDDD" />
-                      <AntDesign name="star" size={20} color="#FCF566" />
-                      <AntDesign name="star" size={20} color="#FCF566" />
-                      <AntDesign name="star" size={20} color="#FCF566" />
-                      <AntDesign name="star" size={20} color="#FCF566" />
                     </View>
-                    
-                   </View>
-                   
+
                     <MaterialIcons
                       name="account-circle"
                       size={60}
@@ -943,133 +910,52 @@ const ProperityDetail = ({ route, navigation }) => {
                 </View>
 
                 <View style={{
-                  flexDirection:"row",
-                  paddingHorizontal:40,
-                  justifyContent:"space-around",
-                  width:"100%",
-                  marginTop:20
+                  flexDirection: "row",
+                  paddingHorizontal: 40,
+                  justifyContent: "space-around",
+                  width: "100%",
+                  marginTop: 20
                 }}>
                   <View style={{
-                   width:60,
-                   height:60,
-                    borderWidth:1,
-                    borderColor:"#fe7e25",
-                    borderRadius:10,
-                    alignItems:"center",
-                    justifyContent:"center"
+                    width: 60,
+                    height: 60,
+                    borderWidth: 1,
+                    borderColor: "#fe7e25",
+                    borderRadius: 10,
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}>
                     <MaterialCommunityIcons name="message-processing-outline" size={24} color="#fe7e25" />
                   </View>
 
 
                   <View style={{
-                  width:60,
-                  height:60,
-                    borderWidth:1,
-                    borderColor:"#fe7e25",
-                    borderRadius:10,
-                    alignItems:"center",
-                    justifyContent:"center"
+                    width: 60,
+                    height: 60,
+                    borderWidth: 1,
+                    borderColor: "#fe7e25",
+                    borderRadius: 10,
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}>
-                  <Ionicons name="call" size={24} color="#fe7e25" />
+                    <Ionicons name="call" size={24} color="#fe7e25" />
                   </View>
 
 
                   <View style={{
-                    width:60,
-                    height:60,
-                    borderWidth:1,
-                    borderColor:"#fe7e25",
-                    borderRadius:10,
-                    alignItems:"center",
-                    justifyContent:"center"
+                    width: 60,
+                    height: 60,
+                    borderWidth: 1,
+                    borderColor: "#fe7e25",
+                    borderRadius: 10,
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}>
                     <FontAwesome name="whatsapp" size={24} color="#fe7e25" />
                   </View>
                 </View>
               </TouchableOpacity>
-
             </View>
-
-
-            {/* {user !== null ?
-              <View
-                style={{
-                  borderBottomWidth: 1,
-                  borderBottomColor: "#E7E8E9",
-                  marginBottom: 10
-                }}>
-
-                <View
-                  style={{
-                    flexDirection: "row-reverse",
-                    justifyContent: "space-around",
-                    marginVertical: 20,
-                    alignItems: "center"
-                  }}
-                >
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-around",
-                      alignItems: "center"
-                    }}
-                  >
-                    <TouchableOpacity
-                      onPress={() =>
-                        Linking.openURL('whatsapp://send?text=' + send_msg + '&phone=' + user.phone)
-                      }
-                      style={{
-                        marginHorizontal: 20,
-                        paddingVertical: 5,
-                        paddingHorizontal: 15,
-                        borderRadius: 10,
-                        backgroundColor: "#09551A",
-                        flexDirection: "row-reverse",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Ionicons
-                        name="chatbubble-ellipses-outline"
-                        size={24}
-                        color="#FFF"
-                      />
-
-                      <Text style={{ fontFamily: "Regular", color: "#FFF" }}>
-                        محادثة
-                      </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      onPress={() =>
-                        Linking.openURL("tel:" + user.phone)}
-                      style={{
-                        paddingVertical: 5,
-                        paddingHorizontal: 15,
-                        borderRadius: 10,
-                        borderColor: "#46D0D9",
-                        borderWidth: 1,
-                        backgroundColor: "#7B8EA0",
-                        flexDirection: "row-reverse",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Feather name="phone-call" size={24} color="#FFF" />
-                      <Text style={{ fontFamily: "Bold", color: "#FFF" }}>
-                        اتصال
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-
-              :
-
-              null
-            } */}
-
-
-
             <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
               <TouchableOpacity
                 onPress={() =>
@@ -1093,7 +979,7 @@ const ProperityDetail = ({ route, navigation }) => {
               </TouchableOpacity>
             </View>
 
-            <View style={{ marginTop: 30, marginBottom: 20,paddingHorizontal:15 }}>
+            <View style={{ marginTop: 30, marginBottom: 20, paddingHorizontal: 15 }}>
               <Text style={{ fontFamily: "Bold", fontSize: 20 }}>
                 إعلانات مشابهة :
               </Text>
@@ -1103,13 +989,13 @@ const ProperityDetail = ({ route, navigation }) => {
               data={data}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) =>
-              <View style={{ flex: 1, width: "100%" }}>
-               <TouchableOpacity
-                  onPress={() =>
+                <View style={{ flex: 1, width: "100%" }}>
+                  <TouchableOpacity
+                    onPress={() =>
                       navigation.navigate("ProperityDetail", {
-                          prop: item
+                        prop: item
                       })}
-                  style={{
+                    style={{
                       backgroundColor: "#FFF",
                       borderRadius: 10,
                       marginHorizontal: 20,
@@ -1119,111 +1005,111 @@ const ProperityDetail = ({ route, navigation }) => {
                       borderWidth: 0.8,
                       borderColor: "#DDDDDD",
                       height: 140,
-                      marginVertical:5
-                  }}>
-                  <View style={{ width: "40%" }}>
+                      marginVertical: 5
+                    }}>
+                    <View style={{ width: "40%" }}>
                       <ImageBackground
-                          source={{uri: url.media_url + item.prop_images.split(",")[0]}}
-                          style={{
-                              width: "100%",
-                              height: "100%",
-                          }}
+                        source={{ uri: url.media_url + item.prop_images.split(",")[0] }}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                        }}
 
-                          imageStyle={{
-                              borderBottomRightRadius: 10,
-                              borderTopRightRadius: 10,
-                              resizeMode: "stretch",
-                          }}>
+                        imageStyle={{
+                          borderBottomRightRadius: 10,
+                          borderTopRightRadius: 10,
+                          resizeMode: "stretch",
+                        }}>
+
+                        <View style={{
+                          alignItems: "flex-end",
+                          width: "100%",
+                          height: "100%",
+                          padding: 5
+                        }}>
+
 
                           <View style={{
-                              alignItems: "flex-end",
-                              width: "100%",
-                              height: "100%",
-                              padding: 5
+                            backgroundColor: "#FFF",
+                            borderRadius: 40,
+                            height: 35,
+                            width: 35,
+                            alignItems: "center",
+                            justifyContent: "center"
                           }}>
 
+                            <TouchableOpacity onPress={() => toggleFavorite(item.prop_id)}>
+                              <AntDesign name="hearto" size={24} color="grey" />
 
-                              <View style={{
-                                  backgroundColor: "#FFF",
-                                  borderRadius: 40,
-                                  height: 35,
-                                  width: 35,
-                                  alignItems: "center",
-                                  justifyContent: "center"
-                              }}>
-
-                                  <TouchableOpacity onPress={() => toggleFavorite(item.prop_id)}>
-                                  <AntDesign name="hearto" size={24} color="grey" />
-
-                                  </TouchableOpacity>
-                              </View>
-
-                              <View style={{
-                                  width: "100%",
-                                  flex: 1,
-                                  alignItems: "flex-end",
-                                  justifyContent: "flex-end",
-                                  padding: 5
-                              }}>
-
-                                  <View style={{
-                                      backgroundColor: "#fe7e25",
-                                      borderRadius: 50,
-                                      paddingHorizontal: 10,
-                                      paddingVertical: 5,
-                                  }}>
-                                      <Text style={{
-                                          fontFamily: "Bold",
-                                          color: "#FFF"
-                                      }}>
-                                          {getPropType(item.prop_type)}
-                                      </Text>
-                                  </View>
-
-                              </View>
+                            </TouchableOpacity>
                           </View>
+
+                          <View style={{
+                            width: "100%",
+                            flex: 1,
+                            alignItems: "flex-end",
+                            justifyContent: "flex-end",
+                            padding: 5
+                          }}>
+
+                            <View style={{
+                              backgroundColor: "#fe7e25",
+                              borderRadius: 50,
+                              paddingHorizontal: 10,
+                              paddingVertical: 5,
+                            }}>
+                              <Text style={{
+                                fontFamily: "Bold",
+                                color: "#FFF"
+                              }}>
+                                {getPropType(item.prop_type)}
+                              </Text>
+                            </View>
+
+                          </View>
+                        </View>
 
 
                       </ImageBackground>
-                  </View>
+                    </View>
 
-                  <View
+                    <View
                       style={{
-                          alignItems: "flex-end",
-                          paddingVertical: 5,
-                          width: "60%"
+                        alignItems: "flex-end",
+                        paddingVertical: 5,
+                        width: "60%"
                       }}
-                  >
+                    >
                       <View style={{
-                          width: "60%",
-                          flexDirection: "row-reverse",
-                          alignItems: "center",
-                          borderRadius: 10,
-                          backgroundColor: "#FFF",
-                          paddingHorizontal: 5
+                        width: "60%",
+                        flexDirection: "row-reverse",
+                        alignItems: "center",
+                        borderRadius: 10,
+                        backgroundColor: "#FFF",
+                        paddingHorizontal: 5
                       }}>
 
-                          <Text style={{
-                              fontFamily: "Bold",
-                              color: "#0e2e3b",
-                              textAlign: "right",
-                              fontSize: 16
-                          }}>
-                              {getPropType(item.prop_type) + " " + getAdvType(item.adv_type)}
-                          </Text>
+                        <Text style={{
+                          fontFamily: "Bold",
+                          color: "#0e2e3b",
+                          textAlign: "right",
+                          fontSize: 16
+                        }}>
+                          {getPropType(item.prop_type) + " " + getAdvType(item.adv_type)}
+                        </Text>
                       </View>
 
                       <Text
-                          style={{
-                              fontFamily: "Bold",
-                              fontSize: 15,
-                              width: "90%",
-                              color: "#fe7e25",
-                              marginVertical: 5,
-                              textAlign: "right",
-                              paddingHorizontal: 10
-                          }}>
-                          {item.prop_price} ريال
+                        style={{
+                          fontFamily: "Bold",
+                          fontSize: 15,
+                          width: "90%",
+                          color: "#fe7e25",
+                          marginVertical: 5,
+                          textAlign: "right",
+                          paddingHorizontal: 10
+                        }}>
+                        {item.prop_price} ريال
                       </Text>
 
 
@@ -1232,26 +1118,26 @@ const ProperityDetail = ({ route, navigation }) => {
                       </View>
 
                       <View
-                          style={{
-                              flexDirection: "row-reverse",
-                              width: "100%",
-                              alignItems: "center",
-                          }}
+                        style={{
+                          flexDirection: "row-reverse",
+                          width: "100%",
+                          alignItems: "center",
+                        }}
                       >
 
-                          <Entypo name="location-pin" size={30} color="grey" />
-                          <Text style={{
-                              fontFamily: "Regular",
-                              color: "grey",
-                          }}>
-                              {item.address.substring(0, 25)}...
-                          </Text>
+                        <Entypo name="location-pin" size={30} color="grey" />
+                        <Text style={{
+                          fontFamily: "Regular",
+                          color: "grey",
+                        }}>
+                          {item.address.substring(0, 25)}...
+                        </Text>
                       </View>
 
 
-                  </View>
-              </TouchableOpacity>
-              </View>
+                    </View>
+                  </TouchableOpacity>
+                </View>
               }
             />
 
@@ -1410,5 +1296,4 @@ const styles = StyleSheet.create({
     fontFamily: "Bold"
   },
 });
-
 export default ProperityDetail;

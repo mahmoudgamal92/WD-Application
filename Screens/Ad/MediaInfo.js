@@ -12,7 +12,9 @@ import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import {
   MaterialIcons,
-  MaterialCommunityIcons
+  MaterialCommunityIcons,
+  Feather,
+  AntDesign
 } from "@expo/vector-icons";
 import styles from "./../../theme/style";
 import * as Progress from "react-native-progress";
@@ -20,15 +22,22 @@ import CustomHeader from "./../../components/CustomHeader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import toastConfig from "../../components/Toast";
+import { Video, ResizeMode } from 'expo-av';
+
 import { url } from "../../constants/constants";
 export default function AddImg({ route, navigation }) {
   const [images, setImages] = useState([]);
+  const [prop_video, setVideo] = useState(null);
+
   const [featured, setFeatured] = useState("");
   const [user_id, setUserID] = useState("");
 
   const [mortgate, setMortgage] = useState("");
   const [conflict, setConflict] = useState("");
   const [loading, setLoading] = useState(false);
+  const [terms, setTerms] = useState(false);
+
+
 
   const { jsonForm } = route.params;
   const screenTitle = "إختر صور العقار";
@@ -66,6 +75,10 @@ export default function AddImg({ route, navigation }) {
       {
         input_key: "conflict",
         input_value: conflict
+      },
+      {
+        input_key: "prop_video",
+        input_value: prop_video
       }
     ];
 
@@ -85,39 +98,51 @@ export default function AddImg({ route, navigation }) {
   };
 
   const insertAdd = async () => {
-    setLoading(true);
-    fetch("https://bnookholding.com/wd/api/properties/new_insert.php", {
-      method: "POST",
-      headers: {
-        Accept: "*/*",
-        "Content-type": "multipart/form-data;",
-        "cache-control": "no-cache",
-        "Accept-Encoding": "gzip, deflate, br",
-        Connection: "keep-alive"
-      },
-      body: submitForm
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.success == true) {
-          console.log(responseJson);
-          Toast.show({
-            type: "successToast",
-            text1: "تم انشاء اعلانك بنجاح ",
-            bottomOffset: 80,
-            visibilityTime: 3000
-          });
-          setLoading(false);
+    if (terms !== false) {
+      setLoading(true);
+      fetch("https://bnookholding.com/wd/api/properties/new_insert.php", {
+        method: "POST",
+        headers: {
+          Accept: "*/*",
+          "Content-type": "multipart/form-data;",
+          "cache-control": "no-cache",
+          "Accept-Encoding": "gzip, deflate, br",
+          Connection: "keep-alive"
+        },
+        body: submitForm
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.success == true) {
+            console.log(responseJson);
+            Toast.show({
+              type: "successToast",
+              text1: "تم انشاء اعلانك بنجاح ",
+              bottomOffset: 80,
+              visibilityTime: 3000
+            });
+            setLoading(false);
 
-          setTimeout(() => {
-            navigation.navigate("PersonalProperites")
-          }, 1000);
-        }
-        else {
-          setLoading(false);
-          alert(responseJson.message);
-        }
+            setTimeout(() => {
+              navigation.navigate("PersonalProperites")
+            }, 1000);
+          }
+          else {
+            setLoading(false);
+            alert(responseJson.message);
+            console.log(responseJson);
+          }
+        })
+    }
+
+    else {
+      Toast.show({
+        type: "erorrToast",
+        text1: "لابد من الموافقة علي شروط الإعلان أولا",
+        bottomOffset: 80,
+        visibilityTime: 3000
       });
+    }
   };
 
   const _pickImage = async () => {
@@ -141,6 +166,29 @@ export default function AddImg({ route, navigation }) {
             type: img_type
           }
         ]);
+      }
+    } catch (E) {
+      console.log(E);
+    }
+  };
+
+
+  const _pickVideo = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      });
+      if (!result.canceled) {
+        let localUri = result.uri;
+        let filename = localUri.split("/").pop();
+        let match = /\.(\w+)$/.exec(filename);
+        let img_type = match ? `video/${match[1]}` : `video`;
+
+        setVideo({
+          uri: localUri,
+          name: filename,
+          type: img_type
+        });
       }
     } catch (E) {
       console.log(E);
@@ -250,8 +298,28 @@ export default function AddImg({ route, navigation }) {
                 })}
               </View>
               <View
-                style={{ flexDirection: "row", justifyContent: "space-around" }}
+                style={{
+                  width: "100%",
+                  alignItems: "center",
+                }}
               >
+
+                <View style={{
+                  width: "100%",
+                  paddingHorizontal: 10
+                }}>
+                  <Text
+                    style={{
+                      fontFamily: "Bold",
+                      textAlign: "right",
+                      marginBottom: 5,
+                      zIndex: 10,
+                    }}
+                  >
+                    قم بإختيار الصور الخاصة بالعقار (حد أقصي 10 صور)
+                  </Text>
+                </View>
+
                 <TouchableOpacity
                   onPress={() => _pickImage()}
                   style={{
@@ -275,6 +343,84 @@ export default function AddImg({ route, navigation }) {
                     color="#DDDDDD"
                   />
                 </TouchableOpacity>
+
+
+                <Text
+                  style={{
+                    fontFamily: "Bold",
+                    textAlign: "right",
+                    marginBottom: 5,
+                    zIndex: 10,
+                  }}
+                >
+                  فيديو العقار (حد أقصي 3 دقائق)
+                </Text>
+
+                {prop_video == null ?
+
+                  <TouchableOpacity
+                    onPress={() => _pickVideo()}
+                    style={{
+                      marginBottom: 20,
+                      backgroundColor: "#FFF",
+
+                      marginTop: 10,
+                      backgroundColor: "#FFF",
+                      borderColor: "#fe7e25",
+                      borderStyle: "dashed",
+                      borderWidth: 2,
+                      width: 172,
+                      height: 122,
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                  >
+                    <Feather name="video" size={60}
+                      color="#DDDDDD" />
+                  </TouchableOpacity>
+                  :
+                  <View style={{
+                    width: "90%",
+                    borderColor: "#fe7e25",
+                    borderWidth: "1px",
+                    borderStyle: "dashed",
+                    borderWidth: 2,
+                    marginVertical: 10,
+                    alignItems: "center"
+                  }}>
+                    <TouchableOpacity
+                      onPress={() => setVideo(null)}
+                      style={{
+                        position: "absolute",
+                        zIndex: 10000,
+                        left: -10,
+                        top: -10,
+                        borderRadius: 20,
+                        backgroundColor: "#fe7e25",
+                        width: 40,
+                        height: 40,
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}>
+                      <AntDesign name="close" size={24} color="#FFF" />
+                    </TouchableOpacity>
+                    <Video
+                      style={{
+                        width: "100%",
+                        height: 400
+                      }}
+                      source={{
+                        uri: prop_video.uri,
+                      }}
+                      useNativeControls
+                      resizeMode={"stretch"}
+                      isLooping
+                    //onPlaybackStatusUpdate={status => setStatus(() => status)}
+                    />
+                  </View>
+
+
+                }
               </View>
             </View>
 
@@ -397,8 +543,8 @@ export default function AddImg({ route, navigation }) {
               }}
             >
               <Checkbox
-                onChange={value => setConflict(value)}
-                key={"conflict"}
+                onChange={value => setTerms(value)}
+                key={"terms"}
                 colorScheme="purple"
                 style={{ marginHorizontal: 5 }}
               />
@@ -411,7 +557,7 @@ export default function AddImg({ route, navigation }) {
                   marginHorizontal: 10
                 }}
               >
-                لابد من الموافة علي شروط الإعلان قبل إضافة هذا الاعلان
+                لابد من الموافقة علي شروط الإعلان قبل إضافة هذا الاعلان
               </Text>
             </View>
 

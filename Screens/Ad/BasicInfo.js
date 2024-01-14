@@ -45,7 +45,7 @@ export default function NewAdd({ route, navigation }) {
   const _retrieveData = async () => {
     try {
       const cat_id = getInputValue('prop_type');
-      alert(cat_id);
+      //alert(cat_id);
       console.log(jsonForm);
       setLoader(true);
       fetch("https://bnookholding.com/wd/api/input/list.php?cat_id=" + cat_id, {

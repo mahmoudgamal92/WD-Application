@@ -12,6 +12,9 @@ import {
   ImageBackground
 } from "react-native";
 import React, { Component, useState, useEffect } from "react";
+import {Popup,Root} from 'react-native-popup-confirm-toast'
+//import { as PopupRootProvider} from 'react-native-popup-confirm-toast';
+
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { url } from "../../constants/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -72,14 +75,7 @@ export default function PersonalProps({ route, navigation }) {
     }
   };
 
-  const confirm_delete = prop_id =>
-    Alert.alert("حذف العقار", "هل أنت متأكد من حذف العقار ؟", [
-      {
-        text: "الغاء",
-        style: "cancel"
-      },
-      { text: "تأكيد", onPress: () => deleteProperity(prop_id) }
-    ]);
+
 
   const deleteProperity = prop_id => {
     fetch(url.base_url + "profile/delete_prop.php?prop_id=" + prop_id, {
@@ -127,6 +123,8 @@ export default function PersonalProps({ route, navigation }) {
   };
 
   return (
+    <Root>
+
     <View style={{ flex: 1 }}>
       <CustomHeader text={screenTitle} />
       <View style={styles.rootContainer}>
@@ -298,20 +296,50 @@ export default function PersonalProps({ route, navigation }) {
                         flexDirection: "row",
                         width: "100%",
                         alignItems: "center",
-                        marginVertical: 10
+                        marginVertical: 10,
+                        paddingHorizontal:10
                       }}
                     >
-                      <TouchableOpacity>
+                      {/* <TouchableOpacity>
                         <AntDesign
                           name="edit"
                           size={30}
                           color="grey"
                           style={{ marginHorizontal: 5 }}
                         />
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
 
                       <TouchableOpacity
-                        onPress={() => deleteProperity(item.id)}
+                        onPress={() =>
+                          Popup.show({
+                              type: 'confirm',
+                              title: 'تأكيد',
+                              textBody: 'هل أنت متأكد من حذف هذا العقار',
+                              buttonText: 'تأكيد',
+                              confirmText: 'إلغاء',
+                              titleTextStyle:{
+                                fontFamily:"Bold",
+                              },
+                              descTextStyle	: {
+                                fontFamily:"Regular",
+                                color:"grey"
+                              },
+                              okButtonTextStyle	:{
+                                fontFamily:"Regular",
+                              },
+                              confirmButtonTextStyle	:{
+                                fontFamily:"Regular",
+                              },
+                              callback: () => {
+                                deleteProperity(item.prop_id)
+                                  Popup.hide();
+                              },
+                              cancelCallback: () => {
+                                 // alert('Cancel Callback && hidden');
+                                  Popup.hide();
+                              },
+                          })
+                      }
                       >
                         <AntDesign name="delete" size={30} color="red" />
                       </TouchableOpacity>
@@ -331,5 +359,7 @@ export default function PersonalProps({ route, navigation }) {
           </View>}
       </View>
     </View>
+    </Root>
+
   );
 }
