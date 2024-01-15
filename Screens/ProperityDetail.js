@@ -74,7 +74,18 @@ const ProperityDetail = ({ route, navigation }) => {
       console.log(error);
     }
   };
-
+  
+const renderFeatures = () => {
+  return (
+    Object.values(prop).forEach(value => {
+return (
+  <Text>
+{value}
+  </Text>
+)
+    })
+  );
+};
 
   const openAddressOnMap = (label, lat, lng) => {
     const scheme = Platform.select({
@@ -656,7 +667,7 @@ const ProperityDetail = ({ route, navigation }) => {
                 {prop.prop_address}
               </Text>
             </View>
-
+{renderFeatures()}
 
             <View
               style={{

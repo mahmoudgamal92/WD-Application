@@ -709,6 +709,7 @@ export default function UserHome() {
             <TouchableOpacity
               onPress={() => setSelectedItem(null)}
               style={{
+                zIndex:100000,
                 position: "absolute",
                 right: 10,
                 top: 10,
