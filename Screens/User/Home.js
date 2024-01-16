@@ -53,6 +53,7 @@ export default function UserHome() {
   const [filter_city, setFilterCity] = useState("");
   const [filter_state, setFilterState] = useState("");
   const [filter_district, setFilterDistrict] = useState("");
+  const [region_id, setRegionID] = useState(null);
   const [min_price, setminPrice] = useState("");
   const [max_price, setMaxPrice] = useState("");
   const [selected_type, setSelectedType] = useState(null);
@@ -329,7 +330,7 @@ export default function UserHome() {
     else {
       setIsActive(item_id);
       setLoading(true);
-      const fetch_url = url.base_url + "properties/list.php?type=" + item_id;
+      const fetch_url = url.base_url + "properties/list.php?type=" + item_id + "&region_id=" + region_id;
       fetch(fetch_url, {
         method: "GET",
         headers: {
@@ -430,6 +431,7 @@ export default function UserHome() {
         <Marker
           key={item.region_id}
           onPress={() => {
+            setRegionID(item.region_id);
             _getProps(
               item.region_id,
               parseFloat(item.center[0]),
@@ -709,7 +711,7 @@ export default function UserHome() {
             <TouchableOpacity
               onPress={() => setSelectedItem(null)}
               style={{
-                zIndex:100000,
+                zIndex: 100000,
                 position: "absolute",
                 right: 10,
                 top: 10,

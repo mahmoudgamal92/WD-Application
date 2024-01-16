@@ -1,3 +1,5 @@
+import { Iconify } from "react-native-iconify";
+
 export const url = {
   base_url: "https://bnookholding.com/wd/api/",
   media_url: "https://bnookholding.com/wd/uploads/",
@@ -7,149 +9,140 @@ export const url = {
     "https://us1.locationiq.com/v1/reverse?key=pk.6909aa77110cff9b1d7fc9c6ed08f00f&"
 };
 export const icons = [
-  {
-    name: "prop_num",
-    icon: "ant-design:number-outlined",
-    nameAR: "رقم العقار"
-  },
-  {
-    name: "prop_type",
-    icon: "material-symbols:home",
-    nameAR: "نوع العقار"
-  },
-  {
-    name: "prop_coords",
-    icon: "fluent:location-24-filled",
-    nameAR: "إحداثيات العقار "
-  },
-  {
-    name: "prop_price",
-    icon: "solar:tag-price-bold",
-    nameAR: "سعر العقار"
-  },
-  {
-    name: "prop_space",
-    icon: "radix-icons:dimensions",
-    nameAR: "مساحة العقار "
-  },
+  // {
+  //   name: "prop_num",
+  //   icon: <Iconify icon={"ant-design:number-outlined"} size={20} color={"grey"} />,
+  //   nameAR: "رقم العقار"
+  // },
+  // {
+  //   name: "prop_type",
+  //   icon: <Iconify icon={"material-symbols:home"} size={20} color={"grey"} />,
+  //   nameAR: "نوع العقار"
+  // },
+  // {
+  //   name: "prop_space",
+  //   icon: <Iconify icon={"radix-icons:dimensions"} size={20} color={"grey"} />,
+  //   nameAR: "مساحة العقار "
+  // },
   {
     name: "prop_front",
-    icon: "material-symbols:home-work-outline",
+    icon: <Iconify icon={"material-symbols:home-work-outline"} size={20} color={"grey"} />,
     nameAR: "واجهة العقار "
-  },
+  }
+  ,
   {
     name: "prop_age",
-    icon: "material-symbols:home-work-outline",
+    icon: <Iconify icon={"material-symbols:home-work-outline"} size={20} color={"grey"} />,
     nameAR: "عمر العقار "
   },
   {
     name: "street_width",
-    icon: "el:road",
+    icon: <Iconify icon={"el:road"} size={20} color={"grey"} />,
     nameAR: "عرض الشارع"
   },
   {
     name: "street_count",
-    icon: "icon-park-solid:map-road",
+    icon: <Iconify icon={"icon-park-solid:map-road"} size={20} color={"grey"} />,
     nameAR: "عدد الشوارع"
   },
   {
     name: "floor_count",
-    icon: "fluent:building-48-filled",
+    icon: <Iconify icon={"fluent:building-48-filled"} size={20} color={"grey"} />,
     nameAR: "عدد الطوابق"
   },
   {
     name: "floor_num",
-    icon: "fluent:building-48-filled",
+    icon: <Iconify icon={"fluent:building-48-filled"} size={20} color={"grey"} />,
     nameAR: "رقم الطابق "
   },
   {
     name: "duplex",
-    icon: "mdi:family-room",
+    icon: <Iconify icon={"mdi:family-room"} size={20} color={"grey"} />,
     nameAR: "دوبلكس"
   },
   {
     name: "room_count",
-    icon: "material-symbols-light:bedroom-child-outline",
+    icon: <Iconify icon={"material-symbols-light:bedroom-child-outline"} size={20} color={"grey"} />,
     nameAR: "عدد الغرف"
   },
   {
     name: "hall_count",
-    icon: "fluent:device-meeting-room-16-regular",
+    icon: <Iconify icon={"fluent:device-meeting-room-16-regular"} size={20} color={"grey"} />,
     nameAR: "عدد الصالات"
   },
   {
     name: "bath_count",
-    icon: "solar:bath-bold",
+    icon: <Iconify icon={"solar:bath-bold"} size={20} color={"grey"} />,
     nameAR: "عدد الحمامات"
   },
   {
     name: "female_kitchen",
-    icon: "material-symbols:soup-kitchen",
+    icon: <Iconify icon={"material-symbols:soup-kitchen"} size={20} color={"grey"} />,
     nameAR: "مطبخ مؤننث"
   },
   {
     name: "two_entrance",
-    icon: "ph:door-fill",
+    icon: <Iconify icon={"ph:door-fill"} size={20} color={"grey"} />,
     nameAR: "مدخلين "
   },
   {
     name: "water",
-    icon: "ion:water-outline",
+    icon: <Iconify icon={"ion:water-outline"} size={20} color={"grey"} />,
     nameAR: "مياة"
   },
   {
     name: "saintitation",
-    icon: "game-icons:water-splash",
+    icon: <Iconify icon={"game-icons:water-splash"} size={20} color={"grey"} />,
     nameAR: "صرف صحي"
   },
   {
     name: "mobile_network",
-    icon: "ooui:network",
+    icon: <Iconify icon={"ooui:network"} size={20} color={"grey"} />,
     nameAR: "شبكة هاتف"
   },
   {
     name: "electricity",
-    icon: "pepicons-pop:electricity",
+    icon: <Iconify icon={"pepicons-pop:electricity"} size={20} color={"grey"} />,
     nameAR: "كهرباء"
   },
   {
     name: "garden",
-    icon: "material-symbols:home-and-garden",
+    icon: <Iconify icon={"material-symbols:home-and-garden"} size={20} color={"grey"} />,
     nameAR: "حديقة"
   },
   {
     name: "basment",
-    icon: "majesticons:home",
+    icon: <Iconify icon={"majesticons:home"} size={20} color={"grey"} />,
     nameAR: "قبو"
   },
   {
     name: "elevator",
-    icon: "grommet-icons:elevator",
+    icon: <Iconify icon={"grommet-icons:elevator"} size={20} color={"grey"} />,
     nameAR: "مصعد"
   },
   {
     name: "maid_room",
-    icon: "mdi:guest-room-outline",
+    icon: <Iconify icon={"mdi:guest-room-outline"} size={20} color={"grey"} />,
     nameAR: "غرفة خادمة"
   },
   {
     name: "garage",
-    icon: "material-symbols-light:garage",
+    icon: <Iconify icon={"material-symbols-light:garage"} size={20} color={"grey"} />,
     nameAR: "جراج سيارات"
   },
   {
     name: "air_condition",
-    icon: "mingcute:air-condition-open-line",
+    icon: <Iconify icon={"mingcute:air-condition-open-line"} size={20} color={"grey"} />,
     nameAR: "تكييف"
   },
   {
     name: "private_roof",
-    icon: "material-symbols:roofing-rounded",
+    icon: <Iconify icon={"material-symbols:roofing-rounded"} size={20} color={"grey"} />,
     nameAR: "سطح خاص"
   },
   {
     name: "swimming_pool",
-    icon: "uil:swimmer",
+    icon: <Iconify icon={"uil:swimmer"} size={20} color={"grey"} />,
     nameAR: "حمام سباحة"
   }
 ];

@@ -27,11 +27,12 @@ import {
   Entypo
 } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { url } from "../constants/constants";
+import { url, icons } from "../constants/constants";
 import Constants from "expo-constants";
 import { Dropdown } from 'react-native-element-dropdown';
 import { getAdvType, getPropType } from "./../utils/functions";
 import { Video, ResizeMode } from 'expo-av';
+import { Iconify } from "react-native-iconify";
 
 const ProperityDetail = ({ route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -50,6 +51,7 @@ const ProperityDetail = ({ route, navigation }) => {
   const Screenheight = Dimensions.get("window").height;
 
   useEffect(() => {
+    console.log(prop);
     _retrieveData();
     _retriveLike();
   }, []);
@@ -74,18 +76,54 @@ const ProperityDetail = ({ route, navigation }) => {
       console.log(error);
     }
   };
-  
-const renderFeatures = () => {
-  return (
-    Object.values(prop).forEach(value => {
-return (
-  <Text>
-{value}
-  </Text>
-)
-    })
-  );
-};
+
+
+
+  const PropertyDetails = () => {
+    return (
+      <View style={{
+        flexDirection: "row",
+        alignItems: "center",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        paddingHorizontal: 10
+      }}>
+
+
+        {icons.map((item) => (
+          prop[item.name] !== "" && prop[item.name] !== "false" ?
+            <View style={{
+              width: 80,
+              //height: 50,
+              maxHeight: 80,
+              margin: 10,
+              backgroundColor: "#DDDDDD",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 5
+            }}>
+              {item.icon}
+
+              <Text style={{
+                fontFamily: "Regular",
+                color: "grey",
+                fontSize: 10
+              }}>
+                {item.nameAR}
+              </Text>
+              <Text style={{
+                fontFamily: "Regular",
+                color: "grey"
+              }}>
+                {prop[item.name]}
+              </Text>
+            </View>
+            :
+            null
+        ))}
+      </View>
+    );
+  };
 
   const openAddressOnMap = (label, lat, lng) => {
     const scheme = Platform.select({
@@ -224,70 +262,6 @@ return (
     <View style={{ flex: 1, width: "100%" }}>
       <StatusBar translucent backgroundColor={"transparent"} />
       <View style={{ flex: 1 }}>
-        {/* <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-
-              <View style={{ flexDirection: "row", paddingHorizontal: 30, paddingVertical: 10 }}>
-                <TouchableOpacity
-                  style={{
-                    width: "100%",
-                    alignItems: "flex-start",
-                  }}
-                  onPress={() => setModalVisible(!modalVisible)}
-                >
-                  <AntDesign name="closesquareo" size={30} color="red" />
-                </TouchableOpacity>
-
-
-                <Text style={{
-                  fontFamily: "Bold",
-                  marginVertical: 10,
-                  textAlign: "center",
-                  fontSize: 16
-                }}>
-                  كل الصور
-                </Text>
-              </View>
-
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={{ width: "100%" }}>
-                {prop.prop_images.split(",").map((item) => {
-                  return (
-                    <View style={{ width: "100%" }}>
-                      <Image
-                        defaultSource={require('./../assets/logo.png')}
-                        source={{
-                          uri: url.media_url + item
-                        }}
-                        resizeMode="stretch"
-                        style={{
-                          width: "100%",
-                          height: 200,
-                          marginBottom: 10,
-                          borderRadius: 10
-                        }}
-                      />
-                    </View>
-                  );
-                })}
-              </ScrollView>
-            </View>
-          </View>
-        </Modal> */}
-
-
-
-
-
         <Modal
           animationType="slide"
           transparent={true}
@@ -667,7 +641,9 @@ return (
                 {prop.prop_address}
               </Text>
             </View>
-{renderFeatures()}
+
+
+
 
             <View
               style={{
@@ -744,7 +720,7 @@ return (
                     marginHorizontal: 5
                   }}
                 >
-                  عقار رقم {prop.prop_id}
+                  عقار رقم {parseInt(parseInt(prop.prop_id) + 1000)}
                 </Text>
               </View>
 
@@ -791,6 +767,24 @@ return (
                 </Text>
               </View>
             </View>
+            <View style={{
+              paddingHorizontal: 15
+            }}>
+
+              <Text style={{
+                fontFamily: "Bold",
+                fontSize: 17,
+                marginVertical: 10
+              }}>
+                مميزت العقار
+              </Text>
+            </View>
+
+
+            {PropertyDetails()}
+
+
+
             <View
               style={{
                 alignItems: "center",
