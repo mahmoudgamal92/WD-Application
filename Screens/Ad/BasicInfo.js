@@ -8,11 +8,11 @@ import {
   ActivityIndicator
 } from "react-native";
 
-import { Feather, MaterialIcons } from "@expo/vector-icons";
+import { Feather, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import styles from "./../../theme/style";
 import { useFocusEffect } from "@react-navigation/native";
 import CustomHeader from "./../../components/CustomHeader";
-import { Dropdown } from "react-native-element-dropdown";
+import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 import * as Progress from "react-native-progress";
 import ToggleSwitch from "toggle-switch-react-native";
 export default function NewAdd({ route, navigation }) {
@@ -72,24 +72,53 @@ export default function NewAdd({ route, navigation }) {
     // }
   };
 
-  const PushValue = (key, value) => {
+  const PushValue = (key, value, update) => {
     const updatedFormData = [...formData];
     const existingIndex = updatedFormData.findIndex(
       item => item.input_key === key
     );
     if (existingIndex !== -1) {
-      updatedFormData[existingIndex] = { input_key: key, input_value: value };
-    } else {
+
+      if (update === undefined) {
+        updatedFormData[existingIndex] = { input_key: key, input_value: value };
+      }
+      else {
+        const oldVal = updatedFormData[existingIndex].input_value;
+        if (oldVal.includes(value)) {
+          const currentVal = oldVal.split(',');
+          const newVal = currentVal.filter(item => item !== value)
+          updatedFormData[existingIndex] = { input_key: key, input_value: newVal.join() };
+        }
+        else {
+          const newVal = updatedFormData[existingIndex].input_value.concat(",", value);
+          console.log(updatedFormData[existingIndex].input_value);
+          updatedFormData[existingIndex] = { input_key: key, input_value: newVal };
+        }
+      }
+    }
+    else {
       updatedFormData.push({ input_key: key, input_value: value });
     }
     setFormData(updatedFormData);
     console.log(updatedFormData);
   };
 
+
+  
   const valSelected = (inputKey, value) => {
     const selectedInput = formData.find(item => item.input_key === inputKey);
     if (selectedInput) {
       return selectedInput.input_value === value;
+    }
+    return false;
+  };
+
+
+
+  const _dirSelected = (inputKey, value) => {
+    const selectedInput = formData.find(item => item.input_key === inputKey);
+    if (selectedInput) {
+      return selectedInput.input_value.includes(value);
     }
     return false;
   };
@@ -187,6 +216,155 @@ export default function NewAdd({ route, navigation }) {
     );
   }
 
+
+
+  function renderDirectionSelect({ item }) {
+    return (
+      <View
+        style={{
+          paddingHorizontal: 5,
+          paddingVertical: 10,
+          marginTop: 10,
+          width: "100%"
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: "Bold",
+            textAlign: "right",
+            marginBottom: 5,
+            color: "#fe7e25",
+            zIndex: 10,
+            marginBottom: 20
+          }}
+        >
+          {item.input_label}
+        </Text>
+
+        <View style={{
+          width: "100%",
+          alignItems: "center",
+        }}>
+
+
+          <TouchableOpacity
+            onPress={() => PushValue(item.input_key, "north", true)}
+            style={{
+              backgroundColor: _dirSelected(item.input_key, "north")
+                ? "#fe7e25"
+                : "#FFF",
+              width: 60,
+              height: 80,
+              alignItems: "center",
+              justifyContent: "center",
+              margin: 5,
+              borderRadius: 50,
+              borderWidth: 1,
+              borderColor: "#fe7e25"
+            }}>
+            <AntDesign name="arrowup" size={24} color={ _dirSelected(item.input_key, "north")?  "#FFF" :"#fe7e25" } />
+            <Text style={{
+              color: "#000",
+              fontFamily: "Bold"
+            }}>
+              شمال
+            </Text>
+          </TouchableOpacity>
+
+
+          <View style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+
+          }}>
+
+
+            <TouchableOpacity
+              onPress={() => PushValue(item.input_key, "west", true)}
+              style={{
+                backgroundColor: _dirSelected(item.input_key, "west")
+                  ? "#fe7e25"
+                  : "#FFF",
+                width: 80, height: 60,
+                alignItems: "center",
+                flexDirection: "row-reverse",
+                justifyContent: "center",
+                margin: 5,
+                borderRadius: 50,
+                borderWidth: 1,
+                borderColor: "#fe7e25"
+              }}>
+              <Text style={{
+                color: "#000",
+                fontFamily: "Bold"
+              }}>
+                غرب
+              </Text>
+              <AntDesign name="arrowleft" size={24} color={ _dirSelected(item.input_key, "west")?  "#FFF" :"#fe7e25" } />
+            </TouchableOpacity>
+
+
+            <View>
+              <AntDesign name="home" size={50} color="#fe7e25" />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => PushValue(item.input_key, "east", true)}
+              style={{
+                flexDirection: "row",
+                backgroundColor: _dirSelected(item.input_key, "east")
+                  ? "#fe7e25"
+                  : "#FFF",
+                width: 80, height: 60,
+                alignItems: "center",
+                justifyContent: "center",
+                margin: 5,
+                borderRadius: 50,
+                borderWidth: 1,
+                borderColor: "#fe7e25"
+              }}>
+              <Text style={{
+                color: "#000",
+                fontFamily: "Bold"
+              }}>
+                شرق
+              </Text>
+              <AntDesign name="arrowright" size={24} color={ _dirSelected(item.input_key, "east")?  "#FFF" :"#fe7e25" } />
+            </TouchableOpacity>
+          </View>
+
+
+          <TouchableOpacity
+            onPress={() => PushValue(item.input_key, "south", true)}
+            style={{
+              backgroundColor: _dirSelected(item.input_key, "south")
+                ? "#fe7e25"
+                : "#FFF",
+              width: 60, height: 80,
+              alignItems: "center",
+              justifyContent: "center",
+              margin: 5,
+              borderRadius: 50,
+              borderWidth: 1,
+              borderColor: "#fe7e25"
+            }}>
+            <Text style={{
+              color: "#000",
+              fontFamily: "Bold",
+            }}>
+              جنوب
+            </Text>
+            <AntDesign name="arrowdown" size={24} color={ _dirSelected(item.input_key, "south")?  "#FFF" :"#fe7e25" } />
+          </TouchableOpacity>
+
+
+        </View>
+      </View>
+    );
+  }
+
+
   function renderToggleInput({ item }) {
     return (
       <View
@@ -234,7 +412,7 @@ export default function NewAdd({ route, navigation }) {
             fontFamily: "Bold",
             textAlign: "right",
             marginBottom: 5,
-            color: "#fe7e25",
+            color: "#000",
             zIndex: 10,
             marginBottom: 20
           }}
@@ -258,7 +436,7 @@ export default function NewAdd({ route, navigation }) {
                   minWidth: 50,
                   height: 50,
                   borderWidth: 1,
-                  borderColor: "#fe7e25",
+                  borderColor: "#DDDDDD",
                   backgroundColor: valSelected(item.input_key, val.value)
                     ? "#fe7e25"
                     : "#FFF",
@@ -339,6 +517,10 @@ export default function NewAdd({ route, navigation }) {
 
                 case "select":
                   return renderSelectGrid({ item });
+                  break;
+
+                case "direction":
+                  return renderDirectionSelect({ item });
                   break;
               }
             })}
