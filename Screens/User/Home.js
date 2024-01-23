@@ -64,7 +64,7 @@ export default function UserHome() {
   const [bottomSheetState, SetBottomSheetState] = useState(-1);
   const [filtered_cities, setCities] = useState([]);
   const [filtered_districts, setDistricts] = useState([]);
-  const [isActive, setIsActive] = useState();
+  const [isActive, setIsActive] = useState(null);
   const [ref, setRef] = useState(null);
   const mapRef = useRef(null);
   const [selected, setSelected] = useState(false);
@@ -172,6 +172,7 @@ export default function UserHome() {
         .then(response => response.json())
         .then(json => {
           if (json.success == true) {
+            setRegionID(region_id);
             setMapData("props");
             setData(json.data);
             console.log(json.data);
@@ -180,10 +181,11 @@ export default function UserHome() {
             _MapReLocation(parseFloat(lat), parseFloat(long), 16, 16);
             setScrollEnabled(true);
             setZoomEnabled(true);
-          } else {
+          }
+          else {
             Toast.show({
               type: "erorrToast",
-              text1: "لا يوجد عقارات متاحة حاليا في " + state_name,
+              text1: "لا يوجد عقارات متاحة حاليا في " + getRegionById(region_id),
               bottomOffset: 80,
               visibilityTime: 2000
             });
@@ -195,7 +197,6 @@ export default function UserHome() {
       console.log(error);
     }
   };
-
 
 
 
@@ -388,6 +389,9 @@ export default function UserHome() {
     //console.log(region);
     if (region.latitudeDelta > 45) {
       setMapData("states");
+      setIsActive(null);
+      setFilterCat(null);
+      setRegionID(null);
       setZoomEnabled(false);
       setScrollEnabled(false);
       setSelectedItem(null);
@@ -402,13 +406,13 @@ export default function UserHome() {
         <Marker
           key={item.region_id}
           onPress={() => {
-            setRegionID(item.region_id);
             _getProps(
               item.region_id,
               parseFloat(item.center[0]),
               parseFloat(item.center[1])
             );
           }}
+          //stopPropagation={true}
           coordinate={{
             latitude: parseFloat(item.center[0]) || 0,
             longitude: parseFloat(item.center[1]) || 0
@@ -660,6 +664,36 @@ export default function UserHome() {
         </View>
       </View>
 
+      {region_id !== null
+        ?
+        <View style={{
+          position: "absolute",
+          top: 250,
+          width: "100%",
+          left: 10,
+          backgroundColor: "#fe7e25",
+          height: 40,
+          width: 150,
+          paddingHorizontal: 10,
+          alignItems: "center",
+          flexDirection: "row",
+          justifyContent: "center",
+          borderRadius: 10,
+        }}>
+
+          <Text style={{
+            color: "white",
+            fontFamily: "Bold",
+            fontSize: 10,
+          }}>
+            {getRegionById(region_id)}
+          </Text>
+
+          <Entypo name="location" size={24} color="#FFF" />
+        </View>
+        :
+        null
+      }
       {selectedItem !== null
         ? <View
           style={{ flex: 1, position: "absolute", bottom: 20, width: "100%" }}
