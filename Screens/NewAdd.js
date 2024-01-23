@@ -57,7 +57,7 @@ export default function NewAdd({ route, navigation }) {
       } else {
         const cache_text = await AsyncStorage.getItem("aqar_cache_data");
         const cache = JSON.parse(cache_text);
-        const cached_cats = cache.data.cats;
+        const cached_cats = cache.data.cats.filter(obj => obj.type_id !== '1');
         const cached_states = cache.data.states;
         setCatigories(cached_cats);
         setStates(cached_states);

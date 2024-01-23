@@ -424,7 +424,7 @@ export default function AddImg({ route, navigation }) {
               </View>
             </View>
 
-            <View
+            {/* <View
               style={{
                 flexDirection: "row-reverse",
                 alignItems: "center",
@@ -455,7 +455,7 @@ export default function AddImg({ route, navigation }) {
               >
                 هل تريد إضافة هذا العقار كمميز ؟
               </Text>
-            </View>
+            </View> */}
 
             <View
               style={{
@@ -471,8 +471,7 @@ export default function AddImg({ route, navigation }) {
                 borderColor: "#DDDDDD",
                 borderRadius: 10,
                 marginTop: 10
-              }}
-            >
+              }}>
               <Checkbox
                 onChange={value => setMortgage(value)}
                 key={"mortgage"}
@@ -482,49 +481,18 @@ export default function AddImg({ route, navigation }) {
 
               <Text
                 style={{
-                  fontFamily: "Bold",
+                  fontFamily: "Regular",
                   color: "#051A3A",
                   zIndex: 10,
-                  marginHorizontal: 10
+                  marginHorizontal: 10,
+                  paddingHorizontal: 10
                 }}
               >
-                هل هناك أي رهن أو ما يمنع بيع العقار ؟
+                ليس هناك ما يمنع من التصرف أو الإنتفاع من العقار
               </Text>
             </View>
 
-            <View
-              style={{
-                flexDirection: "row-reverse",
-                backgroundColor: "#FFF",
-                alignItems: "center",
-                width: "90%",
-                paddingHorizontal: 5,
-                paddingVertical: 10,
-                paddingBottom: 10,
-                borderWidth: 1,
-                borderColor: "#DDDDDD",
-                borderRadius: 10,
-                marginTop: 10
-              }}
-            >
-              <Checkbox
-                onChange={value => setConflict(value)}
-                key={"conflict"}
-                colorScheme="purple"
-                style={{ marginHorizontal: 5 }}
-              />
 
-              <Text
-                style={{
-                  fontFamily: "Bold",
-                  color: "#051A3A",
-                  zIndex: 10,
-                  marginHorizontal: 10
-                }}
-              >
-                هل يوجد أي نزاعات قائمة علي العقار ؟
-              </Text>
-            </View>
 
             <View
               style={{
@@ -551,10 +519,11 @@ export default function AddImg({ route, navigation }) {
 
               <Text
                 style={{
-                  fontFamily: "Bold",
+                  fontFamily: "Regular",
                   color: "#051A3A",
                   zIndex: 10,
-                  marginHorizontal: 10
+                  marginHorizontal: 10,
+                  paddingHorizontal: 10
                 }}
               >
                 لابد من الموافقة علي شروط الإعلان قبل إضافة هذا الاعلان

@@ -51,8 +51,9 @@ const ProperityDetail = ({ route, navigation }) => {
   const Screenheight = Dimensions.get("window").height;
 
   useEffect(() => {
-    console.log(prop);
-    _retrieveData();
+    setUser(prop?.user);
+    //alert(JSON.stringify(prop));
+    //_retrieveData();
     _retriveLike();
   }, []);
 
@@ -78,7 +79,22 @@ const ProperityDetail = ({ route, navigation }) => {
   };
 
 
+  const _refactorString = (param) => {
+    let replacements = {
+      "north": "شمال",
+      "south": "جنوب",
+      "east": "شرق",
+      "weast": "غرب",
+      ">": "+"
+    };
 
+    let pattern = new RegExp(Object.keys(replacements).join("|"), "gi");
+
+    let resultString = param.replace(pattern, function (matched) {
+      return replacements[matched];
+    });
+    return resultString;
+  }
   const PropertyDetails = () => {
     return (
       <View style={{
@@ -115,7 +131,8 @@ const ProperityDetail = ({ route, navigation }) => {
                 fontFamily: "Regular",
                 color: "grey"
               }}>
-                {prop[item.name]}
+
+                {prop[item.name] == "true" ? 1 : _refactorString(prop[item.name])}
               </Text>
             </View>
             :
@@ -165,39 +182,38 @@ const ProperityDetail = ({ route, navigation }) => {
       })
   }
 
-  const _retrieveData = async () => {
-    try {
-      const user_token = await AsyncStorage.getItem("user_token");
-      setUserToken(user_token);
-      const token = prop.prop_owner;
-      let formData = new FormData();
-      formData.append("user_token", token);
-      fetch(url.base_url + "profile/user.php", {
-        method: "POST",
-        headers: {
-          Accept: "*/*",
-          "Content-type": "multipart/form-data;",
-          "Accept-Encoding": "gzip, deflate, br",
-          Connection: "keep-alive"
-        },
-        body: formData
-      })
-        .then(response => response.json())
-        .then(json => {
-          if (json.success == true) {
-            setUser(json.data);
-          }
-          else {
-            setUser(null);
-          }
-        })
+  // const _retrieveData = async () => {
+  //   try {
+  //     const user_token = await AsyncStorage.getItem("user_token");
+  //     setUserToken(user_token);
+  //     const token = prop.prop_owner;
+  //     let formData = new FormData();
+  //     formData.append("user_token", token);
+  //     fetch(url.base_url + "profile/user.php", {
+  //       method: "POST",
+  //       headers: {
+  //         Accept: "*/*",
+  //         "Content-type": "multipart/form-data;",
+  //         "Accept-Encoding": "gzip, deflate, br",
+  //         Connection: "keep-alive"
+  //       },
+  //       body: formData
+  //     })
+  //       .then(response => response.json())
+  //       .then(json => {
+  //         if (json.success == true) {
+  //           setUser(json.data);
+  //         }
+  //         else {
+  //           setUser(null);
+  //         }
+  //       })
 
-        .catch(error => console.error(error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  //       .catch(error => console.error(error));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
 
   const reportProp = async () => {
@@ -776,7 +792,7 @@ const ProperityDetail = ({ route, navigation }) => {
                 fontSize: 17,
                 marginVertical: 10
               }}>
-                مميزت العقار
+                مميزات العقار
               </Text>
             </View>
 
@@ -888,14 +904,15 @@ const ProperityDetail = ({ route, navigation }) => {
                         style={{
                           fontFamily: "Bold",
                           textAlign: "center",
-                          fontSize: 16
+                          fontSize: 16,
+                          color: "grey"
                         }}>
-                        {user !== null ? user.user_name : "معلن مجهول"}
+                        {user !== null ? user.user_name : "لابد من الإشتراك لعرض بيانات المعلن"}
                       </Text>
 
 
                       <View style={{
-                        flexDirection: "row"
+                        flexDirection: "row-reverse"
                       }}>
                         <AntDesign name="star" size={20} color="#DDDDDD" />
                         <AntDesign name="star" size={20} color="#FCF566" />

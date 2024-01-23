@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   Modal,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  Linking
 } from "react-native";
 import {
   MaterialCommunityIcons,
@@ -28,6 +29,8 @@ export default function ProfilePage() {
   const navigation = useNavigation();
 
   const [failed_alert, SetFailedAlert] = React.useState(false);
+  const [contact_alert, setContactAlert] = React.useState(false);
+
   const [delete_alert, SetDeleteAlert] = React.useState(false);
   const [confirm_alert, SetConfirmAlert] = React.useState(false);
 
@@ -113,10 +116,10 @@ export default function ProfilePage() {
         />
 
         <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          alignItems:"center"
-        }}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            alignItems: "center"
+          }}
           style={{
             width: "100%"
           }}
@@ -165,8 +168,8 @@ export default function ProfilePage() {
               </Text>
 
               <View style={styles.profileItemIcon}>
-              <FontAwesome5 name="clipboard-list" size={30} color="#fe7e25" />
-               
+                <FontAwesome5 name="clipboard-list" size={30} color="#fe7e25" />
+
               </View>
             </View>
 
@@ -248,8 +251,36 @@ export default function ProfilePage() {
             </View>
           </TouchableOpacity>
 
+
           <TouchableOpacity
-            onPress={() => FailedAlert()}
+            onPress={() => setContactAlert(!contact_alert)}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                تواصل معنا
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <Iconify
+                  icon="solar:call-chat-bold"
+                  size={30}
+                  color="#fe7e25"
+                />
+              </View>
+            </View>
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => SetFailedAlert(!failed_alert)}
             style={styles.profileItem}
           >
             <View style={{ flexDirection: "row" }}>
@@ -376,6 +407,121 @@ export default function ProfilePage() {
         </View>
       </Modal>
 
+
+
+
+      {/* Modals Start */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={contact_alert}
+        onRequestClose={() => {
+          setContactAlert(!contact_alert);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View
+              style={{
+                backgroundColor: "#fe7e25",
+                width: 50,
+                height: 50,
+                marginTop: -25,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 25
+              }}
+            >
+
+              <Iconify icon="mdi:face-agent" size={30} color="#FFF" />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => setContactAlert(!contact_alert)}
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                paddingHorizontal: 20
+              }}
+            >
+              <FontAwesome name="close" size={24} color="black" />
+            </TouchableOpacity>
+
+            <Text style={styles.modalText}>
+              لا تترد أبدا في التواصل معنا
+            </Text>
+
+            <Text style={styles.modalBody}>
+              يمكنك التواصل معنا في أي وقت عن طريق الواتساب أو البريد الإلكتروني
+            </Text>
+            <View style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginVertical: 20,
+              width: "100%",
+              paddingHorizontal: 20
+            }}>
+              <TouchableOpacity
+                onPress={() => Linking.openURL('whatsapp://send?phone=+966592488883')
+                }
+                style={{
+                  width: "45%",
+                  backgroundColor: "#fe7e25",
+                  borderRadius: 10,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 10
+                }}>
+                <Iconify icon="bi:whatsapp" size={50} color="#FFF" />
+                <Text style={{
+                  fontFamily: "Regular",
+                  color: "#FFF",
+                  fontSize: 10
+                }}>
+                  الواتساب
+                </Text>
+              </TouchableOpacity>
+              {/* <View>
+                <Text style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  fontSize: 16
+                }}>
+                  أو
+                </Text>
+              </View> */}
+              <TouchableOpacity
+                onPress={() => Linking.openURL('mailto:support@wdapp.sa')
+                }
+
+                style={{
+                  width: "45%",
+                  backgroundColor: "#fe7e25",
+                  borderRadius: 10,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 10
+                }}>
+                <Iconify icon="eva:email-fill" size={50} color="#FFF" />
+                <Text style={{
+                  fontFamily: "Regular",
+                  color: "#FFF",
+                  fontSize: 10
+                }}>
+                  البريد الإلكتروني
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+
+          </View>
+        </View>
+      </Modal>
+
+
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -469,7 +615,7 @@ export default function ProfilePage() {
               إذا كنت تريد الإشتراك معنا كمعلن لابد من توثيق حسابك في نفاذ و أيضا توثيق الرخصة العقارية الخاصة بك
             </Text>
             <TouchableOpacity
-              style={[styles.button,{backgroundColor: "#fe7e25"}]}
+              style={[styles.button, { backgroundColor: "#fe7e25" }]}
               onPress={() => navigation.navigate("FaLicense")}
             >
               <Text style={styles.textStyle}>متابعة</Text>

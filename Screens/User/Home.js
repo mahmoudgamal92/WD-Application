@@ -174,9 +174,10 @@ export default function UserHome() {
           if (json.success == true) {
             setMapData("props");
             setData(json.data);
+            console.log(json.data);
             setlatitudeDelta(10.0);
             setlatitudeDelta(10.0);
-            _MapReLocation(parseFloat(lat), parseFloat(long));
+            _MapReLocation(parseFloat(lat), parseFloat(long), 16, 16);
             setScrollEnabled(true);
             setZoomEnabled(true);
           } else {
@@ -197,17 +198,14 @@ export default function UserHome() {
 
 
 
-  const ApplySearch = (param) => {
-
-  }
 
 
-  const _MapReLocation = async (lat, long) => {
+  const _MapReLocation = async (lat, long, latDelta, longDelta) => {
     mapRef?.current.animateToRegion({
       latitude: parseFloat(lat),
       longitude: parseFloat(long),
-      latitudeDelta: 16,
-      longitudeDelta: 16,
+      latitudeDelta: parseFloat(latDelta),
+      longitudeDelta: parseFloat(longDelta),
     });
   };
 
@@ -233,7 +231,6 @@ export default function UserHome() {
   };
 
 
-
   function numberToWordsSimplified(number) {
     const units = ["", "ألف", "مليون"];
 
@@ -253,36 +250,6 @@ export default function UserHome() {
 
     return words.trim();
   }
-
-  const getCities = state_id => {
-
-    fetch(url.base_url + "address/city.php?state_id=" + state_id, {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        "cache-control": "no-cache",
-        "Content-type": "multipart/form-data;",
-        "Accept-Encoding": "gzip, deflate, br",
-        Connection: "keep-alive"
-      }
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.success == true) {
-          setCities(responseJson.data);
-        } else {
-          setCities([
-            {
-              name: "لا يوجد مدن حاليا",
-              state_id: 0,
-              city_id: 0
-            }
-          ]);
-        }
-      });
-
-  };
-
 
   const toggleFavorite = async prop_id => {
     const user_token = await AsyncStorage.getItem("user_token");
@@ -345,9 +312,12 @@ export default function UserHome() {
         .then(json => {
           if (json.success == "true") {
             setData(json.data);
+            console.log(json.data);
+
             _MapReLocation(
               parseFloat(json.data[0].prop_coords.split(",")[0]),
-              parseFloat(json.data[0].prop_coords.split(",")[1])
+              parseFloat(json.data[0].prop_coords.split(",")[1]),
+              16, 16
             );
             setLoading(false);
           } else {
@@ -421,7 +391,8 @@ export default function UserHome() {
       setZoomEnabled(false);
       setScrollEnabled(false);
       setSelectedItem(null);
-      _MapReLocation(26.8859, 44.0792);
+      _MapReLocation(26.8859, 44.0792, 21, 21);
+
     }
   };
 
@@ -516,7 +487,7 @@ export default function UserHome() {
 
 
           <TouchableOpacity
-            onPress={() => _MapReLocation(user_latitude, user_longitude)}
+            onPress={() => _MapReLocation(user_latitude, user_longitude, 1, 1)}
             style={{
               width: 50,
               height: 50,
@@ -1246,7 +1217,7 @@ export default function UserHome() {
                   <TextInput
                     placeholder="السعر الأدني"
                     keyboardType="numeric"
-                    onChangeText={price => setminPrice(price)}
+                    onChangeText={min_price => setminPrice(min_price)}
                     style={{
                       height: 50,
                       width: "90%",

@@ -34,6 +34,8 @@ export default function ResultScreen({ route, navigation }) {
     formData.append("prop_type", cat);
     formData.append("adv_type", adv);
     formData.append("prop_state", state);
+    formData.append("min_price", parseInt(min_price));
+    formData.append("max_price", parseInt(max_price));
 
     const fetch_url = url.base_url + "properties/filter.php";
     fetch(fetch_url, {
@@ -49,12 +51,12 @@ export default function ResultScreen({ route, navigation }) {
     })
       .then(response => response.json())
       .then(json => {
-        alert(JSON.stringify(json));
+        // alert(JSON.stringify(json));
         if (json.success == true) {
           setData(json.data);
           setLoading(false);
         } else {
-          alert(JSON.stringify(json));
+          // alert(JSON.stringify(json));
           setData([]);
           setLoading(false);
         }
