@@ -551,7 +551,7 @@ export default function UserHome() {
           </View>
 
           <View style={{ width: "17%" }}>
-            <TouchableOpacity onPress={() => openBottomSheet()}>
+            <TouchableOpacity onPress={() => navigation.navigate("FilterScreen")}>
               <View
                 style={{
                   flexDirection: "row-reverse",

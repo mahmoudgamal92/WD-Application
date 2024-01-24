@@ -5,6 +5,7 @@ import HomePage from '../Screens/HomePage';
 import MyProps from '../Screens/Client/MyProps';
 
 import ProfileInfo from '../Screens/Shared/ProfileInfo';
+import FilterScreen from '../Screens/FilterScreen';
 import PersonalProperites from '../Screens/Client/PersonalProperites';
 import PricingPlans from '../Screens/PricingPlans';
 import CurrentSubscription from '../Screens/Client/CurrentSubscription';
@@ -75,7 +76,12 @@ export const AppStack = () => {
             <HomeStack.Screen name="Deals" component={Deals} />
             <HomeStack.Screen name="FaLicenseScan" component={FaLicenseScan} />
             <HomeStack.Screen name="CompleteOrder" component={CompleteOrder} />
-            <HomeStack.Screen name="BankTransaction" component={BankTransaction} />
+            <HomeStack.Screen name="BankTransaction" component={BankTransaction} /> 
+
+            <HomeStack.Group screenOptions={{ presentation: 'modal' }}>
+            <HomeStack.Screen name="FilterScreen" component={FilterScreen} />
+             </HomeStack.Group>
+            
         </HomeStack.Navigator>
     )
 }
