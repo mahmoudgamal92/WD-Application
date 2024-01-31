@@ -27,10 +27,9 @@ import { useNavigation } from "@react-navigation/native";
 export default function ProfilePage() {
   const [failed_alert, SetFailedAlert] = React.useState(false);
   const [delete_alert, SetDeleteAlert] = React.useState(false);
-
   const [user_name, setName] = useState("");
   const [user_token, setToken] = useState(null);
-  const [img, setProfileImg] = useState(null);
+  const [user_image, setProfileImg] = useState(null);
   const navigation = useNavigation();
 
   useFocusEffect(
@@ -62,19 +61,49 @@ export default function ProfilePage() {
       });
   };
 
-  const _retrieveData = async () => {
-    const user_name = await AsyncStorage.getItem("user_name");
-    const user_token = await AsyncStorage.getItem("user_token");
-    const profile_img = await AsyncStorage.getItem("profile_img");
 
-    if (user_token == null) {
-      navigation.navigate("SignInScreen");
-    } else {
-      setProfileImg(profile_img);
-      setName(user_name);
-      setToken(user_token);
+
+
+  const _retrieveData = async () => {
+    try {
+      const user_token = await AsyncStorage.getItem("user_token");
+
+      if (user_token == null) {
+        navigation.navigate("SignInScreen");
+      }
+
+      else {
+        let formData = new FormData();
+        formData.append("user_token", user_token);
+        fetch(url.base_url + "profile/user.php", {
+          method: "POST",
+          headers: {
+            Accept: "*/*",
+            "Content-type": "multipart/form-data;",
+            "Accept-Encoding": "gzip, deflate, br",
+            "cache-control": "no-cache",
+            Connection: "keep-alive"
+          },
+          body: formData
+        })
+          .then(response => response.json())
+          .then(json => {
+            // alert(JSON.stringify(json.data.user_image));
+            if (json.data.user_image == "" || json.data.user_image == null) {
+            }
+            else {
+              setProfileImg(url.media_url + json.data.user_image);
+            }
+
+          })
+          .catch(error => console.error(error));
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+
+
   const FailedAlert = React.useCallback(
     () => {
       SetFailedAlert(!failed_alert);
@@ -229,216 +258,264 @@ export default function ProfilePage() {
       {deleteAlert()}
       <View style={styles.rootContainer}>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          alignItems:"center"
-        }}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            alignItems: "center"
+          }}
           style={{
             width: "100%"
           }}
         >
-        <Image
-          source={require("./../../assets/man.png")}
-          style={{
-            width: 100,
-            height: 100,
-            resizeMode: "contain",
-            marginBottom: 10
-          }}
-        />
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "100%",
-            paddingHorizontal: 20,
-            marginTop: 20,
-            marginBottom: 40
-          }}
-        >
           <TouchableOpacity
+            onPress={() => navigation.navigate("ProfileInfo")}
+          >
+            <View style={{
+              width: 150,
+              height: 150,
+              borderRadius: 75,
+              zIndex: 1000,
+              alignItems: "flex-end",
+              justifyContent: "flex-end"
+            }}>
+              <View style={{
+                backgroundColor: "#FFF",
+                borderRadius: 20,
+                width: 35,
+                height: 35,
+                alignItems: "center",
+                justifyContent: "center"
+
+              }}>
+                <MaterialIcons name="edit" size={30} color="#fe7e25" />
+
+              </View>
+            </View>
+            {user_image == null
+              ?
+              <Image
+                source={require('./../../assets/man.png')}
+                resizeMode="contain"
+                style={{
+                  position: "absolute",
+                  width: 150,
+                  height: 150,
+                  borderRadius: 75,
+                  borderWidth: 2,
+                  borderColor: "#fe7e25",
+                  backgroundColor: "#fe7e25"
+
+                }}
+              /> :
+              <Image
+                source={{ uri: user_image }}
+                resizeMode="contain"
+                style={{
+                  position: "absolute",
+                  width: 150,
+                  height: 150,
+                  borderRadius: 75,
+                  borderWidth: 2,
+                  borderColor: "#fe7e25"
+
+                }}
+              />
+            }
+          </TouchableOpacity>
+
+
+          <View
             style={{
-              width: "45%",
-              flexDirection: "row-reverse",
-              backgroundColor: "#fe7e25",
-              padding: 10,
-              borderRadius: 10,
+              flexDirection: "row",
               alignItems: "center",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
+              width: "100%",
+              paddingHorizontal: 20,
+              marginTop: 20,
+              marginBottom: 40
             }}
           >
-            <Iconify
-              icon="icon-park-twotone:check-one"
-              size={24}
-              color="#FFF"
-            />
-
-            <Text
+            <TouchableOpacity
               style={{
-                fontFamily: "Bold",
-                color: "#FFF"
+                width: "45%",
+                flexDirection: "row-reverse",
+                backgroundColor: "#fe7e25",
+                padding: 10,
+                borderRadius: 10,
+                alignItems: "center",
+                justifyContent: "space-between"
               }}
             >
-              توثيق نفاذ
-            </Text>
+              <Iconify
+                icon="icon-park-twotone:check-one"
+                size={24}
+                color="#FFF"
+              />
 
-            <Iconify icon="fluent:ios-arrow-24-filled" size={24} color="#FFF" />
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#FFF"
+                }}
+              >
+                توثيق نفاذ
+              </Text>
+
+              <Iconify icon="fluent:ios-arrow-24-filled" size={24} color="#FFF" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate("FaLicense")}
+              style={{
+                width: "45%",
+                flexDirection: "row-reverse",
+                backgroundColor: "#fe7e25",
+                padding: 10,
+                borderRadius: 10,
+                alignItems: "center",
+                justifyContent: "space-between"
+              }}
+            >
+              <Iconify icon="mdi:drivers-license" size={24} color="#FFF" />
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#FFF"
+                }}
+              >
+                رخصة فال
+              </Text>
+              <Iconify icon="fluent:ios-arrow-24-filled" size={24} color="#FFF" />
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ProfileInfo")}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                حسابي
+              </Text>
+
+              <View style={styles.profileItemIcon}>
+                <Iconify
+                  icon="iconamoon:profile-fill"
+                  size={30}
+                  color="#fe7e25"
+                />
+              </View>
+            </View>
+
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={30} color="black" />
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate("FaLicense")}
-            style={{
-              width: "45%",
-              flexDirection: "row-reverse",
-              backgroundColor: "#fe7e25",
-              padding: 10,
-              borderRadius: 10,
-              alignItems: "center",
-              justifyContent: "space-between"
-            }}
+            onPress={() => navigation.navigate("Terms")}
+            style={styles.profileItem}
           >
-            <Iconify icon="mdi:drivers-license" size={24} color="#FFF" />
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#FFF"
-              }}
-            >
-              رخصة فال
-            </Text>
-            <Iconify icon="fluent:ios-arrow-24-filled" size={24} color="#FFF" />
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                شروط الأعلان
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <Iconify icon="ic:round-flag" size={30} color="#fe7e25" />
+              </View>
+            </View>
+
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
+            </View>
           </TouchableOpacity>
-        </View>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate("ProfileInfo")}
-          style={styles.profileItem}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              حسابي
-            </Text>
-
-            <View style={styles.profileItemIcon}>
-              <Iconify
-                icon="iconamoon:profile-fill"
-                size={30}
-                color="#fe7e25"
-              />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PrivacyPolicy")}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                السياسات و التعليمات
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <Iconify icon="mdi:chat-warning" size={30} color="#fe7e25" />
+              </View>
             </View>
-          </View>
 
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={30} color="black" />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Terms")}
-          style={styles.profileItem}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              شروط الأعلان
-            </Text>
-            <View style={styles.profileItemIcon}>
-              <Iconify icon="ic:round-flag" size={30} color="#fe7e25" />
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
             </View>
-          </View>
+          </TouchableOpacity>
 
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("PrivacyPolicy")}
-          style={styles.profileItem}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              السياسات و التعليمات
-            </Text>
-            <View style={styles.profileItemIcon}>
-              <Iconify icon="mdi:chat-warning" size={30} color="#fe7e25" />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("PricingPlans")}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                باقات الإشتراك
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <Iconify
+                  icon="fluent:payment-16-filled"
+                  size={30}
+                  color="#fe7e25"
+                />
+              </View>
             </View>
-          </View>
-
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => navigation.navigate("PricingPlans")}
-          style={styles.profileItem}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              باقات الإشتراك
-            </Text>
-            <View style={styles.profileItemIcon}>
-              <Iconify
-                icon="fluent:payment-16-filled"
-                size={30}
-                color="#fe7e25"
-              />
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
             </View>
-          </View>
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={() => FailedAlert()}
-          style={styles.profileItem}
-        >
-          <View style={{ flexDirection: "row" }}>
-            <Text
-              style={{
-                fontFamily: "Bold",
-                color: "#143656",
-                marginHorizontal: 10
-              }}
-            >
-              تسجيل الخروج
-            </Text>
-            <View style={styles.profileItemIcon}>
-              <Iconify icon="majesticons:logout" size={30} color="#fe7e25" />
+          <TouchableOpacity
+            onPress={() => FailedAlert()}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                تسجيل الخروج
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <Iconify icon="majesticons:logout" size={30} color="#fe7e25" />
+              </View>
             </View>
-          </View>
-          <View>
-            <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-          </View>
-        </TouchableOpacity>
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
+            </View>
+          </TouchableOpacity>
         </ScrollView>
 
       </View>

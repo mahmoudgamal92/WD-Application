@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import {
   Image,
@@ -27,22 +28,21 @@ import { url } from "./../../constants/constants";
 import DefaultHeader from "./../../components/DefaultHeader";
 export default function ProfilePage() {
   const navigation = useNavigation();
-
   const [failed_alert, SetFailedAlert] = React.useState(false);
   const [contact_alert, setContactAlert] = React.useState(false);
 
   const [delete_alert, SetDeleteAlert] = React.useState(false);
   const [confirm_alert, SetConfirmAlert] = React.useState(false);
 
-  const [user_name, setName] = useState("");
   const [user_token, setToken] = useState(null);
-  const [img, setProfileImg] = useState(null);
+  const [user_image, setProfileImg] = useState(null);
 
   useFocusEffect(
     React.useCallback(() => {
       _retrieveData();
     }, [])
   );
+
 
   const _deleteAccount = user_token => {
     fetch(url.base_url + "profile/delete.php?user_token=" + user_token, {
@@ -67,19 +67,48 @@ export default function ProfilePage() {
       });
   };
 
-  const _retrieveData = async () => {
-    const user_name = await AsyncStorage.getItem("user_name");
-    const user_token = await AsyncStorage.getItem("user_token");
-    const profile_img = await AsyncStorage.getItem("profile_img");
 
-    if (user_token == null) {
-      navigation.navigate("SignInScreen");
-    } else {
-      setProfileImg(profile_img);
-      setName(user_name);
-      setToken(user_token);
+
+
+  const _retrieveData = async () => {
+    try {
+      const user_token = await AsyncStorage.getItem("user_token");
+
+      if (user_token == null) {
+        navigation.navigate("SignInScreen");
+      }
+
+      else {
+        let formData = new FormData();
+        formData.append("user_token", user_token);
+        fetch(url.base_url + "profile/user.php", {
+          method: "POST",
+          headers: {
+            Accept: "*/*",
+            "Content-type": "multipart/form-data;",
+            "Accept-Encoding": "gzip, deflate, br",
+            "cache-control": "no-cache",
+            Connection: "keep-alive"
+          },
+          body: formData
+        })
+          .then(response => response.json())
+          .then(json => {
+            // alert(JSON.stringify(json.data.user_image));
+            if (json.data.user_image == "" || json.data.user_image == null) {
+            }
+            else {
+              setProfileImg(url.media_url + json.data.user_image);
+            }
+
+          })
+          .catch(error => console.error(error));
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+
 
   // LogOut Function
   const _removeSession = async () => {
@@ -105,16 +134,6 @@ export default function ProfilePage() {
     >
       <DefaultHeader />
       <View style={styles.rootContainer}>
-        <Image
-          source={require("./../../assets/man.png")}
-          style={{
-            width: 100,
-            height: 100,
-            resizeMode: "contain",
-            marginBottom: 10
-          }}
-        />
-
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
@@ -124,6 +143,67 @@ export default function ProfilePage() {
             width: "100%"
           }}
         >
+
+
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ProfileInfo")}
+          >
+            <View style={{
+              width: 150,
+              height: 150,
+              borderRadius: 75,
+              zIndex: 1000,
+              alignItems: "flex-end",
+              justifyContent: "flex-end"
+            }}>
+              <View style={{
+                backgroundColor: "#FFF",
+                borderRadius: 20,
+                width: 35,
+                height: 35,
+                alignItems: "center",
+                justifyContent: "center"
+
+              }}>
+                <MaterialIcons name="edit" size={30} color="#fe7e25" />
+
+              </View>
+            </View>
+            {user_image == null
+              ?
+              <Image
+                source={require('./../../assets/man.png')}
+                resizeMode="contain"
+                style={{
+                  position: "absolute",
+                  width: 150,
+                  height: 150,
+                  borderRadius: 75,
+                  borderWidth: 2,
+                  borderColor: "#fe7e25",
+                  backgroundColor: "#fe7e25"
+                }}
+              /> :
+              <Image
+                source={{ uri: user_image }}
+                resizeMode="contain"
+                style={{
+                  position: "absolute",
+                  width: 150,
+                  height: 150,
+                  borderRadius: 75,
+                  borderWidth: 2,
+                  borderColor: "#fe7e25"
+
+                }}
+              />
+            }
+          </TouchableOpacity>
+
+
+
+
           <TouchableOpacity
             onPress={() => navigation.navigate("ProfileInfo")}
             style={styles.profileItem}>

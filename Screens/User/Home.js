@@ -199,8 +199,6 @@ export default function UserHome() {
   };
 
 
-
-
   const _MapReLocation = async (lat, long, latDelta, longDelta) => {
     mapRef?.current.animateToRegion({
       latitude: parseFloat(lat),

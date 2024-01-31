@@ -13,7 +13,7 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import styles from "./../theme/style";
 import CustomHeader from "./../components/CustomHeader";
 
-import {url} from "./../constants/constants";
+import { url } from "./../constants/constants";
 
 export default function PricingPlans({ route, navigation }) {
   const screenTitle = "باقات الاشتراك";
@@ -50,30 +50,30 @@ export default function PricingPlans({ route, navigation }) {
 
 
   return (
-    <View style={{flex:1,justifyContent:"center"}}>
+    <View style={{ flex: 1, justifyContent: "center" }}>
       <StatusBar backgroundColor="#fe7e25" barStyle="light-content" />
       <CustomHeader text={screenTitle} />
       <View style={styles.rootContainer}>
-      <View style={{ width: "100%", paddingHorizontal: 20 }}>
-        <Text
-          style={{
-            fontFamily: "Regular",
-            color: "#fe7e25",
-            textAlign: "center",
-            fontSize: 18
-          }}
-        >
-          أختر خطة الأشتراك المناسبة لأحتياجاتك
-        </Text>
+        <View style={{ width: "100%", paddingHorizontal: 20 }}>
+          <Text
+            style={{
+              fontFamily: "Regular",
+              color: "#fe7e25",
+              textAlign: "center",
+              fontSize: 18
+            }}
+          >
+            أختر خطة الأشتراك المناسبة لأحتياجاتك
+          </Text>
 
-        <Text
-          style={{ fontFamily: "Regular", color: "grey", textAlign: "center" }}
-        >
-          يمكنك تجديد الخطة أو تغييرها في أي وقت
-        </Text>
-      </View>
-      {isLoading == false
-        ? <FlatList
+          <Text
+            style={{ fontFamily: "Regular", color: "grey", textAlign: "center" }}
+          >
+            يمكنك تجديد الخطة أو تغييرها في أي وقت
+          </Text>
+        </View>
+        {isLoading == false
+          ? <FlatList
             showsVerticalScrollIndicator={false}
             style={{
               width: "80%",
@@ -84,7 +84,7 @@ export default function PricingPlans({ route, navigation }) {
             renderItem={({ item }) =>
               <View
                 style={{
-                  backgroundColor:  "#fe7e25",
+                  backgroundColor: "#fe7e25",
                   width: "100%",
                   justifyContent: "center",
                   borderRadius: 10,
@@ -103,7 +103,7 @@ export default function PricingPlans({ route, navigation }) {
                       width: "100%",
                       flexDirection: "row-reverse",
                       alignItems: "center",
-        
+
                     }}
                   >
                     <View
@@ -117,9 +117,9 @@ export default function PricingPlans({ route, navigation }) {
                         alignItems: "center"
                       }}
                     >
-                     <Image   source={{ uri: url.media_url + item.package_thumbnail }}
-                     
-                     style={{width:50,height:50}}/>
+                      <Image source={{ uri: url.media_url + item.package_thumbnail }}
+
+                        style={{ width: 50, height: 50 }} />
                     </View>
                     <Text
                       style={{
@@ -139,7 +139,7 @@ export default function PricingPlans({ route, navigation }) {
                     width: "100%",
                     flexDirection: "row-reverse",
                     alignItems: "center",
-                    paddingHorizontal:20
+                    paddingHorizontal: 20
                   }}
                 >
                   <Text
@@ -204,7 +204,7 @@ export default function PricingPlans({ route, navigation }) {
                   </Text>
                 </View>
 
-              
+
 
                 <View
                   style={{
@@ -231,11 +231,11 @@ export default function PricingPlans({ route, navigation }) {
                   <Text
                     style={{ fontFamily: "Bold", fontSize: 16, color: "#FFF" }}
                   >
-                    {item.package_duration +" يوما " }
+                    {item.package_duration + " يوما "}
                   </Text>
                 </View>
 
-    
+
 
                 <View
                   style={{
@@ -307,7 +307,7 @@ export default function PricingPlans({ route, navigation }) {
                 </View>
               </View>}
           />
-        : <View
+          : <View
             style={{
               justifyContent: "center",
               alignItems: "center",
@@ -317,7 +317,7 @@ export default function PricingPlans({ route, navigation }) {
           >
             <ActivityIndicator size={70} color="#fe7e25" />
           </View>}
-    </View>
+      </View>
     </View>
   );
 }

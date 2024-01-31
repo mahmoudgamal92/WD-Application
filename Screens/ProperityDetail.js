@@ -562,8 +562,7 @@ const ProperityDetail = ({ route, navigation }) => {
                     }}
                   />)
               })}
-              {prop.prop_video == null || prop.prop_video == "" ?
-                null :
+              {prop.prop_video !== null && prop.prop_video !== "" && prop.prop_video !== "null" ?
                 <TouchableOpacity
                   onPress={() => setVideoModal(true)}
                   style={{
@@ -579,6 +578,8 @@ const ProperityDetail = ({ route, navigation }) => {
                 >
                   <FontAwesome name="video-camera" size={24} color="black" />
                 </TouchableOpacity>
+                :
+                null
               }
             </ScrollView>
 

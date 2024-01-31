@@ -21,6 +21,7 @@ import CustomHeader from "../../components/CustomHeader";
 import { userSlice } from "../../store/userSlice";
 export default function PersonalInfo({ navigation, route }) {
   const dispatch = useDispatch();
+  const user_info = useSelector(state => state.userReducer.user);
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = React.useState(false);
   const [profile_img, setProfileImg] = useState("");
@@ -28,6 +29,7 @@ export default function PersonalInfo({ navigation, route }) {
   const [user_email, setUserEmail] = useState(null);
   const [user_phone, setUserPhone] = useState(null);
   const screenTitle = "تعديل البيانات الشخصية";
+
 
   useEffect(() => {
     _retrieveData();
@@ -83,7 +85,6 @@ export default function PersonalInfo({ navigation, route }) {
         type: profile_img.type
       });
     }
-
     fetch(url.base_url + "profile/update.php", {
       method: "POST",
       headers: {
@@ -99,14 +100,22 @@ export default function PersonalInfo({ navigation, route }) {
         if (responseJson.sucess == false) {
           alert("نأسف هناك عطل من طرفنا");
         } else {
-          // alert(JSON.stringify(responseJson));
           alert(responseJson.message);
+          if (profile_img !== null && profile_img !== "") {
+            updateUserStore();
+          }
           _retrieveData();
           _storeInfo(responseJson.user);
         }
         setLoading(false);
       });
   };
+
+  const updateUserStore = () => {
+    user_info.user_image = profile_img.name;
+    dispatch(userSlice.actions.setUserInfo(JSON.stringify(user_info)));
+    //alert(JSON.stringify(user_info));
+  }
 
   const _storeInfo = async data => {
     try {
@@ -334,6 +343,7 @@ export default function PersonalInfo({ navigation, route }) {
                   style={{ paddingHorizontal: 50 }}
                 />}
             </TouchableOpacity>
+
           </View>
         </ScrollView>
       </View>
