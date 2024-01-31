@@ -99,7 +99,7 @@ export default function FaLicenseScan({ route, navigation }) {
             </View>
           </View>
           <TouchableOpacity
-            onPress={() => insertAdd()}
+            //onPress={() => insertAdd()}
             style={{
               backgroundColor: "#fe7e25",
               marginBottom: 40,

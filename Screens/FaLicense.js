@@ -159,7 +159,7 @@ export default function AddImg({ route, navigation }) {
               >
                 <TextInput
                   selectionColor={"#fe7e25"}
-                  onChangeText={phone_number => setPhone(phone_number)}
+                 // onChangeText={phone_number => setPhone(phone_number)}
                   keyboardType="numeric"
                   style={{
                     fontFamily: "Regular",

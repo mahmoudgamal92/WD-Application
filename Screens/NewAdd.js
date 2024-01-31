@@ -48,10 +48,11 @@ export default function NewAdd({ route, navigation }) {
   useEffect(() => {
     _retrieveData();
   }, []);
+
+
   const _retrieveData = async () => {
     try {
       const token = await AsyncStorage.getItem("user_token");
-
       if (token == null) {
         navigation.navigate("SignInScreen");
       } else {

@@ -12,7 +12,7 @@ import {
 import { EvilIcons, AntDesign, Entypo } from "@expo/vector-icons";
 import { prop_type, url } from "./../constants/constants";
 import CustomHeader from "./../components/CustomHeader";
-import { getAdvType, getPropType } from "./../utils/functions";
+import { getAdvType, getPropType, getCityById, getRegionById } from "./../utils/functions";
 
 import styles from "./../theme/style";
 export default function ResultScreen({ route, navigation }) {
@@ -264,7 +264,7 @@ export default function ResultScreen({ route, navigation }) {
                         color: "grey"
                       }}
                     >
-                      {/* {item.prop_address.substring(0, 25)}... */}
+                   {getRegionById(item.prop_state) + " , " + getCityById(item.prop_city)}
                     </Text>
                   </View>
                 </View>

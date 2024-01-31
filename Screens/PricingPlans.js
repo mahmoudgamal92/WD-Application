@@ -84,7 +84,7 @@ export default function PricingPlans({ route, navigation }) {
             renderItem={({ item }) =>
               <View
                 style={{
-                  backgroundColor: item.package_color,
+                  backgroundColor:  "#fe7e25",
                   width: "100%",
                   justifyContent: "center",
                   borderRadius: 10,
@@ -204,34 +204,7 @@ export default function PricingPlans({ route, navigation }) {
                   </Text>
                 </View>
 
-                <View
-                  style={{
-                    alignItems: "center",
-                    flexDirection: "row-reverse",
-                    paddingHorizontal: 20,
-                    marginVertical: 5
-                  }}
-                >
-                  <View style={{ flexDirection: "row-reverse" }}>
-                    <AntDesign name="checkcircle" size={26} color="#FFF" />
-                    <Text
-                      style={{
-                        fontFamily: "Bold",
-                        fontSize: 16,
-                        color: "#FFF",
-                        marginHorizontal: 5
-                      }}
-                    >
-                      الاعلانات المميزة
-                    </Text>
-                  </View>
-
-                  <Text
-                    style={{ fontFamily: "Bold", fontSize: 16, color: "#FFF" }}
-                  >
-                    {item.max_featured}
-                  </Text>
-                </View>
+              
 
                 <View
                   style={{
@@ -289,7 +262,7 @@ export default function PricingPlans({ route, navigation }) {
                   <Text
                     style={{ fontFamily: "Bold", fontSize: 16, color: "#FFF" }}
                   >
-                   5
+                    {item.max_users}
                   </Text>
                 </View>
 

@@ -464,7 +464,7 @@ export default function ProfilePage() {
               paddingHorizontal: 20
             }}>
               <TouchableOpacity
-                onPress={() => Linking.openURL('whatsapp://send?phone=+966592488883')
+                onPress={() => Linking.openURL('whatsapp://send?phone=+9660595020090')
                 }
                 style={{
                   width: "45%",

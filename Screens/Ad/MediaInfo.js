@@ -31,13 +31,9 @@ export default function AddImg({ route, navigation }) {
 
   const [featured, setFeatured] = useState("");
   const [user_id, setUserID] = useState("");
-
-  const [mortgate, setMortgage] = useState("");
-  const [conflict, setConflict] = useState("");
+  const [conflict, setConflict] = useState(false);
   const [loading, setLoading] = useState(false);
   const [terms, setTerms] = useState(false);
-
-
 
   const { jsonForm } = route.params;
   const screenTitle = "إختر صور العقار";
@@ -69,10 +65,6 @@ export default function AddImg({ route, navigation }) {
         input_value: featured
       },
       {
-        input_key: "mortgate",
-        input_value: mortgate
-      },
-      {
         input_key: "conflict",
         input_value: conflict
       },
@@ -98,7 +90,7 @@ export default function AddImg({ route, navigation }) {
   };
 
   const insertAdd = async () => {
-    if (terms !== false) {
+    if (terms !== false && conflict !== false ) {
       setLoading(true);
       fetch("https://bnookholding.com/wd/api/properties/new_insert.php", {
         method: "POST",
@@ -136,12 +128,24 @@ export default function AddImg({ route, navigation }) {
     }
 
     else {
+      if(terms == false)
+      {
       Toast.show({
         type: "erorrToast",
-        text1: "لابد من الموافقة علي شروط الإعلان أولا",
+        text1: "لابد من الموافقة علي شروط الإعلان  ",
         bottomOffset: 80,
         visibilityTime: 3000
       });
+    }
+
+    else {
+      Toast.show({
+        type: "erorrToast",
+        text1: "لابد من التأكيد علي أن ليس هناك ما يمنع من التصرف أو الإنتفاع من العقار",
+        bottomOffset: 80,
+        visibilityTime: 3000
+      });
+    }
     }
   };
 
@@ -171,7 +175,6 @@ export default function AddImg({ route, navigation }) {
       console.log(E);
     }
   };
-
 
   const _pickVideo = async () => {
     try {
@@ -472,9 +475,10 @@ export default function AddImg({ route, navigation }) {
                 borderRadius: 10,
                 marginTop: 10
               }}>
-              <Checkbox
-                onChange={value => setMortgage(value)}
-                key={"mortgage"}
+
+            <Checkbox
+                onChange={value => setConflict(value)}
+                key={"conflict"}
                 colorScheme="purple"
                 style={{ marginHorizontal: 5 }}
               />

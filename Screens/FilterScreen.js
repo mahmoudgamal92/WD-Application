@@ -13,8 +13,7 @@ import {
   FlatList,
   ActivityIndicator,
   StatusBar,
-  ImageBackground,
-  Dimensions,
+  Image
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import MapView, { Marker } from "react-native-maps";
@@ -39,6 +38,7 @@ import Toast from "react-native-toast-message";
 import toastConfig from "./../components/Toast";
 import { useNavigation } from '@react-navigation/native';
 import { regions, cities, districts } from "./../utils/address";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function FilterScreen({ route }) {
   const navigation = useNavigation();
@@ -52,6 +52,27 @@ export default function FilterScreen({ route }) {
   const [filtered_cities, setCities] = useState([]);
   const [filtered_districts, setDistricts] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
+
+
+  useEffect(() => {
+    _retrieveData();
+  }, []);
+
+  const _retrieveData = async () => {
+    try {
+  
+        const cache_text = await AsyncStorage.getItem("aqar_cache_data");
+        const cache = JSON.parse(cache_text);
+        const cached_cats = cache.data.cats.filter(obj => obj.type_id !== '1');
+        setCatigories(cached_cats);
+      }
+     catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
   const getCitiessByRegionId = (id) => {
     setCities(cities.filter(city => city.region_id === id));
   };
@@ -97,8 +118,39 @@ export default function FilterScreen({ route }) {
   return (
     <View style={{ flex: 1 }}>
       <StatusBar backgroundColor="#fe7e25" />
-      <DefaultHeader />
+      <View
+      style={{
+        paddingHorizontal: 20,
+        paddingTop :  Platform.OS == "ios" ? Constants.statusBarHeight * 0.8 : 0,
+        backgroundColor: "#fe7e25",
+        alignItems: "center",
+        width: "100%",
+        height: Platform.OS == "ios" ? 130 : 100
+      }}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          width: "100%"
+        }}
+      >
 
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="close" size={40} color="#FFF" />
+        </TouchableOpacity>
+
+        <Image
+          source={require("./../assets/wd_white.png")}
+          style={{
+            height: 80,
+            width: 80,
+            resizeMode: "contain"
+          }}
+        />
+      </View>
+    </View>
       <View style={styles.rootContainer}>
       <ScrollView 
       showsVerticalScrollIndicator={false}
@@ -119,15 +171,7 @@ export default function FilterScreen({ route }) {
             borderColor: "#fe7e25",
           }}
         >
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={{
-              marginTop: 20
-            }}
-          >
-            <Text style={{ fontFamily: "Bold", fontSize: 15 }}>إغلاق</Text>
-          </TouchableOpacity>
-
+        
           <Text
             style={{
               fontFamily: "Bold",
@@ -147,7 +191,7 @@ export default function FilterScreen({ route }) {
                 textAlign: "right"
               }}
             >
-              إختر نوع العقار
+              إختر نوع الإعلان
             </Text>
 
             <View
