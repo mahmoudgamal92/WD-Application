@@ -12,62 +12,17 @@ import {
   StatusBar
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import React, {useState, useEffect } from "react";
-import {url} from "../constants/constants";
+import React, { useState, useEffect } from "react";
+import { url } from "../constants/constants";
 import { Entypo, Ionicons, AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DefaultHeader from "../components/DefaultHeader";
+import { getAdvType, getPropType, getPropStatus, getCityById, getRegionById } from "./../utils/functions";
 
 export default function FavoriteScreen({ route, navigation }) {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const [bLoading, setBLoading] = useState(false);
   const [user_token, setUserToken] = useState(null);
-
-
-
-
-  const getPropType = (val) => {
-    switch (val) {
-      case "3":
-        return "شقة";
-      case "4":
-        return "فيلا";
-      case "5":
-        return "أرض";
-      case "6":
-        return "عمارة";
-      case "7":
-        return "محل تجاري";
-      case "8":
-        return "مول";
-      case "9":
-        return "شاليه";
-      case "10":
-        return "إستراحة";
-      case "11":
-        return "مستودع";
-      case "12":
-        return "مصنع";
-      default:
-        return "أخرى";
-    }
-  };
-
-
-  const getAdvType = (val) => {
-    switch (val) {
-      case "for_sale":
-        return "للبيع";
-      case "for_rent":
-        return "للإيجار";
-      case "for_invest":
-        return "للإستثمار";
-      default:
-        return "للبيع";
-    }
-  };
-
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
@@ -235,9 +190,7 @@ export default function FavoriteScreen({ route, navigation }) {
                 <View style={{ width: "40%" }}>
                   <ImageBackground
                     source={{
-                      uri:
-                        url.media_url +
-                        item.prop_images.split(",")[0]
+                      uri: url.media_url + item.prop_images.split(",")[0]
                     }}
                     style={{
                       width: "100%",
@@ -366,7 +319,8 @@ export default function FavoriteScreen({ route, navigation }) {
                         color: "grey"
                       }}
                     >
-                      {item.address.substring(0, 25)}...
+                      {getRegionById(item.prop_state) + " , " + getCityById(item.prop_city)}
+
                     </Text>
                   </View>
                 </View>

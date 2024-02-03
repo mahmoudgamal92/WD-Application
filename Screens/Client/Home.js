@@ -45,11 +45,10 @@ export default function ClientHome() {
                 width: "90%",
                 height: 200,
                 borderRadius: 10,
-                resizeMode: "contain"
               }}
               imageStyle={{
                 borderRadius: 10,
-                resizeMode: "contain"
+                resizeMode: "cover"
               }}
             >
               <LinearGradient

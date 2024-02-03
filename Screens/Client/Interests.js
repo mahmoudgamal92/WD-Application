@@ -16,6 +16,8 @@ import styles from "./../../theme/style";
 import { useFocusEffect } from "@react-navigation/native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { ScrollView } from "react-native-gesture-handler";
+import { Popup, Root } from 'react-native-popup-confirm-toast'
+
 export default function Interests({ route, navigation }) {
   const [isLoading, setLoading] = React.useState(false);
   const [bottomSheetState, SetBottomSheetState] = useState(-1);
@@ -44,7 +46,7 @@ export default function Interests({ route, navigation }) {
   );
 
   const bottomSheetRef = useRef();
-  const handleSheetChanges = useCallback(index => {}, []);
+  const handleSheetChanges = useCallback(index => { }, []);
 
   const openBottomSheet = () => {
     SetBottomSheetState(0);
@@ -101,6 +103,27 @@ export default function Interests({ route, navigation }) {
     }
   };
 
+  const deleteInterest = (id) => {
+    fetch(url.base_url + "profile/delete_interest.php?id=" + id, {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "cache-control": "no-cache",
+        "Content-type": "multipart/form-data;",
+        "Accept-Encoding": "gzip, deflate, br",
+        Connection: "keep-alive"
+      }
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.success == true) {
+          alert("تم الحذف  بنجاح");
+          _retrieveData();
+        } else {
+          alert(responseJson.message);
+        }
+      });
+  };
   const addInterest = async () => {
     try {
       const user_id = await AsyncStorage.getItem("user_token");
@@ -164,11 +187,15 @@ export default function Interests({ route, navigation }) {
     );
   };
   return (
-    <View style={{ flex: 1 }}>
-      <CustomHeader text={screenTitle} />
-      <View style={styles.rootContainer}>
-        {isLoading == false
-          ? <FlatList
+    <Root>
+      <View style={{ flex: 1 }}>
+        <CustomHeader text={screenTitle} />
+        <View style={styles.rootContainer}>
+          {isLoading == false
+            ? <FlatList
+              style={{
+                width: "100%",
+              }}
               showsVerticalScrollIndicator={false}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -177,56 +204,112 @@ export default function Interests({ route, navigation }) {
               keyExtractor={(item, index) => `${item.id}`}
               ListEmptyComponent={handleEmptyProp()}
               renderItem={({ item }) =>
-                <TouchableOpacity
+                <View
                   style={{
                     flexDirection: "row-reverse",
                     alignItems: "center",
-                    height: 70,
-                    backgroundColor: "#FFF",
-                    marginHorizontal: 10,
+                    justifyContent: "space-between",
+                    height: 50,
+                    width: "100%",
                     marginVertical: 10,
                     borderRadius: 10,
-                    paddingHorizontal: 10
+                    paddingHorizontal: 20
                   }}
                 >
-                  <View style={{ width: "20%", alignItems: "flex-end" }}>
-                    <MaterialIcons
-                      name="my-location"
-                      size={40}
-                      color="#fe7e25"
-                    />
-                  </View>
+                  <View style={{
+                    width: "78%",
+                    height: "100%",
+                    paddingHorizontal: 10,
+                    alignItems: "center",
+                    flexDirection: "row-reverse",
+                    backgroundColor: "#FFF",
+                    shadowColor: "#000",
+                    borderRadius: 10,
 
-                  <View style={{ width: "60%", justifyContent: "center" }}>
-                
-                      <Text
-                        style={{
-                          color: "grey",
-                          fontFamily: "Bold",
-                          textAlign: "right",
-                          fontSize: 15,
-                          marginHorizontal: 5
-                        }}
-                      >
-                        {item.city_name}
-                      </Text>
+                    shadowOffset: {
+                      width: 0,
+                      height: 2,
+                    },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 3.84,
+
+                    elevation: 5,
+                  }}>
+                    <Image source={require('./../../assets/map.png')} style={{
+                      width: 40,
+                      height: 40
+                    }} />
+
+                    <Text
+                      style={{
+                        color: "grey",
+                        fontFamily: "Bold",
+                        textAlign: "right",
+                        fontSize: 15,
+                        marginHorizontal: 5
+                      }}
+                    >
+                      {item.city_name}
+                    </Text>
                   </View>
 
                   <View
                     style={{
                       width: "20%",
+                      height: "100%",
                       alignItems: "center",
-                      justifyContent: "space-around",
-                      flexDirection: "row"
+                      justifyContent: "center",
+                      backgroundColor: "#FFF",
+                      borderRadius: 10,
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 2,
+                      },
+                      shadowOpacity: 0.25,
+                      shadowRadius: 3.84,
+
+                      elevation: 5,
                     }}
                   >
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() =>
+                        Popup.show({
+                          type: 'confirm',
+                          title: 'تأكيد',
+                          textBody: 'هل أنت متأكد من الحذف  ',
+                          buttonText: 'تأكيد',
+                          confirmText: 'إلغاء',
+                          titleTextStyle: {
+                            fontFamily: "Bold",
+                          },
+                          descTextStyle: {
+                            fontFamily: "Regular",
+                            color: "grey"
+                          },
+                          okButtonTextStyle: {
+                            fontFamily: "Regular",
+                          },
+                          confirmButtonTextStyle: {
+                            fontFamily: "Regular",
+                          },
+                          callback: () => {
+                            deleteInterest(item.id)
+                            Popup.hide();
+                          },
+                          cancelCallback: () => {
+                            // alert('Cancel Callback && hidden');
+                            Popup.hide();
+                          },
+                        })
+                      }
+                    >
                       <MaterialIcons name="delete" size={24} color="red" />
                     </TouchableOpacity>
                   </View>
-                </TouchableOpacity>}
+                </View>}
             />
-          : <View
+            : <View
               style={{
                 flex: 1,
                 justifyContent: "center",
@@ -236,144 +319,145 @@ export default function Interests({ route, navigation }) {
               <ActivityIndicator size={70} color="#fe7e25" />
             </View>}
 
-        <View
-          style={{
-            margin: 20,
-            width:"100%",
-            paddingHorizontal:20
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => openBottomSheet()}
+          <View
             style={{
-              backgroundColor: "#fe7e25",
-              padding: 10,
-              borderRadius: 10,
-              width:"100%",
+              margin: 20,
+              width: "100%",
+              paddingHorizontal: 20
             }}
           >
+            <TouchableOpacity
+              onPress={() => openBottomSheet()}
+              style={{
+                backgroundColor: "#fe7e25",
+                padding: 10,
+                borderRadius: 10,
+                width: "100%",
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  textAlign: "center",
+                  color: "#FFF"
+                }}
+              >
+                إضافة جديد
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={bottomSheetState}
+          enableOverDrag={true}
+          snapPoints={["80%"]}
+          handleComponent={() => null}
+          enableContentPanningGesture={true}
+          onChange={handleSheetChanges}
+          style={{
+            borderRadius: 40,
+            borderWidth: 1,
+            borderColor: "#fe7e25",
+            backgroundColor: "grey"
+          }}
+        >
+          <View
+            style={{
+              paddingHorizontal: 20,
+              backgroundColor: "#F8F8F8",
+              flex: 1,
+              borderTopRightRadius: 40,
+              borderTopLeftRadius: 40,
+              overflow: "hidden",
+              borderColor: "#fe7e25"
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => closeBottomSheet()}
+              style={{
+                marginTop: 20
+              }}
+            >
+              <Text style={{ fontFamily: "Bold", fontSize: 15 }}>إغلاق</Text>
+            </TouchableOpacity>
+
             <Text
               style={{
                 fontFamily: "Bold",
+                color: "#fe7e25",
                 textAlign: "center",
-                color: "#FFF"
+                fontSize: 20
               }}
             >
-              إضافة جديد
+              إختر المدينة
             </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={bottomSheetState}
-        enableOverDrag={true}
-        snapPoints={["80%"]}
-        handleComponent={() => null}
-        enableContentPanningGesture={true}
-        onChange={handleSheetChanges}
-        style={{
-          borderRadius: 40,
-          borderWidth: 1,
-          borderColor: "#fe7e25",
-          backgroundColor: "grey"
-        }}
-      >
-        <View
-          style={{
-            paddingHorizontal: 20,
-            backgroundColor: "#F8F8F8",
-            flex: 1,
-            borderTopRightRadius: 40,
-            borderTopLeftRadius: 40,
-            overflow: "hidden",
-            borderColor: "#fe7e25"
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => closeBottomSheet()}
-            style={{
-              marginTop: 20
-            }}
-          >
-            <Text style={{ fontFamily: "Bold", fontSize: 15 }}>إغلاق</Text>
-          </TouchableOpacity>
-
-          <Text
-            style={{
-              fontFamily: "Bold",
-              color: "#fe7e25",
-              textAlign: "center",
-              fontSize: 20
-            }}
-          >
-            إختر المدينة
-          </Text>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {states.map(item => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setSelectedState(item.state_id);
-                    setSelectedStateName(item.name);
-                  }}
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    borderBottomColor: "#DDDDDD",
-                    borderBottomWidth: 1,
-                    padding: 10
-                  }}
-                >
-                  {selected_state == item.state_id
-                    ? <Ionicons
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {states.map(item => {
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSelectedState(item.state_id);
+                      setSelectedStateName(item.name);
+                    }}
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      borderBottomColor: "#DDDDDD",
+                      borderBottomWidth: 1,
+                      padding: 10
+                    }}
+                  >
+                    {selected_state == item.state_id
+                      ? <Ionicons
                         name="radio-button-on-outline"
                         size={30}
                         color="#fe7e25"
                       />
-                    : <Ionicons
+                      : <Ionicons
                         name="radio-button-off-sharp"
                         size={30}
                         color="grey"
                       />}
-                  <Text
-                    style={{
-                      fontFamily: "Bold",
-                      textAlign: "right"
-                    }}
-                  >
-                    {item.name}
-                  </Text>
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
+                    <Text
+                      style={{
+                        fontFamily: "Bold",
+                        textAlign: "right"
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
 
-          <TouchableOpacity
-            onPress={() => addInterest()}
-            style={{
-              backgroundColor: "#fe7e25",
-              padding: 10,
-              borderRadius: 10,
-              marginBottom: 20,
-              width: "100%"
-            }}
-          >
-            <Text
+            <TouchableOpacity
+              onPress={() => addInterest()}
               style={{
-                fontFamily: "Bold",
-                textAlign: "center",
-                color: "#FFF"
+                backgroundColor: "#fe7e25",
+                padding: 10,
+                borderRadius: 10,
+                marginBottom: 20,
+                width: "100%"
               }}
             >
-              تأكيد
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  textAlign: "center",
+                  color: "#FFF"
+                }}
+              >
+                تأكيد
+              </Text>
+            </TouchableOpacity>
 
-        </View>
-      </BottomSheet>
-    </View>
+          </View>
+        </BottomSheet>
+      </View>
+    </Root>
   );
 }

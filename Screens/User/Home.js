@@ -36,8 +36,6 @@ import styles from "../../theme/style";
 import { getAdvType, getPropType, getRegionById, getCityById } from './../../utils/functions';
 
 import { url } from "../../constants/constants";
-import BottomSheet from "@gorhom/bottom-sheet";
-import { Dropdown } from "react-native-element-dropdown";
 import Toast from "react-native-toast-message";
 import toastConfig from "../../components/Toast";
 import { useNavigation } from '@react-navigation/native';
@@ -46,17 +44,12 @@ import { regions, cities, districts } from "./../../utils/address";
 export default function UserHome() {
   const navigation = useNavigation();
   const windowWidth = Dimensions.get("window").width;
-  const windowHeight = Dimensions.get("window").height;
-  const [search_param, setSearchParam] = useState("");
   const [map_view, setMapView] = useState("standard");
-  const [filter_cat, setFilterCat] = useState("");
 
   const [region_id, setRegionID] = useState(null);
   const [data, setData] = useState([]);
   const [cats, setCatigories] = useState([]);
   const [isLoading, setLoading] = React.useState(false);
-  const [filtered_cities, setCities] = useState([]);
-  const [filtered_districts, setDistricts] = useState([]);
   const [isActive, setIsActive] = useState(null);
   const [ref, setRef] = useState(null);
   const mapRef = useRef(null);
@@ -70,8 +63,6 @@ export default function UserHome() {
 
   const [user_latitude, setUserLatitude] = useState("");
   const [user_longitude, SetUserLongitude] = useState("");
-
-
   const [latitude, setLatitude] = useState(24.8859);
   const [longitude, SetLongitude] = useState(45.0792);
   const [latitudeDelta, setlatitudeDelta] = useState(21.0);
@@ -84,7 +75,6 @@ export default function UserHome() {
 
   }, []);
 
-  const bottomSheetRef = useRef();
   const _retrieveData = async () => {
     const cache_text = await AsyncStorage.getItem("aqar_cache_data");
     const cache = JSON.parse(cache_text);
@@ -326,7 +316,6 @@ export default function UserHome() {
     if (region.latitudeDelta > 45) {
       setMapData("states");
       setIsActive(null);
-      setFilterCat(null);
       setRegionID(null);
       setZoomEnabled(false);
       setScrollEnabled(false);
@@ -465,13 +454,14 @@ export default function UserHome() {
         >
           <View style={styles.SearchboxContainer}>
             <TextInput
+              editable={false} selectTextOnFocus={false}
               placeholder="أبحث عن ما تريد"
               returnKeyType="search"
               placeholderTextColor="#666"
               style={styles.Searchbox}
               //defaultValue={search_param}
-              onChangeText={param => setSearchParam(param)}
-              onSubmitEditing={() => ApplySearch()}
+              // onChangeText={param => setSearchParam(param)}
+              // onSubmitEditing={() => ApplySearch()}
               placeholderStyle={{
                 fontFamily: "Medium",
                 textAlign: "right"
@@ -480,7 +470,7 @@ export default function UserHome() {
 
             <TouchableOpacity
               style={styles.SearchboxIcon}
-              onPress={() => ApplySearch()}
+            //onPress={() => ApplySearch()}
             >
               <AntDesign name="search1" size={24} color="#143656" />
             </TouchableOpacity>
@@ -637,7 +627,6 @@ export default function UserHome() {
           onPress={() => {
             setMapData("states");
             setIsActive(null);
-            setFilterCat(null);
             setRegionID(null);
             setZoomEnabled(false);
             setScrollEnabled(false);

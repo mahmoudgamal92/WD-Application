@@ -14,6 +14,8 @@ import { Iconify } from "react-native-iconify";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Profile from "../Screens/Profile";
 import MapScreen from "./../Screens/Client/MapScreen";
+import UserHome from "./../Screens/User/Home";
+
 import Requests from "./../Screens/Requests";
 import NewRequest from "./../Screens/NewRequest";
 import { AppStack } from "./AppStack";
@@ -309,7 +311,7 @@ export const ClientTabStack = ({ navigation }) => {
 
         <Tabs.Screen
           name="MapScreen"
-          component={MapScreen}
+          component={UserHome}
           options={{
             tabBarLabel: ({ color, size }) =>
               <Text style={{ fontFamily: "Regular", color }}>الخريطة</Text>,

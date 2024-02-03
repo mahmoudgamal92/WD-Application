@@ -406,8 +406,7 @@ export default function ProfilePage() {
           </TouchableOpacity>
 
           <TouchableOpacity
-
-            style={styles.profileItem}
+            onPress={() => SetConfirmAlert(!confirm_alert)} style={styles.profileItem}
           >
             <View style={{ flexDirection: "row" }}>
               <Text
@@ -674,7 +673,10 @@ export default function ProfilePage() {
                 borderRadius: 25
               }}
             >
-              <Feather name="alert-triangle" size={24} color="#FFF" />
+              <Image source={require('./../../assets/wd_white.png')} style={{
+                width: 50,
+                height: 50
+              }} />
             </View>
 
             <TouchableOpacity
@@ -690,12 +692,25 @@ export default function ProfilePage() {
             </TouchableOpacity>
 
             <Text style={styles.modalText}>
-              تنبية
+              تأكيد
             </Text>
 
             <Text style={styles.modalBody}>
               إذا كنت تريد الإشتراك معنا كمعلن لابد من توثيق حسابك في نفاذ و أيضا توثيق الرخصة العقارية الخاصة بك
             </Text>
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate("PricingPlans")}
+            >
+              <Text style={{
+                fontFamily: "Regular",
+                fontSize: 16,
+                color: "#fe7e25",
+                textDecorationLine: "underline"
+              }}>
+                الإطلاع  علي باقات الإشتراك
+              </Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={[styles.button, { backgroundColor: "#fe7e25" }]}
               onPress={() => navigation.navigate("FaLicense")}

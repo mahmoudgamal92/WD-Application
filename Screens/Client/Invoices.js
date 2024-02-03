@@ -18,7 +18,7 @@ import styles from "../../theme/style";
 export default function Invoices({ route, navigation }) {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = React.useState(false);
-const screenTitle = "فواتيري ";
+  const screenTitle = "فواتيري ";
   useEffect(() => {
     _retrieveData();
   }, []);
@@ -71,7 +71,7 @@ const screenTitle = "فواتيري ";
             marginTop: 10
           }}
         >
-          لا توجد لديك أي عقارات مفضلة حاليا
+          لا توجد لديك أي فواتير حاليا
         </Text>
 
         <Text
@@ -83,37 +83,37 @@ const screenTitle = "فواتيري ";
             marginTop: 10
           }}
         >
-          لا توجد لديك أي عقارات مفضلة حاليالا توجد لديك أي عقارات مفضلة حاليا
+          سيتم إصدار الفواتير تلقائيا بمجرد تنفيذ أي عملية دفع إلكتروني
         </Text>
       </View>
     );
   };
   return (
     <View style={{ flex: 1 }}>
-         <CustomHeader text={screenTitle} />
+      <CustomHeader text={screenTitle} />
       <View style={styles.rootContainer}>
-      {isLoading == false
-        ? 
-        
-        <View style={{
-          paddingHorizontal:10,
-          alignItems:"center"
-        }}>
+        {isLoading == false
+          ?
+
+          <View style={{
+            paddingHorizontal: 10,
+            alignItems: "center"
+          }}>
             <FlatList
               data={data}
               keyExtractor={(item, index) => `${item.id}`}
               ListEmptyComponent={handleEmptyProp()}
               renderItem={({ item }) =>
                 <View style={{
-                  backgroundColor:"#FFF",
-                  paddingVertical:10,
-                  borderRadius:20,
-                  marginVertical:10
+                  backgroundColor: "#FFF",
+                  paddingVertical: 10,
+                  borderRadius: 20,
+                  marginVertical: 10
                 }}>
                   <TouchableOpacity
                     onPress={() =>
                       navigation.navigate("InvoiceDetails", {
-                        invoice : item
+                        invoice: item
                       })}
                     style={{
                       flexDirection: "row-reverse",
@@ -162,7 +162,7 @@ const screenTitle = "فواتيري ";
                       >
                         تاريخ الدفع
                       </Text>
-                      <Text style={{ color: "#1B84E7", fontFamily: "Regular" , color:"grey" }}>
+                      <Text style={{ color: "#1B84E7", fontFamily: "Regular", color: "grey" }}>
                         {item.date_created}
                       </Text>
                     </View>
@@ -184,7 +184,7 @@ const screenTitle = "فواتيري ";
                       >
                         المبلغ المدفوع
                       </Text>
-                      <Text style={{ color:"grey", fontFamily: "Regular" }}>
+                      <Text style={{ color: "grey", fontFamily: "Regular" }}>
                         {item.total}
                       </Text>
                     </View>
@@ -197,34 +197,34 @@ const screenTitle = "فواتيري ";
                     }}
                   >
                     <TouchableOpacity
-                    onPress={() => navigation.navigate("InvoiceDetails",{
-                      invoice : item
-                    })}
+                      onPress={() => navigation.navigate("InvoiceDetails", {
+                        invoice: item
+                      })}
                       style={{
                         borderRadius: 10,
                         borderColor: "#fe7e25",
                         borderWidth: 1,
-                        padding:5,
-                        alignItems:"center"
+                        padding: 5,
+                        alignItems: "center"
                       }}
                     >
                       <Text style={{
-                        fontFamily:"Bold",
+                        fontFamily: "Bold",
                         color: "#fe7e25"
-                      }}> 
-                      رؤية الفاتورة
-                       </Text>
+                      }}>
+                        رؤية الفاتورة
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>}
             />
           </View>
-        : <View
+          : <View
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
             <ActivityIndicator size={70} color="#fe7e25" />
           </View>}
-          </View>
+      </View>
     </View>
   );
 }

@@ -890,7 +890,7 @@ const ProperityDetail = ({ route, navigation }) => {
                 معلومات المعلن
               </Text>
 
-              <TouchableOpacity
+              <View
                 style={{
                   padding: 10,
                   borderWidth: 1,
@@ -942,52 +942,66 @@ const ProperityDetail = ({ route, navigation }) => {
                   </View>
                 </View>
 
-                <View style={{
-                  flexDirection: "row",
-                  paddingHorizontal: 40,
-                  justifyContent: "space-around",
-                  width: "100%",
-                  marginTop: 20
-                }}>
+
+                {user !== null ?
                   <View style={{
-                    width: 60,
-                    height: 60,
-                    borderWidth: 1,
-                    borderColor: "#fe7e25",
-                    borderRadius: 10,
-                    alignItems: "center",
-                    justifyContent: "center"
+                    flexDirection: "row",
+                    paddingHorizontal: 40,
+                    justifyContent: "space-around",
+                    width: "100%",
+                    marginTop: 20
                   }}>
-                    <MaterialCommunityIcons name="message-processing-outline" size={24} color="#fe7e25" />
+
+
+                    <View style={{
+                      width: 60,
+                      height: 60,
+                      borderWidth: 1,
+                      borderColor: "#fe7e25",
+                      borderRadius: 10,
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}>
+                      <MaterialCommunityIcons name="message-processing-outline" size={24} color="#fe7e25" />
+                    </View>
+
+
+                    <TouchableOpacity
+                      onPress={() => Linking.openURL('tel:' + user.user_phone)}
+                      style={{
+                        width: 60,
+                        height: 60,
+                        borderWidth: 1,
+                        borderColor: "#fe7e25",
+                        borderRadius: 10,
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}>
+                      <Ionicons name="call" size={24} color="#fe7e25" />
+                    </TouchableOpacity>
+
+
+                    <TouchableOpacity
+                      onPress={() => Linking.openURL('whatsapp://send?phone=' + user.user_phone)
+
+                      }
+                      style={{
+                        width: 60,
+                        height: 60,
+                        borderWidth: 1,
+                        borderColor: "#fe7e25",
+                        borderRadius: 10,
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}>
+                      <FontAwesome name="whatsapp" size={24} color="#fe7e25" />
+                    </TouchableOpacity>
                   </View>
 
-
-                  <View style={{
-                    width: 60,
-                    height: 60,
-                    borderWidth: 1,
-                    borderColor: "#fe7e25",
-                    borderRadius: 10,
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}>
-                    <Ionicons name="call" size={24} color="#fe7e25" />
-                  </View>
-
-
-                  <View style={{
-                    width: 60,
-                    height: 60,
-                    borderWidth: 1,
-                    borderColor: "#fe7e25",
-                    borderRadius: 10,
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}>
-                    <FontAwesome name="whatsapp" size={24} color="#fe7e25" />
-                  </View>
-                </View>
-              </TouchableOpacity>
+                  :
+                  null
+                }
+              </View>
             </View>
             <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
               <TouchableOpacity

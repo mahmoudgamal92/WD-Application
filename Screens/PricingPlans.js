@@ -117,9 +117,12 @@ export default function PricingPlans({ route, navigation }) {
                         alignItems: "center"
                       }}
                     >
-                      <Image source={{ uri: url.media_url + item.package_thumbnail }}
+                      <Image source={require('./../assets/wd_orange.png')}
+                        style={{
+                          width: 50,
+                          height: 50
+                        }} />
 
-                        style={{ width: 50, height: 50 }} />
                     </View>
                     <Text
                       style={{
