@@ -60,13 +60,13 @@ export default function FilterScreen({ route }) {
 
   const _retrieveData = async () => {
     try {
-  
-        const cache_text = await AsyncStorage.getItem("aqar_cache_data");
-        const cache = JSON.parse(cache_text);
-        const cached_cats = cache.data.cats.filter(obj => obj.type_id !== '1');
-        setCatigories(cached_cats);
-      }
-     catch (error) {
+
+      const cache_text = await AsyncStorage.getItem("aqar_cache_data");
+      const cache = JSON.parse(cache_text);
+      const cached_cats = cache.data.cats.filter(obj => obj.type_id !== '1');
+      setCatigories(cached_cats);
+    }
+    catch (error) {
       console.log(error);
     }
   };
@@ -119,456 +119,465 @@ export default function FilterScreen({ route }) {
     <View style={{ flex: 1 }}>
       <StatusBar backgroundColor="#fe7e25" />
       <View
-      style={{
-        paddingHorizontal: 20,
-        paddingTop :  Platform.OS == "ios" ? Constants.statusBarHeight * 0.8 : 0,
-        backgroundColor: "#fe7e25",
-        alignItems: "center",
-        width: "100%",
-        height: Platform.OS == "ios" ? 130 : 100
-      }}
-    >
-      <View
         style={{
-          flexDirection: "row",
+          paddingHorizontal: 20,
+          paddingTop: Platform.OS == "ios" ? Constants.statusBarHeight * 0.8 : 0,
+          backgroundColor: "#fe7e25",
           alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%"
+          width: "100%",
+          height: Platform.OS == "ios" ? 130 : 100
         }}
       >
-
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="close" size={40} color="#FFF" />
-        </TouchableOpacity>
-
-        <Image
-          source={require("./../assets/wd_white.png")}
-          style={{
-            height: 80,
-            width: 80,
-            resizeMode: "contain"
-          }}
-        />
-      </View>
-    </View>
-      <View style={styles.rootContainer}>
-      <ScrollView 
-      showsVerticalScrollIndicator={false}
-      style={{
-        width: "100%",
-        backgroundColor: "#F8F8F8",
-        flex: 1
-      }}>
-
         <View
           style={{
-            paddingHorizontal: 20,
-            backgroundColor: "#F8F8F8",
-            flex: 1,
-            borderTopRightRadius: 40,
-            borderTopLeftRadius: 40,
-            overflow: "hidden",
-            borderColor: "#fe7e25",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%"
           }}
         >
-        
-          <Text
+
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons name="close" size={40} color="#FFF" />
+          </TouchableOpacity>
+
+          <Image
+            source={require("./../assets/wd_white.png")}
             style={{
-              fontFamily: "Bold",
-              color: "#fe7e25",
-              textAlign: "center",
-              fontSize: 20
+              height: 80,
+              width: 80,
+              resizeMode: "contain"
+            }}
+          />
+        </View>
+      </View>
+      <View style={styles.rootContainer}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{
+            width: "100%",
+            backgroundColor: "#F8F8F8",
+            flex: 1
+          }}>
+
+          <View
+            style={{
+              paddingHorizontal: 20,
+              backgroundColor: "#F8F8F8",
+              flex: 1,
+              borderTopRightRadius: 40,
+              borderTopLeftRadius: 40,
+              overflow: "hidden",
+              borderColor: "#fe7e25",
             }}
           >
-            فلتر البحث
-          </Text>
 
-          <View>
             <Text
               style={{
                 fontFamily: "Bold",
-                marginVertical: 10,
-                textAlign: "right"
+                color: "#fe7e25",
+                textAlign: "center",
+                fontSize: 20
               }}
             >
-              إختر نوع الإعلان
+              فلتر البحث
             </Text>
 
-            <View
-              style={{
-                flexDirection: "row-reverse",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "100%",
-                paddingHorizontal: 10
-              }}
-            >
-              <TouchableOpacity
-                onPress={() => setSelectedType("buy")}
+            <View>
+              <Text
                 style={{
-                  width: "30%",
-                  backgroundColor:
-                    selected_type == "buy" ? "#fe7e25" : "#FFF",
-                  paddingVertical: 10,
-                  borderRadius: 30,
-                  alignItems: "center",
-                  borderWidth: 1,
-                  borderColor: "#fe7e25"
+                  fontFamily: "Bold",
+                  marginVertical: 10,
+                  textAlign: "right"
                 }}
               >
-                <Text
-                  style={{
-                    color: "#FFF",
-                    fontFamily: "Bold",
-                    color: selected_type == "buy" ? "#FFF" : "#fe7e25"
-                  }}
-                >
-                  للبيع
-                </Text>
-              </TouchableOpacity>
+                إختر نوع الإعلان
+              </Text>
 
-              <TouchableOpacity
-                onPress={() => setSelectedType("rent")}
+              <View
                 style={{
-                  width: "30%",
-                  backgroundColor:
-                    selected_type == "rent" ? "#fe7e25" : "#FFF",
-                  paddingVertical: 10,
-                  borderRadius: 30,
+                  flexDirection: "row-reverse",
                   alignItems: "center",
-                  borderWidth: 1,
-                  borderColor: "#fe7e25",
-                  borderWidth: 1,
-                  borderColor: "#fe7e25"
+                  justifyContent: "space-between",
+                  width: "100%",
+                  paddingHorizontal: 10
                 }}
               >
-                <Text
+                <TouchableOpacity
+                  onPress={() => setSelectedType("buy")}
                   style={{
-                    color: selected_type == "rent" ? "#FFF" : "#fe7e25",
-                    fontFamily: "Bold"
+                    width: "30%",
+                    backgroundColor:
+                      selected_type == "buy" ? "#fe7e25" : "#FFF",
+                    paddingVertical: 10,
+                    borderRadius: 30,
+                    alignItems: "center",
+                    borderWidth: 1,
+                    borderColor: "#fe7e25"
                   }}
                 >
-                  للأيجار
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={{
+                      color: "#FFF",
+                      fontFamily: "Bold",
+                      color: selected_type == "buy" ? "#FFF" : "#fe7e25"
+                    }}
+                  >
+                    للبيع
+                  </Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => setSelectedType("invest")}
-                style={{
-                  width: "30%",
-                  backgroundColor:
-                    selected_type == "invest" ? "#fe7e25" : "#FFF",
-                  paddingVertical: 10,
-                  borderRadius: 30,
-                  alignItems: "center",
-                  borderWidth: 1,
-                  borderColor: "#fe7e25"
-                }}
-              >
-                <Text
+                <TouchableOpacity
+                  onPress={() => setSelectedType("rent")}
                   style={{
-                    color: selected_type == "invest" ? "#FFF" : "#fe7e25",
-                    fontFamily: "Bold"
+                    width: "30%",
+                    backgroundColor:
+                      selected_type == "rent" ? "#fe7e25" : "#FFF",
+                    paddingVertical: 10,
+                    borderRadius: 30,
+                    alignItems: "center",
+                    borderWidth: 1,
+                    borderColor: "#fe7e25",
+                    borderWidth: 1,
+                    borderColor: "#fe7e25"
                   }}
                 >
-                  للإستثمار
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={{
+                      color: selected_type == "rent" ? "#FFF" : "#fe7e25",
+                      fontFamily: "Bold"
+                    }}
+                  >
+                    للأيجار
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => setSelectedType("invest")}
+                  style={{
+                    width: "30%",
+                    backgroundColor:
+                      selected_type == "invest" ? "#fe7e25" : "#FFF",
+                    paddingVertical: 10,
+                    borderRadius: 30,
+                    alignItems: "center",
+                    borderWidth: 1,
+                    borderColor: "#fe7e25"
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: selected_type == "invest" ? "#FFF" : "#fe7e25",
+                      fontFamily: "Bold"
+                    }}
+                  >
+                    للإستثمار
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
 
-          <View
-            style={{
-              paddingHorizontal: 5,
-              paddingVertical: 10,
-              marginTop: 10,
-              width: "100%"
-            }}
-          >
-            <Dropdown
-              style={[
-                styles.dropdown,
-                isFocus == "prop_type" && { borderColor: "blue" }
-              ]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
-              data={cats}
-              //search
-              maxHeight={300}
-              labelField="title"
-              valueField="title"
-              placeholder={isFocus !== "prop_type" ? "أختر نوع العقار " : "..."}
-              //  value={prop_cat}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                setFilterCat(item.type_id);
-                setIsFocus(false);
-              }}
-              renderRightIcon={() =>
-                <FontAwesome
-                  style={styles.icon}
-                  name="building"
-                  size={24}
-                  color="#fe7e25"
-                />}
-              renderLeftIcon={() =>
-                <SimpleLineIcons name="arrow-down" size={24} color="grey" />}
-            />
-          </View>
-
-          <View
-            style={{
-              paddingHorizontal: 5,
-              paddingVertical: 10,
-              marginTop: 10,
-              width: "100%"
-            }}
-          >
-            <Dropdown
-              style={styles.dropdown}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
-              data={regions}
-              search
-              searchPlaceholder="ابحث عن المنطقه"
-              maxHeight={300}
-              labelField="name_ar"
-              valueField="region_id"
-              placeholder={"أختر المنطقة المطلوبة"}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                getCitiessByRegionId(item.region_id);
-                setFilterState(item.region_id);
-              }}
-              renderRightIcon={() =>
-                <Ionicons
-                  style={styles.icon}
-                  name="location-sharp"
-                  size={24}
-                  color="#fe7e25"
-                />}
-              renderLeftIcon={() =>
-                <MaterialIcons
-                  name="keyboard-arrow-down"
-                  size={30}
-                  color="grey"
-                />}
-            />
-          </View>
-
-          <View
-            style={{
-              paddingHorizontal: 5,
-              paddingVertical: 10,
-              marginTop: 10,
-              width: "100%"
-            }}
-          >
-            <Dropdown
-              style={styles.dropdown}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
-              data={filtered_cities}
-              search
-              searchPlaceholder="ابحث عن المدينة"
-              maxHeight={300}
-              labelField="name_ar"
-              valueField="city_id"
-              placeholder={"أختر المدينة المطلوبة"}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                getDistrictsByCityID(item.city_id);
-                setFilterCity(item.city_id);
-              }}
-              renderRightIcon={() =>
-                <Ionicons
-                  style={styles.icon}
-                  name="location-sharp"
-                  size={24}
-                  color="#fe7e25"
-                />}
-              renderLeftIcon={() =>
-                <MaterialIcons
-                  name="keyboard-arrow-down"
-                  size={30}
-                  color="grey"
-                />}
-            />
-          </View>
-
-
-          <View
-            style={{
-              paddingHorizontal: 5,
-              paddingVertical: 10,
-              marginTop: 10,
-              width: "100%"
-            }}
-          >
-            <Dropdown
-              style={styles.dropdown}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
-              data={filtered_districts}
-              search
-              searchPlaceholder="ابحث عن الحي"
-              maxHeight={300}
-              labelField="name_ar"
-              valueField="district_id"
-              placeholder={"أختر الحي"}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                setFilterCity(item.district_id);
-              }}
-              renderRightIcon={() =>
-                <Ionicons
-                  style={styles.icon}
-                  name="location-sharp"
-                  size={24}
-                  color="#fe7e25"
-                />}
-              renderLeftIcon={() =>
-                <MaterialIcons
-                  name="keyboard-arrow-down"
-                  size={30}
-                  color="grey"
-                />}
-            />
-          </View>
-
-          <View style={{ width: "100%" }}>
             <View
               style={{
-                paddingHorizontal: 30,
+                paddingHorizontal: 5,
                 paddingVertical: 10,
                 marginTop: 10,
                 width: "100%"
               }}
             >
-              <Text
-                style={{
-                  fontFamily: "Bold",
-                  width: "100%",
-                  textAlign: "center"
+              <Dropdown
+                style={[
+                  styles.dropdown,
+                  isFocus == "prop_type" && { borderColor: "blue" }
+                ]}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                itemTextStyle={{ fontFamily: "Regular", fontSize: 12 }}
+                data={cats}
+                //search
+                maxHeight={300}
+                labelField="title"
+                valueField="title"
+                placeholder={isFocus !== "prop_type" ? "اختر نوع العقار " : "..."}
+                //  value={prop_cat}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={item => {
+                  setFilterCat(item.type_id);
+                  setIsFocus(false);
                 }}
-              >
-                أختر الحد الأدنى والأعلى للسعر
-              </Text>
+                renderRightIcon={() =>
+                  <FontAwesome
+                    style={styles.icon}
+                    name="building"
+                    size={24}
+                    color="#fe7e25"
+                  />}
+                renderLeftIcon={() =>
+                  <SimpleLineIcons name="arrow-down" size={24} color="grey" />}
+              />
             </View>
 
             <View
               style={{
-                paddingHorizontal: 10,
-                flexDirection: "row-reverse",
-                justifyContent: "space-around",
-                alignItems: "center"
+                paddingHorizontal: 5,
+                paddingVertical: 10,
+                marginTop: 10,
+                width: "100%"
               }}
             >
+              <Dropdown
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
+                data={regions}
+                search
+                searchPlaceholder="ابحث عن المنطقه"
+                maxHeight={300}
+                labelField="name_ar"
+                valueField="region_id"
+                placeholder={"اختر المنطقة المطلوبة"}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={item => {
+                  getCitiessByRegionId(item.region_id);
+                  setFilterState(item.region_id);
+                }}
+                renderRightIcon={() =>
+                  <Ionicons
+                    style={styles.icon}
+                    name="location-sharp"
+                    size={24}
+                    color="#fe7e25"
+                  />}
+                renderLeftIcon={() =>
+                  <MaterialIcons
+                    name="keyboard-arrow-down"
+                    size={30}
+                    color="grey"
+                  />}
+              />
+            </View>
 
-              <View style={{
-                width: "45%",
-                backgroundColor: "#FFF",
-                flexDirection: "row",
-                alignItems: "center",
-                borderRadius: 25,
-                height: 50,
-                borderColor: "#DDDDDD",
-                borderWidth: 1.5,
-                marginBottom: 20,
-                paddingHorizontal: 15
-              }}>
-                <TextInput
-                  placeholder="السعر الأدني"
-                  keyboardType="numeric"
-                  onChangeText={min_price => setminPrice(min_price)}
+            <View
+              style={{
+                paddingHorizontal: 5,
+                paddingVertical: 10,
+                marginTop: 10,
+                width: "100%"
+              }}
+            >
+              <Dropdown
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
+                data={filtered_cities}
+                search
+                searchPlaceholder="ابحث عن المدينة"
+                maxHeight={300}
+                labelField="name_ar"
+                valueField="city_id"
+                placeholder={"اختر المدينة المطلوبة"}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={item => {
+                  getDistrictsByCityID(item.city_id);
+                  setFilterCity(item.city_id);
+                }}
+                renderRightIcon={() =>
+                  <Ionicons
+                    style={styles.icon}
+                    name="location-sharp"
+                    size={24}
+                    color="#fe7e25"
+                  />}
+                renderLeftIcon={() =>
+                  <MaterialIcons
+                    name="keyboard-arrow-down"
+                    size={30}
+                    color="grey"
+                  />}
+              />
+            </View>
+
+
+            <View
+              style={{
+                paddingHorizontal: 5,
+                paddingVertical: 10,
+                marginTop: 10,
+                width: "100%"
+              }}
+            >
+              <Dropdown
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                itemTextStyle={{ fontFamily: "Regular", fontSize: 12, textAlign: "right" }}
+                data={filtered_districts}
+                search
+                searchPlaceholder="ابحث عن الحي"
+                maxHeight={300}
+                labelField="name_ar"
+                valueField="district_id"
+                placeholder={"اختر الحي"}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={item => {
+                  setFilterCity(item.district_id);
+                }}
+                renderRightIcon={() =>
+                  <Ionicons
+                    style={styles.icon}
+                    name="location-sharp"
+                    size={24}
+                    color="#fe7e25"
+                  />}
+                renderLeftIcon={() =>
+                  <MaterialIcons
+                    name="keyboard-arrow-down"
+                    size={30}
+                    color="grey"
+                  />}
+              />
+            </View>
+
+            <View style={{ width: "100%" }}>
+              <View
+                style={{
+                  paddingHorizontal: 30,
+                  paddingVertical: 10,
+                  marginTop: 10,
+                  width: "100%"
+                }}
+              >
+                <Text
                   style={{
-                    height: 50,
-                    width: "90%",
-                    fontFamily: "Regular",
-                    textAlign: "right",
+                    fontFamily: "Bold",
+                    width: "100%",
+                    textAlign: "center"
                   }}
-                />
-                <MaterialIcons name="attach-money" size={24} color="black" />
-
-
+                >
+                  اختر الحد الأدنى والأعلى للسعر
+                </Text>
               </View>
 
               <View
                 style={{
-                  width: "10%",
-                  justifyContent: "center",
+                  paddingHorizontal: 10,
+                  flexDirection: "row-reverse",
+                  justifyContent: "space-around",
                   alignItems: "center"
                 }}
               >
-                <Octicons name="dash" size={30} color="black" />
-              </View>
 
-              <View style={{
-                width: "45%",
-                backgroundColor: "#FFF",
-                flexDirection: "row",
-                alignItems: "center",
-                borderRadius: 25,
-                height: 50,
-                borderColor: "#DDDDDD",
-                borderWidth: 1.5,
-                marginBottom: 20,
-                paddingHorizontal: 15
-              }}>
-                <TextInput
-                  placeholder="السعر الأعلي"
-                  keyboardType="numeric"
-                  onChangeText={price => setMaxPrice(price)}
+                <View style={{
+                  width: "45%",
+                  backgroundColor: "#FFF",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  borderRadius: 25,
+                  height: 50,
+                  borderColor: "#DDDDDD",
+                  borderWidth: 1.5,
+                  marginBottom: 20,
+                  paddingHorizontal: 15
+                }}>
+                  <Image source={require('./../assets/riyal.png')} style={{
+                    width: 30,
+                    height: 30
+                  }} />
+
+                  <TextInput
+                    placeholder="السعر الأدني"
+                    keyboardType="numeric"
+                    onChangeText={min_price => setminPrice(min_price)}
+                    style={{
+                      height: 50,
+                      width: "80%",
+                      fontFamily: "Regular",
+                      textAlign: "right",
+                    }}
+                  />
+
+                </View>
+
+                <View
                   style={{
-                    height: 50,
-                    width: "90%",
-                    fontFamily: "Regular",
-                    textAlign: "right",
+                    width: "10%",
+                    justifyContent: "center",
+                    alignItems: "center"
                   }}
-                />
-                <MaterialIcons name="attach-money" size={24} color="black" />
+                >
+                  <Octicons name="dash" size={30} color="black" />
+                </View>
+
+                <View style={{
+                  width: "45%",
+                  backgroundColor: "#FFF",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  borderRadius: 25,
+                  height: 50,
+                  borderColor: "#DDDDDD",
+                  borderWidth: 1.5,
+                  marginBottom: 20,
+                  paddingHorizontal: 15
+                }}>
+
+                  <Image source={require('./../assets/riyal.png')} style={{
+                    width: 30,
+                    height: 30
+                  }} />
+
+
+                  <TextInput
+                    placeholder="السعر الأعلي"
+                    keyboardType="numeric"
+                    onChangeText={price => setMaxPrice(price)}
+                    style={{
+                      height: 50,
+                      width: "80%",
+                      fontFamily: "Regular",
+                      textAlign: "right",
+                    }}
+                  />
+                </View>
               </View>
             </View>
-          </View>
 
-          <View style={{ width: "100%", paddingHorizontal: 20 }}>
-            <TouchableOpacity
-              onPress={() => _applyFilter()}
-              style={{
-                width: "100%",
-                backgroundColor: "#fe7e25",
-                borderRadius: 20,
-                padding: 10,
-                alignItems: "center",
+            <View style={{ width: "100%", paddingHorizontal: 20 }}>
+              <TouchableOpacity
+                onPress={() => _applyFilter()}
+                style={{
+                  width: "100%",
+                  backgroundColor: "#fe7e25",
+                  borderRadius: 20,
+                  padding: 10,
+                  alignItems: "center",
 
-              }}>
-              <Text style={{
-                color: "#FFF",
-                fontFamily: "Bold"
-              }}>
-                تطبيق الفلتر
-              </Text>
-            </TouchableOpacity>
+                }}>
+                <Text style={{
+                  color: "#FFF",
+                  fontFamily: "Bold"
+                }}>
+                  تطبيق الفلتر
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ScrollView>
-      <Toast config={toastConfig} />
+        </ScrollView>
+        <Toast config={toastConfig} />
       </View>
     </View>
   );

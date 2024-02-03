@@ -18,6 +18,7 @@ import Requests from "./../Screens/Requests";
 import NewRequest from "./../Screens/NewRequest";
 import { AppStack } from "./AppStack";
 
+
 const Tabs = createBottomTabNavigator();
 export const ClientTabStack = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -296,6 +297,7 @@ export const ClientTabStack = ({ navigation }) => {
               />
           }}
         />
+
         <Tabs.Screen
           name="NewRequest"
           component={NewRequest}
@@ -304,6 +306,7 @@ export const ClientTabStack = ({ navigation }) => {
               <Text style={{ fontFamily: "Regular", color }} />
           }}
         />
+
         <Tabs.Screen
           name="MapScreen"
           component={MapScreen}

@@ -314,7 +314,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                         marginBottom: 20
                                     }}
                                 >
-                                    أختر نوع العقار
+                                    اختر نوع العقار
                                 </Text>
                                 <Dropdown
                                     style={[styles.dropdown,
@@ -329,7 +329,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                     maxHeight={300}
                                     labelField="title"
                                     valueField="title"
-                                    placeholder={isFocus !== "prop_type" ? 'أختر نوع العقار ' : '...'}
+                                    placeholder={isFocus !== "prop_type" ? 'اختر نوع العقار ' : '...'}
                                     //  value={prop_cat}
                                     onFocus={() => setIsFocus(true)}
                                     onBlur={() => setIsFocus(false)}
@@ -365,7 +365,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                         marginBottom: 20
                                     }}
                                 >
-                                    أختر  المنطقة
+                                    اختر  المنطقة
                                 </Text>
                                 <Dropdown
                                     style={styles.dropdown}
@@ -380,7 +380,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                     maxHeight={300}
                                     labelField="name_ar"
                                     valueField="region_id"
-                                    placeholder={"أختر المنطقة المطلوبة"}
+                                    placeholder={"اختر المنطقة المطلوبة"}
                                     onFocus={() => setIsFocus(true)}
                                     onBlur={() => setIsFocus(false)}
                                     onChange={item => {
@@ -423,7 +423,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                         marginBottom: 20
                                     }}
                                 >
-                                    أختر  المدينة
+                                    اختر  المدينة
                                 </Text>
                                 <Dropdown
                                     style={styles.dropdown}
@@ -438,7 +438,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                     maxHeight={300}
                                     labelField="name_ar"
                                     valueField="city_id"
-                                    placeholder={"أختر المدينة المطلوبة"}
+                                    placeholder={"اختر المدينة المطلوبة"}
                                     onFocus={() => setIsFocus(true)}
                                     onBlur={() => setIsFocus(false)}
                                     onChange={item => {
@@ -479,7 +479,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                         marginHorizontal: 10,
                                     }}
                                 >
-                                    أخترالحي
+                                    اخترالحي
                                 </Text>
                                 <Dropdown
                                     style={styles.dropdown}
@@ -494,7 +494,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                     maxHeight={300}
                                     labelField="name_ar"
                                     valueField="district_id"
-                                    placeholder={"أختر الحي"}
+                                    placeholder={"اختر الحي"}
                                     onFocus={() => setIsFocus(true)}
                                     onBlur={() => setIsFocus(false)}
                                     onChange={item => {
@@ -669,7 +669,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                             textAlign: "center"
                                         }}
                                     >
-                                        أختر الحد الأدنى والأعلى للسعر
+                                        اختر الحد الأدنى والأعلى للسعر
                                     </Text>
                                 </View>
 
@@ -752,7 +752,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                     width: "100%",
                                 }}
                             >
-                                أختر الحد الأدنى والأعلى للمساحة المطلوبة
+                                اختر الحد الأدنى والأعلى للمساحة المطلوبة
                             </Text>
                         </View>
 

@@ -15,10 +15,10 @@ import {
   Platform
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {url} from "../../constants/constants";
+import { url } from "../../constants/constants";
 import Toast from "react-native-toast-message";
 import toastConfig from "../../components/Toast";
-import { MaterialIcons,MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { userSlice } from "../../store/userSlice";
 import { ScrollView } from "react-native-gesture-handler";
@@ -72,31 +72,31 @@ export default function SignInScreen({ navigation, route }) {
     })
       .then(response => response.json())
       .then(responseJson => {
-         if (responseJson.success == true) {
-           dispatch(userSlice.actions.setUserInfo(JSON.stringify(responseJson.data)));
-           _storeData(
+        if (responseJson.success == true) {
+          dispatch(userSlice.actions.setUserInfo(JSON.stringify(responseJson.data)));
+          _storeData(
             responseJson.data,
             responseJson.data.user_token,
             responseJson.data.user_name,
             responseJson.data.user_phone,
             responseJson.data.user_type
           );
-         } 
-         else {
-            setLoading(false);
-            // Toast.show({
-            //   type: "erorrToast",
-            //   text1: "هناك خطأ , الرجاء التأكد من رقم الجوال",
-            //   bottomOffset: 80,
-            //   visibilityTime: 2000
-            // });
+        }
+        else {
+          setLoading(false);
+          // Toast.show({
+          //   type: "erorrToast",
+          //   text1: "هناك خطأ , الرجاء التأكد من رقم الجوال",
+          //   bottomOffset: 80,
+          //   visibilityTime: 2000
+          // });
 
-            setSignUpAlert(true);
-         }
+          setSignUpAlert(true);
+        }
       });
   };
 
-  const _storeData = async (data, user_token, user_name, user_phone,user_type) => {
+  const _storeData = async (data, user_token, user_name, user_phone, user_type) => {
     try {
       await AsyncStorage.setItem("user_info", JSON.stringify(data));
       await AsyncStorage.setItem("user_token", user_token);
@@ -107,25 +107,24 @@ export default function SignInScreen({ navigation, route }) {
 
       setLoading(false);
       navigation.replace("OtpScreen", {
-        phone : phone,
+        phone: phone,
         code: "1234",
-        action :"signin"
-    });
+        action: "signin"
+      });
 
-    } 
-    catch (error) 
-    {
-      
+    }
+    catch (error) {
+
     }
   };
 
 
-  const _navigate = async () =>{
+  const _navigate = async () => {
     navigation.replace("OtpScreen", {
-      phone : phone,
+      phone: phone,
       code: "1234",
-      action :"signup"
-  });
+      action: "signup"
+    });
   }
 
 
@@ -138,13 +137,13 @@ export default function SignInScreen({ navigation, route }) {
         backgroundColor: "#FFF"
       }}
       keyboardVerticalOffset={10}
-      behavior = {Platform.OS === "ios" ? "padding" : null}>
-      <StatusBar backgroundColor="#FFF" barStyle="light-content" translucent/>
+      behavior={Platform.OS === "ios" ? "padding" : null}>
+      <StatusBar backgroundColor="#FFF" barStyle="light-content" translucent />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{
           width: "100%",
-          paddingHorizontal:20
+          paddingHorizontal: 20
         }}
       >
         <View
@@ -259,7 +258,7 @@ export default function SignInScreen({ navigation, route }) {
                 marginVertical: 10,
                 height: 58
               }}
-             >
+            >
               <View
                 style={{
                   paddingHorizontal: 10,
@@ -362,79 +361,83 @@ export default function SignInScreen({ navigation, route }) {
           >
             {isLoading == false
               ? <Text
-                  style={{
-                    color: "white",
-                    textAlign: "center",
-                    fontFamily: "Bold"
-                  }}
-                >
-                  متابعة
-                </Text>
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                  fontFamily: "Bold"
+                }}
+              >
+                متابعة
+              </Text>
               : <ActivityIndicator size="large" color={"#FFF"} />}
           </TouchableOpacity>
         </View>
         <Toast config={toastConfig} />
 
         <Modal
-        animationType="slide"
-        transparent={true}
-        visible={signup_alert}
+          animationType="slide"
+          transparent={true}
+          visible={signup_alert}
         // onRequestClose={() => {
         //   SetFailedAlert(!failed_alert);
         // }}
         >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View
-              style={{
-                backgroundColor: "#fe7e25",
-                width: 50,
-                height: 50,
-                marginTop: -25,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 25
-              }}
-            >
-             <MaterialCommunityIcons name="account-arrow-right" size={24} color="#FFF" />
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View
+                style={{
+                  backgroundColor: "#fe7e25",
+                  width: 50,
+                  height: 50,
+                  marginTop: -25,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 25
+                }}
+              >
+                <Image source={require('./../../assets/wd_white.png')} style={{
+                  width: 50,
+                  height: 50
+                }} />
 
-            </View>
+              </View>
 
-            <TouchableOpacity
-              onPress={() => setSignUpAlert(false)}
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                paddingHorizontal: 20
-              }}
-            >
-              <FontAwesome name="close" size={24} color="black" />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setSignUpAlert(false)}
+                style={{
+                  width: "100%",
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  paddingHorizontal: 20
+                }}
+              >
+                <FontAwesome name="close" size={24} color="black" />
+              </TouchableOpacity>
 
-            <Text style={styles.modalText}>
-            لا يوجد حساب مرتبط بهذا الرقم
-            </Text>
-            <Text style={styles.modalBody}>
-            هل تريد انشاء حساب بهذا الرقم
-            </Text>
-            <TouchableOpacity
-              style={{
-                backgroundColor: "#fe7e25",
-                paddingHorizontal:20,
-                paddingVertical:10,                
-                marginVertical:10,
-                borderRadius:10
-              }}
-              onPress={() => _navigate()}
-            >
-              <Text style={styles.textStyle}>
-              متابعه
+              <Text style={styles.modalText}>
+                لا يوجد حساب مرتبط بهذا الرقم
               </Text>
-            </TouchableOpacity>
+              <Text style={styles.modalBody}>
+                هل تريد انشاء حساب بهذا الرقم
+              </Text>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "#fe7e25",
+                  paddingHorizontal: 20,
+                  paddingVertical: 10,
+                  marginVertical: 20,
+                  borderRadius: 10,
+                  width: "90%"
+                }}
+                onPress={() => _navigate()}
+              >
+                <Text style={styles.textStyle}>
+                  متابعه
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
       </ScrollView>
     </KeyboardAvoidingView>
   );

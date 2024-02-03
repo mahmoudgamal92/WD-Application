@@ -406,7 +406,7 @@ export default function ProfilePage() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => SetConfirmAlert(!confirm_alert)}
+
             style={styles.profileItem}
           >
             <View style={{ flexDirection: "row" }}>
@@ -444,6 +444,7 @@ export default function ProfilePage() {
           SetFailedAlert(!failed_alert);
         }}
       >
+
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <View
@@ -639,8 +640,9 @@ export default function ProfilePage() {
             <Text style={styles.modalText}>حذف حسابك</Text>
 
             <Text style={styles.modalBody}>
-              هل متأكد من حذف حسابك من التطبيق ؟ سيتم حذف جميع بياناتك و لن
-              تستطيع الرجوع مرة أخرى
+              هل متأكد من حذف حسابك من التطبيق ؟
+              {"\n"}
+              سيتم حذف جميع بياناتك
             </Text>
             <TouchableOpacity
               style={[styles.button]}

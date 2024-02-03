@@ -76,12 +76,8 @@ export const AppStack = () => {
             <HomeStack.Screen name="Deals" component={Deals} />
             <HomeStack.Screen name="FaLicenseScan" component={FaLicenseScan} />
             <HomeStack.Screen name="CompleteOrder" component={CompleteOrder} />
-            <HomeStack.Screen name="BankTransaction" component={BankTransaction} /> 
-
-            <HomeStack.Group screenOptions={{ presentation: 'modal' }}>
+            <HomeStack.Screen name="BankTransaction" component={BankTransaction} />
             <HomeStack.Screen name="FilterScreen" component={FilterScreen} />
-             </HomeStack.Group>
-            
         </HomeStack.Navigator>
     )
 }

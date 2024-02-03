@@ -2,7 +2,7 @@
   "expo": {
     "name": "تطبيق ود",
     "slug": "wd",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
@@ -23,7 +23,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "10",
+      "buildNumber": "11",
       "supportsTablet": false,
       "bundleIdentifier": "com.wd.zawya",
       "infoPlist": {

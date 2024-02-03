@@ -29,7 +29,7 @@ import {
 } from "@expo/vector-icons";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {url} from "../../constants/constants";
+import { url } from "../../constants/constants";
 import Constants from "expo-constants";
 import { Dropdown } from 'react-native-element-dropdown';
 
@@ -49,45 +49,45 @@ const ProperityDetail = ({ route, navigation }) => {
 
     const getAdvType = (val) => {
         switch (val) {
-          case "sale":
-            return "للبيع";
-          case "rent":
-            return "للإيجار";
-          case "for_invest":
-            return "للإستثمار";
-          default:
-            return "للبيع";
+            case "sale":
+                return "للبيع";
+            case "rent":
+                return "للإيجار";
+            case "for_invest":
+                return "للإستثمار";
+            default:
+                return "للبيع";
         }
-      };
-    
-    
-      const getPropType = (val) => {
+    };
+
+
+    const getPropType = (val) => {
         switch (val) {
-          case "3":
-            return "شقة";
-          case "4":
-            return "فيلا";
-          case "5":
-            return "أرض";
-          case "6":
-            return "عمارة";
-          case "7":
-            return "محل تجاري";
-          case "8":
-            return "مول";
-          case "9":
-            return "شاليه";
-          case "10":
-            return "إستراحة";
-          case "11":
-            return "مستودع";
-          case "12":
-            return "مصنع";
-          default:
-            return "أخرى";
+            case "3":
+                return "شقة";
+            case "4":
+                return "فيلا";
+            case "5":
+                return "أرض";
+            case "6":
+                return "عمارة";
+            case "7":
+                return "محل تجاري";
+            case "8":
+                return "مول";
+            case "9":
+                return "شاليه";
+            case "10":
+                return "إستراحة";
+            case "11":
+                return "مستودع";
+            case "12":
+                return "مصنع";
+            default:
+                return "أخرى";
         }
-      };
-    
+    };
+
 
     useEffect(() => {
         _retrieveData();
@@ -269,7 +269,7 @@ const ProperityDetail = ({ route, navigation }) => {
                                         marginBottom: 20
                                     }}
                                 >
-                                    أختر نوع الإعلان
+                                    اختر نوع الإعلان
                                 </Text>
                                 <Dropdown
                                     style={[styles.dropdown,
@@ -284,7 +284,7 @@ const ProperityDetail = ({ route, navigation }) => {
                                     maxHeight={300}
                                     labelField="title"
                                     valueField="value"
-                                    placeholder={isFocus !== "type" ? 'أختر نوع المنتج ' : '...'}
+                                    placeholder={isFocus !== "type" ? 'اختر نوع المنتج ' : '...'}
                                     value={adv_val}
                                     onFocus={() => setIsFocus(true)}
                                     onBlur={() => setIsFocus(false)}

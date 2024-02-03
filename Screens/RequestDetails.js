@@ -218,7 +218,7 @@ export default function RequestDetails({ route, navigation }) {
                       marginBottom: 20
                     }}
                   >
-                    أختر نوع الإعلان
+                    اختر نوع الإعلان
                   </Text>
                   <Dropdown
                     style={[
@@ -236,7 +236,7 @@ export default function RequestDetails({ route, navigation }) {
                     labelField="title"
                     valueField="value"
                     placeholder={
-                      isFocus !== "type" ? "أختر نوع المنتج " : "..."
+                      isFocus !== "type" ? "اختر نوع المنتج " : "..."
                     }
                     value={adv_val}
                     onFocus={() => setIsFocus(true)}

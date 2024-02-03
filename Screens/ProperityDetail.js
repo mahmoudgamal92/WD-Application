@@ -33,16 +33,15 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { getAdvType, getPropType } from "./../utils/functions";
 import { Video, ResizeMode } from 'expo-av';
 import { Iconify } from "react-native-iconify";
-
+import Toast from "react-native-toast-message";
+import toastConfig from "./../components/Toast";
 const ProperityDetail = ({ route, navigation }) => {
-  const [modalVisible, setModalVisible] = useState(false);
   const [video_modal, setVideoModal] = useState(false);
-
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
-  const [adv_val, setAdvVal] = useState("for_sale");
-  const [user_token, setUserToken] = useState("");
+  const [isFav, setIsFav] = useState(false);
 
+  const [adv_val, setAdvVal] = useState("for_sale");
   const { prop } = route.params;
   const [user, setUser] = useState([]);
   const [data, setData] = useState([]);
@@ -57,26 +56,55 @@ const ProperityDetail = ({ route, navigation }) => {
     _retriveLike();
   }, []);
 
-
-
-  const toggleFavorite = (prop_id) => {
+  const toggleFavorite = async prop_id => {
+    const user_token = await AsyncStorage.getItem("user_token");
     try {
       //setFavLoading(prop_id);
       fetch(
-        url.base_url + "favourite/toggle.php?prop_id=" + prop_id + "&user_token=" + user_token,
+        url.base_url +
+        "favourite/toggle.php?prop_id=" +
+        prop_id +
+        "&user_token=" +
+        user_token,
         {
           headers: {
             Accept: "*/*",
             "Content-type": "multipart/form-data;",
             "Accept-Encoding": "gzip, deflate, br",
             "cache-control": "no-cache",
-            Connection: "keep-alive",
+            Connection: "keep-alive"
           }
-        }).then(response => response.json())
+        }
+      )
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.action == "insert") {
+            setIsFav(true);
+            Toast.show({
+              type: "successToast",
+              text1: "تم الاضافه للمفضله بنجاح",
+              bottomOffset: 80,
+              visibilityTime: 2000
+            });
+          }
+
+          else {
+            setIsFav(false);
+            Toast.show({
+              type: "successToast",
+              text1: "تم الحذف من المفضلة",
+              bottomOffset: 80,
+              visibilityTime: 2000
+            });
+          }
+
+        });
     } catch (error) {
       console.log(error);
     }
   };
+
+
 
 
   const _refactorString = (param) => {
@@ -181,40 +209,6 @@ const ProperityDetail = ({ route, navigation }) => {
         }
       })
   }
-
-  // const _retrieveData = async () => {
-  //   try {
-  //     const user_token = await AsyncStorage.getItem("user_token");
-  //     setUserToken(user_token);
-  //     const token = prop.prop_owner;
-  //     let formData = new FormData();
-  //     formData.append("user_token", token);
-  //     fetch(url.base_url + "profile/user.php", {
-  //       method: "POST",
-  //       headers: {
-  //         Accept: "*/*",
-  //         "Content-type": "multipart/form-data;",
-  //         "Accept-Encoding": "gzip, deflate, br",
-  //         Connection: "keep-alive"
-  //       },
-  //       body: formData
-  //     })
-  //       .then(response => response.json())
-  //       .then(json => {
-  //         if (json.success == true) {
-  //           setUser(json.data);
-  //         }
-  //         else {
-  //           setUser(null);
-  //         }
-  //       })
-
-  //       .catch(error => console.error(error));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
 
   const reportProp = async () => {
     try {
@@ -332,7 +326,7 @@ const ProperityDetail = ({ route, navigation }) => {
                     marginBottom: 20
                   }}
                 >
-                  أختر نوع الإعلان
+                  اختر نوع الإعلان
                 </Text>
                 <Dropdown
                   style={[styles.dropdown,
@@ -347,7 +341,7 @@ const ProperityDetail = ({ route, navigation }) => {
                   maxHeight={300}
                   labelField="title"
                   valueField="value"
-                  placeholder={isFocus !== "type" ? 'أختر نوع المنتج ' : '...'}
+                  placeholder={isFocus !== "type" ? 'اختر نوع المنتج ' : '...'}
                   value={adv_val}
                   onFocus={() => setIsFocus(true)}
                   onBlur={() => setIsFocus(false)}
@@ -495,7 +489,23 @@ const ProperityDetail = ({ route, navigation }) => {
                             paddingHorizontal: 10,
                             marginTop: 50
                           }}>
-                            <Ionicons name="notifications" size={40} color="#FFF" />
+                            <TouchableOpacity
+                              onPress={() => toggleFavorite(prop.prop_id)}
+                              style={{
+                                width: 40,
+                                height: 40,
+                                backgroundColor: "#FFF",
+                                borderRadius: 10,
+                                alignItems: "center",
+                                justifyContent: "center"
+                              }}>
+                              {isFav == true ?
+                                <AntDesign name="heart" size={30} color="#fe7e25" />
+                                :
+                                <AntDesign name="hearto" size={30} color="#fe7e25" />
+                              }
+                            </TouchableOpacity>
+
                             <TouchableOpacity
                               onPress={() => navigation.goBack()}
                               style={{
@@ -1166,8 +1176,8 @@ const ProperityDetail = ({ route, navigation }) => {
 
           </ScrollView>
         </View>
-
       </View>
+      <Toast config={toastConfig} />
     </View>
   );
 };

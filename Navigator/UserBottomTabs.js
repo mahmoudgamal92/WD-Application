@@ -22,12 +22,11 @@ const Tabs = createBottomTabNavigator();
 
 export const UserTabStack = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
-
   const _proceedNavigation = screen => {
     setModalVisible(!modalVisible);
     navigation.navigate(screen);
   };
-  
+
   return (
     <View style={{ flex: 1, width: "100%" }}>
       <View
@@ -104,10 +103,10 @@ export const UserTabStack = ({ navigation }) => {
                   </View>
                 </View>
                 <View style={{ width: "60%" }}>
-                  <Text style={{ fontFamily: "Bold", color: "#000",textAlign:"right" }}>
+                  <Text style={{ fontFamily: "Bold", color: "#000", textAlign: "right" }}>
                     أطلب عقار
                   </Text>
-                  <Text style={{ fontFamily: "Regular", color: "grey",fontSize:12 , textAlign:"right"}}>
+                  <Text style={{ fontFamily: "Regular", color: "grey", fontSize: 12, textAlign: "right" }}>
                     سجل طلبك إذا لم تجدة في العقارات المعروضة لدينا
                   </Text>
                 </View>
@@ -123,7 +122,7 @@ export const UserTabStack = ({ navigation }) => {
                     }}
                   >
                     <Iconify
-                     icon="fluent:ios-arrow-24-filled"
+                      icon="fluent:ios-arrow-24-filled"
                       size={32}
                       color="#fe7e25"
                     />
@@ -165,10 +164,10 @@ export const UserTabStack = ({ navigation }) => {
                   </View>
                 </View>
                 <View style={{ width: "60%" }}>
-                  <Text style={{ fontFamily: "Bold", color: "#000" ,textAlign:"right"}}>
+                  <Text style={{ fontFamily: "Bold", color: "#000", textAlign: "right" }}>
                     إضافة عقار جديد
                   </Text>
-                  <Text style={{ fontFamily: "Regular", color: "grey", textAlign:"right" , textAlign:"right"}}>
+                  <Text style={{ fontFamily: "Regular", color: "grey", textAlign: "right", textAlign: "right" }}>
                     إضافة عقار للبيع أو الإيجار
                   </Text>
                 </View>
@@ -184,7 +183,7 @@ export const UserTabStack = ({ navigation }) => {
                     }}
                   >
                     <Iconify
-                     icon="fluent:ios-arrow-24-filled"
+                      icon="fluent:ios-arrow-24-filled"
                       size={32}
                       color="#fe7e25"
                     />

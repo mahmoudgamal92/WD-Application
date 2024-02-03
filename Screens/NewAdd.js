@@ -6,12 +6,9 @@ import {
   ScrollView,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  Image
 } from "react-native";
-import { Iconify } from "react-native-iconify";
-import { url } from "../constants/constants";
-import Constants from 'expo-constants';
-
 import {
   FontAwesome,
   MaterialIcons,
@@ -284,7 +281,7 @@ export default function NewAdd({ route, navigation }) {
                 zIndex: 10
               }}
             >
-              أختر نوع العقار
+              اختر نوع العقار
             </Text>
 
             <Dropdown
@@ -304,7 +301,7 @@ export default function NewAdd({ route, navigation }) {
               maxHeight={300}
               labelField="title"
               valueField="title"
-              placeholder={isFocus !== "prop_type" ? "أختر نوع العقار " : "..."}
+              placeholder={isFocus !== "prop_type" ? "اختر نوع العقار " : "..."}
               //  value={prop_cat}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
@@ -364,7 +361,11 @@ export default function NewAdd({ route, navigation }) {
                 width: "10%"
               }}
             >
-              <MaterialIcons name="attach-money" size={24} color="#fe7e25" />
+
+              <Image source={require('./../assets/riyal.png')} style={{
+                width: 30,
+                height: 30
+              }} />
             </View>
 
             <View
@@ -407,7 +408,7 @@ export default function NewAdd({ route, navigation }) {
                 marginHorizontal: 10
               }}
             >
-              أختر المنطقة
+              اختر المنطقة
             </Text>
             <Dropdown
               style={styles.dropdown}
@@ -422,7 +423,7 @@ export default function NewAdd({ route, navigation }) {
               maxHeight={300}
               labelField="name_ar"
               valueField="region_id"
-              placeholder={"أختر المنطقة المطلوبة"}
+              placeholder={"اختر المنطقة المطلوبة"}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
               onChange={item => {
@@ -462,7 +463,7 @@ export default function NewAdd({ route, navigation }) {
                 marginHorizontal: 10
               }}
             >
-              أختر المدينة
+              اختر المدينة
             </Text>
             <Dropdown
               style={styles.dropdown}
@@ -477,7 +478,7 @@ export default function NewAdd({ route, navigation }) {
               maxHeight={300}
               labelField="name_ar"
               valueField="city_id"
-              placeholder={"أختر المدينة المطلوبة"}
+              placeholder={"اختر المدينة المطلوبة"}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
               onChange={item => {
@@ -517,7 +518,7 @@ export default function NewAdd({ route, navigation }) {
                 marginHorizontal: 10
               }}
             >
-              أخترالحي
+              اخترالحي
             </Text>
             <Dropdown
               style={styles.dropdown}
@@ -532,7 +533,7 @@ export default function NewAdd({ route, navigation }) {
               maxHeight={300}
               labelField="name_ar"
               valueField="district_id"
-              placeholder={"أختر الحي"}
+              placeholder={"اختر الحي"}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
               onChange={item => {

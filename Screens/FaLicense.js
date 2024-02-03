@@ -111,7 +111,7 @@ export default function AddImg({ route, navigation }) {
                 fontSize: 16
               }}
             >
-              من فضلك أختر الطريقة لربط رخصة فال الخاصة بك
+              من فضلك اختر الطريقة لربط رخصة فال الخاصة بك
             </Text>
 
             {/* Mobile Input */}
@@ -159,7 +159,7 @@ export default function AddImg({ route, navigation }) {
               >
                 <TextInput
                   selectionColor={"#fe7e25"}
-                 // onChangeText={phone_number => setPhone(phone_number)}
+                  // onChangeText={phone_number => setPhone(phone_number)}
                   keyboardType="numeric"
                   style={{
                     fontFamily: "Regular",

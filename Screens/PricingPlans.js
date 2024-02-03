@@ -63,7 +63,7 @@ export default function PricingPlans({ route, navigation }) {
               fontSize: 18
             }}
           >
-            أختر خطة الأشتراك المناسبة لأحتياجاتك
+            اختر خطة الأشتراك المناسبة لأحتياجاتك
           </Text>
 
           <Text
