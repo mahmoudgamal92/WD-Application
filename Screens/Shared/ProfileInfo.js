@@ -25,6 +25,7 @@ export default function PersonalInfo({ navigation, route }) {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = React.useState(false);
   const [profile_img, setProfileImg] = useState("");
+  const [new_upload, setNewUpload] = useState(false);
   const [user_name, setUserName] = useState(null);
   const [user_email, setUserEmail] = useState(null);
   const [user_phone, setUserPhone] = useState(null);
@@ -77,13 +78,14 @@ export default function PersonalInfo({ navigation, route }) {
     formData.append("user_name", user_name);
     formData.append("user_email", user_email);
     formData.append("user_phone", user_phone);
-
-    if (profile_img !== null && profile_img !== "") {
-      formData.append("profile_img", {
-        uri: profile_img.uri,
-        name: profile_img.name,
-        type: profile_img.type
-      });
+    if (new_upload == true) {
+      if (profile_img !== null && profile_img !== "") {
+        formData.append("profile_img", {
+          uri: profile_img.uri,
+          name: profile_img.name,
+          type: profile_img.type
+        });
+      }
     }
     fetch(url.base_url + "profile/update.php", {
       method: "POST",
@@ -144,6 +146,7 @@ export default function PersonalInfo({ navigation, route }) {
           name: filename,
           type: img_type
         });
+        setNewUpload(true);
       }
     } catch (E) {
       console.log(E);

@@ -161,6 +161,7 @@ export default function PersonalProps({ route, navigation }) {
             ? <FlatList
               data={data}
               style={{ width: "100%" }}
+              showsVerticalScrollIndicator={false}
               ListEmptyComponent={handleEmptyProp()}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) =>

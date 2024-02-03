@@ -22,6 +22,7 @@ import SellerInfo from './../Screens/SellerInfo';
 import Logout from '../Screens/Auth/Logout';
 import Notification from './../Screens/Notification';
 import MapScreen from './../Screens/Client/MapScreen';
+import UpdateUser from './../Screens/Client/UpdateUser';
 
 import AddRequest from '../Screens/Shared/AddRequest';
 import RequestDetails from "../Screens/RequestDetails";
@@ -78,6 +79,8 @@ export const AppStack = () => {
             <HomeStack.Screen name="CompleteOrder" component={CompleteOrder} />
             <HomeStack.Screen name="BankTransaction" component={BankTransaction} />
             <HomeStack.Screen name="FilterScreen" component={FilterScreen} />
+            <HomeStack.Screen name="UpdateUser" component={UpdateUser} />
+
         </HomeStack.Navigator>
     )
 }

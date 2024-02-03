@@ -188,6 +188,7 @@ export default function ProfilePage() {
 
   const deleteAlert = () => {
     return (
+
       <Modal
         animationType="slide"
         transparent={true}
@@ -222,16 +223,12 @@ export default function ProfilePage() {
               <FontAwesome name="close" size={24} color="black" />
             </TouchableOpacity>
 
-            <Image
-              source={require("./../../assets/user.png")}
-              style={{ width: 100, height: 100 }}
-            />
-
             <Text style={styles.modalText}>حذف حسابك</Text>
 
             <Text style={styles.modalBody}>
-              هل متأكد من حذف حسابك من التطبيق ؟ سيتم حذف جميع بياناتك و لن
-              تستطيع الرجوع مرة أخرى
+              هل متأكد من حذف حسابك من التطبيق ؟
+              {"\n"}
+              سيتم حذف جميع بياناتك
             </Text>
             <TouchableOpacity
               style={[styles.button]}

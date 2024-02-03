@@ -563,15 +563,7 @@ export default function ProfilePage() {
                   الواتساب
                 </Text>
               </TouchableOpacity>
-              {/* <View>
-                <Text style={{
-                  fontFamily: "Bold",
-                  color: "#143656",
-                  fontSize: 16
-                }}>
-                  أو
-                </Text>
-              </View> */}
+
               <TouchableOpacity
                 onPress={() => Linking.openURL('mailto:support@wdapp.sa')
                 }

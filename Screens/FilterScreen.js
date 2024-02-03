@@ -507,6 +507,8 @@ export default function FilterScreen({ route }) {
                       width: "80%",
                       fontFamily: "Regular",
                       textAlign: "right",
+                      fontSize: 12,
+                      paddingHorizontal: 5
                     }}
                   />
 
@@ -550,6 +552,8 @@ export default function FilterScreen({ route }) {
                       width: "80%",
                       fontFamily: "Regular",
                       textAlign: "right",
+                      fontSize: 12,
+                      paddingHorizontal: 5
                     }}
                   />
                 </View>

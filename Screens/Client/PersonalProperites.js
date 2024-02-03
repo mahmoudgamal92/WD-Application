@@ -8,8 +8,6 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Popup, Root } from 'react-native-popup-confirm-toast'
-//import { as PopupRootProvider} from 'react-native-popup-confirm-toast';
-
 import { Entypo, AntDesign } from "@expo/vector-icons";
 import { url } from "../../constants/constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -160,6 +158,7 @@ export default function PersonalProps({ route, navigation }) {
           {isLoading == false
             ? <FlatList
               data={data}
+              showsVerticalScrollIndicator={false}
               style={{ width: "100%" }}
               ListEmptyComponent={handleEmptyProp()}
               keyExtractor={(item, index) => index.toString()}
@@ -232,24 +231,7 @@ export default function PersonalProps({ route, navigation }) {
                               padding: 5
                             }}
                           >
-                            {/* <View
-                              style={{
-                                backgroundColor: getPropStatus(item.prop_status)
-                                  .color,
-                                borderRadius: 50,
-                                paddingHorizontal: 10,
-                                paddingVertical: 5
-                              }}
-                            >
-                              <Text
-                                style={{
-                                  fontFamily: "Regular",
-                                  color: "#FFF"
-                                }}
-                              >
-                                {getPropStatus(item.prop_status).text}
-                              </Text>
-                            </View> */}
+
                           </View>
                         </View>
                       </ImageBackground>

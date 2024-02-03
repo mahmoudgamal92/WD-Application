@@ -108,107 +108,116 @@ export default function FavoriteScreen({ route, navigation }) {
       <View style={styles.rootContainer}>
         {isLoading == false
           ? <FlatList
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-              showsVerticalScrollIndicator={false}
-              data={data}
-              keyExtractor={(item, index) => `${item.client_id}`}
-              ListEmptyComponent={handleEmptyProp()}
-              renderItem={({ item }) =>
-                <TouchableOpacity
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            showsVerticalScrollIndicator={false}
+            data={data}
+            keyExtractor={(item, index) => `${item.client_id}`}
+            ListEmptyComponent={handleEmptyProp()}
+            renderItem={({ item }) =>
+              <TouchableOpacity
                 onPress={() => Linking.openURL(`tel:${item.user_phone}`)}
 
-                  style={{
-                    flexDirection: "row-reverse",
-                    alignItems: "center",
-                    height: 100,
-                    backgroundColor: "#FFF",
-                    marginHorizontal: 10,
-                    marginVertical: 10,
-                    borderRadius: 10
-                  }}
-                >
-                  <View style={{ width: "30%" }}>
-                    <Image
-                      source={require("./../../assets/man.png")}
-                      style={{
-                        width: 60,
-                        height: 60
-                      }}
-                    />
-                  </View>
+                style={{
+                  flexDirection: "row-reverse",
+                  alignItems: "center",
+                  height: 100,
+                  backgroundColor: "#FFF",
+                  marginHorizontal: 10,
+                  marginVertical: 10,
+                  borderRadius: 10,
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 3.84,
 
-                  <View style={{ width: "40%", justifyContent: "center" }}>
-                    <Text
-                      style={{
-                        color: "#000",
-                        fontFamily: "Bold",
-                        textAlign: "center"
-                      }}
-                    >
-                      {item.client_name}
-                    </Text>
-                    <View
-                      style={{
-                        flexDirection: "row-reverse",
-                        alignItems: "center",
-                        justifyContent: "center"
-                      }}
-                    >
-                      <Entypo name="old-phone" size={24} color="grey" />
-
-                      <Text
-                        style={{
-                          color: "grey",
-                          fontFamily: "Regular",
-                          textAlign: "center",
-                          fontSize: 15,
-                          marginHorizontal: 5
-                        }}
-                      >
-                        {item.client_phone}
-                      </Text>
-                    </View>
-                  </View>
-
-                  <View
+                  elevation: 5,
+                }}
+              >
+                <View style={{ width: "30%" }}>
+                  <Image
+                    source={require("./../../assets/man.png")}
                     style={{
-                      width: "30%",
-                      alignItems: "center",
-                      justifyContent: "space-around",
-                      flexDirection: "row"
+                      width: 60,
+                      height: 60
+                    }}
+                  />
+                </View>
+
+                <View style={{ width: "40%", justifyContent: "center" }}>
+                  <Text
+                    style={{
+                      color: "#000",
+                      fontFamily: "Bold",
+                      textAlign: "center"
                     }}
                   >
-                    <TouchableOpacity
-                    onPress={() => Linking.openURL(`mailto:${item.client_email}`)}
-                    >
-                      <Iconify
-                        icon="fluent:mail-20-filled"
-                        size={32}
-                        color="red"
-                      />
-                    </TouchableOpacity>
+                    {item.client_name}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: "row-reverse",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                  >
+                    <Entypo name="old-phone" size={24} color="grey" />
 
-                    <TouchableOpacity 
-                    onPress={() => Linking.openURL('whatsapp://send?phone='+item.client_phone)
-
-                  }
+                    <Text
+                      style={{
+                        color: "grey",
+                        fontFamily: "Regular",
+                        textAlign: "center",
+                        fontSize: 15,
+                        marginHorizontal: 5
+                      }}
                     >
-                      <Iconify icon="uim:whatsapp" size={32} color="green" />
-                    </TouchableOpacity>
+                      {item.client_phone}
+                    </Text>
                   </View>
-                </TouchableOpacity>}
-            />
+                </View>
+
+                <View
+                  style={{
+                    width: "30%",
+                    alignItems: "center",
+                    justifyContent: "space-around",
+                    flexDirection: "row"
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(`mailto:${item.client_email}`)}
+                  >
+                    <Iconify
+                      icon="fluent:mail-20-filled"
+                      size={32}
+                      color="red"
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL('whatsapp://send?phone=' + item.client_phone)
+
+                    }
+                  >
+                    <Iconify icon="uim:whatsapp" size={32} color="green" />
+                  </TouchableOpacity>
+                </View>
+              </TouchableOpacity>}
+          />
           : <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <ActivityIndicator size={70} color="#fe7e25" />
-            </View>}
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <ActivityIndicator size={70} color="#fe7e25" />
+          </View>}
 
         <View
           style={{
