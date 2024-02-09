@@ -290,7 +290,7 @@ export default function NewAdd({ route, navigation }) {
                 isFocus == "prop_type" && { borderColor: "blue" }
               ]}
               itemContainerStyle={{ width: "100%" }}
-              placeholderStyle={styles.placeholderStyle}
+              placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
@@ -412,7 +412,7 @@ export default function NewAdd({ route, navigation }) {
             </Text>
             <Dropdown
               style={styles.dropdown}
-              placeholderStyle={styles.placeholderStyle}
+              placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
@@ -467,7 +467,7 @@ export default function NewAdd({ route, navigation }) {
             </Text>
             <Dropdown
               style={styles.dropdown}
-              placeholderStyle={styles.placeholderStyle}
+              placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}
@@ -522,7 +522,7 @@ export default function NewAdd({ route, navigation }) {
             </Text>
             <Dropdown
               style={styles.dropdown}
-              placeholderStyle={styles.placeholderStyle}
+              placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               iconStyle={styles.iconStyle}

@@ -39,6 +39,7 @@ import toastConfig from "./../components/Toast";
 import { useNavigation } from '@react-navigation/native';
 import { regions, cities, districts } from "./../utils/address";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from 'expo-constants';
 
 export default function FilterScreen({ route }) {
   const navigation = useNavigation();
@@ -290,7 +291,7 @@ export default function FilterScreen({ route }) {
                   styles.dropdown,
                   isFocus == "prop_type" && { borderColor: "blue" }
                 ]}
-                placeholderStyle={styles.placeholderStyle}
+                placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
@@ -330,7 +331,7 @@ export default function FilterScreen({ route }) {
             >
               <Dropdown
                 style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
+                placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
@@ -374,7 +375,7 @@ export default function FilterScreen({ route }) {
             >
               <Dropdown
                 style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
+                placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
@@ -419,7 +420,7 @@ export default function FilterScreen({ route }) {
             >
               <Dropdown
                 style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
+                placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}

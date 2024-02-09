@@ -319,7 +319,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                 <Dropdown
                                     style={[styles.dropdown,
                                     isFocus == "prop_type" && { borderColor: 'blue' }]}
-                                    placeholderStyle={styles.placeholderStyle}
+                                    placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
                                     selectedTextStyle={styles.selectedTextStyle}
                                     inputSearchStyle={styles.inputSearchStyle}
                                     iconStyle={styles.iconStyle}
@@ -369,7 +369,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                 </Text>
                                 <Dropdown
                                     style={styles.dropdown}
-                                    placeholderStyle={styles.placeholderStyle}
+                                    placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
                                     selectedTextStyle={styles.selectedTextStyle}
                                     inputSearchStyle={styles.inputSearchStyle}
                                     iconStyle={styles.iconStyle}
@@ -427,7 +427,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                 </Text>
                                 <Dropdown
                                     style={styles.dropdown}
-                                    placeholderStyle={styles.placeholderStyle}
+                                    placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
                                     selectedTextStyle={styles.selectedTextStyle}
                                     inputSearchStyle={styles.inputSearchStyle}
                                     iconStyle={styles.iconStyle}
@@ -483,7 +483,7 @@ export default function RealEstateInfo({ navigation, route }) {
                                 </Text>
                                 <Dropdown
                                     style={styles.dropdown}
-                                    placeholderStyle={styles.placeholderStyle}
+                                    placeholderStyle={[styles.placeholderStyle, { textAlign: "right" }]}
                                     selectedTextStyle={styles.selectedTextStyle}
                                     inputSearchStyle={styles.inputSearchStyle}
                                     iconStyle={styles.iconStyle}
