@@ -268,7 +268,7 @@ export default function ProfilePage() {
                   marginHorizontal: 10
                 }}
               >
-                شروط الأعلان
+                السياسات و الشروط
               </Text>
               <View style={styles.profileItemIcon}>
                 <Iconify icon="ic:round-flag" size={30} color="#fe7e25" />

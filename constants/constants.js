@@ -1,29 +1,14 @@
 import { Iconify } from "react-native-iconify";
 
 export const url = {
-  base_url: "https://bnookholding.com/wd/api/",
-  media_url: "https://bnookholding.com/wd/uploads/",
+  base_url: "https://wdapp.sa/api/",
+  media_url: "https://wdapp.sa/uploads/",
   locationIQ:
     "https://api.locationiq.com/v1/autocomplete?key=pk.6909aa77110cff9b1d7fc9c6ed08f00f&q=",
   geocode_url:
     "https://us1.locationiq.com/v1/reverse?key=pk.6909aa77110cff9b1d7fc9c6ed08f00f&"
 };
 export const icons = [
-  // {
-  //   name: "prop_num",
-  //   icon: <Iconify icon={"ant-design:number-outlined"} size={20} color={"grey"} />,
-  //   nameAR: "رقم العقار"
-  // },
-  // {
-  //   name: "prop_type",
-  //   icon: <Iconify icon={"material-symbols:home"} size={20} color={"grey"} />,
-  //   nameAR: "نوع العقار"
-  // },
-  // {
-  //   name: "prop_space",
-  //   icon: <Iconify icon={"radix-icons:dimensions"} size={20} color={"grey"} />,
-  //   nameAR: "مساحة العقار "
-  // },
   {
     name: "prop_front",
     icon: <Iconify icon={"material-symbols:home-work-outline"} size={20} color={"grey"} />,
