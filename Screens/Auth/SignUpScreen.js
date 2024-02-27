@@ -211,8 +211,7 @@ export default function SignUpScreen({ navigation, route }) {
                 paddingVertical: 2,
                 marginVertical: 10,
                 height: 58
-              }}
-            >
+              }}>
               <View
                 style={{
                   paddingHorizontal: 10,
@@ -333,14 +332,14 @@ export default function SignUpScreen({ navigation, route }) {
           >
             {isLoading == false
               ? <Text
-                  style={{
-                    color: "white",
-                    textAlign: "center",
-                    fontFamily: "Bold"
-                  }}
-                >
-                  إنشاء حساب
-                </Text>
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                  fontFamily: "Bold"
+                }}
+              >
+                إنشاء حساب
+              </Text>
               : <ActivityIndicator size="large" color={"#FFF"} />}
           </TouchableOpacity>
         </View>

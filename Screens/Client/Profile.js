@@ -439,11 +439,9 @@ export default function ProfilePage() {
               <MaterialIcons name="arrow-back-ios" size={24} color="black" />
             </View>
           </TouchableOpacity>
-
           <TouchableOpacity
             onPress={() => navigation.navigate("PrivacyPolicy")}
-            style={styles.profileItem}
-          >
+            style={styles.profileItem}>
             <View style={{ flexDirection: "row" }}>
               <Text
                 style={{
@@ -452,8 +450,33 @@ export default function ProfilePage() {
                   marginHorizontal: 10
                 }}
               >
-                السياسات و التعليمات
+                الشروط و الأحكام
               </Text>
+              <View style={styles.profileItemIcon}>
+                <Iconify icon="ic:round-flag" size={30} color="#fe7e25" />
+              </View>
+            </View>
+
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Complains")}
+            style={styles.profileItem}>
+            <View style={{ flexDirection: "row" }}>
+
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                الشكاوي و المقترحات
+              </Text>
+
               <View style={styles.profileItemIcon}>
                 <Iconify icon="mdi:chat-warning" size={30} color="#fe7e25" />
               </View>

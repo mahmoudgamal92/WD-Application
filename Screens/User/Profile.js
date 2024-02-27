@@ -258,7 +258,7 @@ export default function ProfilePage() {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate("Terms")}
+            onPress={() => navigation.navigate("PrivacyPolicy")}
             style={styles.profileItem}>
             <View style={{ flexDirection: "row" }}>
               <Text
@@ -268,7 +268,7 @@ export default function ProfilePage() {
                   marginHorizontal: 10
                 }}
               >
-                السياسات و الشروط
+                الشروط و الأحكام
               </Text>
               <View style={styles.profileItemIcon}>
                 <Iconify icon="ic:round-flag" size={30} color="#fe7e25" />
@@ -281,10 +281,10 @@ export default function ProfilePage() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate("PrivacyPolicy")}
-            style={styles.profileItem}
-          >
+            onPress={() => navigation.navigate("Complains")}
+            style={styles.profileItem}>
             <View style={{ flexDirection: "row" }}>
+
               <Text
                 style={{
                   fontFamily: "Bold",
@@ -292,8 +292,9 @@ export default function ProfilePage() {
                   marginHorizontal: 10
                 }}
               >
-                السياسات و التعليمات
+                الشكاوي و المقترحات
               </Text>
+
               <View style={styles.profileItemIcon}>
                 <Iconify icon="mdi:chat-warning" size={30} color="#fe7e25" />
               </View>

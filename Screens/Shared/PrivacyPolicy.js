@@ -1,34 +1,30 @@
-import { Text, View, ScrollView } from 'react-native';
-import React from "react";
-import styles from "../../theme/style";
+import * as React from 'react';
+import { View } from "react-native";
+import { WebView } from 'react-native-webview';
 import CustomHeader from "../../components/CustomHeader";
+import styles from "../../theme/style";
 
-export default function PrivacyPolicy({ route, navigation }) {
-  const screenTitle = "شروط الاعلان";
-
+export default function App() {
 
   return (
     <View style={{
       flex: 1,
-      alignItems: "center",
     }}>
-      <CustomHeader text={screenTitle} />
+      <CustomHeader text={"سياسة التعليمات و الخصوصية"} />
       <View style={styles.rootContainer}>
-        <ScrollView style={{ flex: 1, paddingHorizontal: 20, paddingTop: 50 }}>
 
-
-          <Text style={{
-            fontFamily: "Regular",
-            color: "grey",
-            textAlign: "right",
-            fontSize: 16,
-            lineHeight: 20
-          }}>
-
-
-          </Text>
-        </ScrollView>
+        <View style={{
+          width: "100%",
+          flex: 1
+        }}>
+          <WebView
+            style={{
+              width: "100%"
+            }}
+            source={{ uri: 'https://wdapp.sa/policy.html' }}
+          />
+        </View>
       </View>
     </View>
   );
-};
+}

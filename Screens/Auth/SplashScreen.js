@@ -11,59 +11,54 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {url} from '../../constants/constants';
+import { url } from '../../constants/constants';
 import { useFocusEffect } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSlice } from '../../store/userSlice';
 
 export default function Spalsh({ route, navigation }) {
 
-    const dispatch = useDispatch();
-    useFocusEffect(
-      React.useCallback(() => {
-        _getCache();
-      }, [])
-    );
+  const dispatch = useDispatch();
+  useFocusEffect(
+    React.useCallback(() => {
+      _getCache();
+    }, [])
+  );
 
   const _fetchUser = async () => {
     const user = await AsyncStorage.getItem("user_info");
-    if (user !== null) 
-    {
+    if (user !== null) {
       dispatch(userSlice.actions.setUserInfo(user));
-      if(JSON.parse(user).user_type == "client")
-      {
+      if (JSON.parse(user).user_type == "client") {
         navigation.replace("ClientFlow");
       }
-      else
-      {
+      else {
         navigation.replace("UserFlow");
       }
     }
-    else 
-    {
+    else {
       dispatch(userSlice.actions.setUserInfo(""));
-       navigation.replace("UserFlow");
+      navigation.replace("UserFlow");
     }
   }
 
-
-    const _getCache = async () => {
-      fetch(url.base_url + "cache/cache.php", {
-        method: "GET",
-        headers: {
-          Accept: "*/*",
-          "Content-type": "multipart/form-data;",
-          "cache-control": "no-cache",
-          "Accept-Encoding": "gzip, deflate, br",
-          Connection: "keep-alive"
-        }
+  const _getCache = async () => {
+    fetch(url.base_url + "cache/cache.php", {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "Content-type": "multipart/form-data;",
+        "cache-control": "no-cache",
+        "Accept-Encoding": "gzip, deflate, br",
+        Connection: "keep-alive"
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        AsyncStorage.setItem("aqar_cache_data", JSON.stringify(json));
+        _fetchUser();
       })
-        .then(response => response.json())
-        .then(json => {
-          AsyncStorage.setItem("aqar_cache_data", JSON.stringify(json));
-          _fetchUser();
-        })
-    };
+  };
 
   return (
     <View style={{
@@ -73,7 +68,7 @@ export default function Spalsh({ route, navigation }) {
       height: "100%",
       width: "100%",
     }}>
-      <StatusBar translucent backgroundColor={"transparent"}/>
+      <StatusBar translucent backgroundColor={"transparent"} />
       <ImageBackground style={{
         width: "100%",
         height: "100%",
@@ -84,7 +79,7 @@ export default function Spalsh({ route, navigation }) {
 
         <LinearGradient
           // Background Linear Gradient
-          colors={['#fe7e25', '#000' ]}
+          colors={['#fe7e25', '#000']}
           style={{
             opacity: 0.75,
             flex: 1,
@@ -94,36 +89,36 @@ export default function Spalsh({ route, navigation }) {
         >
           <View style={{
             paddingHorizontal: 20,
-            width:"100%",
-            height:100,
-            alignItems:"center",
-            justifyContent:"center",
-            flex:1
+            width: "100%",
+            height: 100,
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1
           }}>
 
 
-            <Image source={require("./../../assets/wd_white.png")} 
-            style={{
-              width:300,
-              height:300
-            }}/>
+            <Image source={require("./../../assets/wd_white.png")}
+              style={{
+                width: 300,
+                height: 300
+              }} />
 
 
             <Text
-                style={{
-                  color: "white",
-                  textAlign: "center",
-                  fontFamily: "Bold",
-                  fontSize:16
-                }}
-              >
-                ود .... عقاراتك بكل ود
-              </Text>
+              style={{
+                color: "white",
+                textAlign: "center",
+                fontFamily: "Bold",
+                fontSize: 16
+              }}
+            >
+              ود .... عقاراتك بكل ود
+            </Text>
             <TouchableOpacity
               // onPress={() => navigation.replace("Start")}
               style={{
-                position:"absolute",
-                bottom:20,
+                position: "absolute",
+                bottom: 20,
                 backgroundColor: "#fe7e25",
                 paddingVertical: 15,
                 borderRadius: 10,
@@ -139,7 +134,7 @@ export default function Spalsh({ route, navigation }) {
                   fontFamily: "Bold"
                 }}
               >
-              هيا بنا لنبدأ  
+                هيا بنا لنبدأ
               </Text>
             </TouchableOpacity>
 

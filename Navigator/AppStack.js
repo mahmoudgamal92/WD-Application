@@ -36,6 +36,8 @@ import Clients from "./../Screens/Client/Clients";
 import AddClient from "./../Screens/Client/AddClient";
 import CompleteOrder from "../Screens/CompleteOrder";
 import BankTransaction from "../Screens/Payment/BankTransaction";
+import Complains from "../Screens/Complains";
+
 
 
 
@@ -80,6 +82,7 @@ export const AppStack = () => {
             <HomeStack.Screen name="BankTransaction" component={BankTransaction} />
             <HomeStack.Screen name="FilterScreen" component={FilterScreen} />
             <HomeStack.Screen name="UpdateUser" component={UpdateUser} />
+            <HomeStack.Screen name="Complains" component={Complains} />
 
         </HomeStack.Navigator>
     )
