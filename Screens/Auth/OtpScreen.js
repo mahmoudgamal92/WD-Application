@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+
 import {
   Image,
   Text,
@@ -9,7 +11,6 @@ import {
   Platform,
   ScrollView
 } from "react-native";
-import React, { useState } from "react";
 import { url } from "../../constants/constants";
 import OtpInput from "../../components/otp_input";
 import Toast from "react-native-toast-message";
@@ -21,10 +22,37 @@ import Constants from 'expo-constants';
 const OtpScreen = ({ route, navigation }) => {
 
   const user_info = useSelector(state => state.userReducer.user);
-
   const { phone, code, action } = route.params;
   const [resend_loading, setResendLoading] = useState(false);
   const [resend_status, setResendStatus] = useState(true);
+  const msg = "رمز التحقق :" + code + " لدخول منصة ود العقارية ";
+  useEffect(() => {
+    _sendMsg();
+  }, []);
+
+
+  const _sendMsg = () => {
+    let formData = new FormData();
+    formData.append("phone", parseInt("966" + phone));
+    formData.append("message", msg);
+    //setLoading(true);
+    fetch(url.base_url + "auth/message.php", {
+      method: "POST",
+      headers: {
+        Accept: "*/*",
+        "cache-control": "no-cache",
+        "Content-type": "multipart/form-data;",
+        "Accept-Encoding": "gzip, deflate, br",
+        Connection: "keep-alive"
+      },
+      body: formData
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson);
+      });
+  };
+
 
   const resend_code = async () => {
     setResendLoading(true);
@@ -108,6 +136,11 @@ const OtpScreen = ({ route, navigation }) => {
           >
             كود التفعيل
           </Text>
+          <Text style={{
+            color: "#000"
+          }}>
+            {code}
+          </Text>
 
           <Text
             style={{
@@ -128,7 +161,7 @@ const OtpScreen = ({ route, navigation }) => {
               marginTop: 10
             }}
           >
-            {phone}
+            +966{phone}
           </Text>
 
           <Text

@@ -43,7 +43,7 @@ export default function SignInScreen({ navigation, route }) {
   );
 
   const Validate_form = async () => {
-    if (phone.length < 8) {
+    if (phone.length !== 9) {
       Toast.show({
         type: "erorrToast",
         text1: "أدخل رقم الجوال بشكل صحيح",
@@ -108,7 +108,7 @@ export default function SignInScreen({ navigation, route }) {
       setLoading(false);
       navigation.replace("OtpScreen", {
         phone: phone,
-        code: "1234",
+        code: Math.floor(1000 + Math.random() * 9000),
         action: "signin"
       });
 
@@ -122,7 +122,7 @@ export default function SignInScreen({ navigation, route }) {
   const _navigate = async () => {
     navigation.replace("OtpScreen", {
       phone: phone,
-      code: "1234",
+      code: Math.floor(1000 + Math.random() * 9000),
       action: "signup"
     });
   }
