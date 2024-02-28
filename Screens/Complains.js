@@ -26,7 +26,7 @@ export default function Complains({ route, navigation }) {
     const _sendComplaint = () => {
         let formData = new FormData();
         formData.append("user_token", phone);
-        formData.append("phone", "+966" + phone);
+        formData.append("phone", parseInt("966" + phone));
         formData.append("subject", subject);
         formData.append("details", details);
         setLoading(true);
