@@ -6,14 +6,14 @@ import SignUpScreen from './../Screens/Auth/SignUpScreen';
 import SignInScreen from './../Screens/Auth/SignInScreen';
 import OtpScreen from './../Screens/Auth/OtpScreen';
 
-import {ClientTabStack} from "./ClientBottomTabs";
-import {UserTabStack} from "./UserBottomTabs";
+import { ClientTabStack } from "./ClientBottomTabs";
+import { UserTabStack } from "./UserBottomTabs";
 
 export const Authentication = () => {
-    const AuthStack = createStackNavigator();
+  const AuthStack = createStackNavigator();
 
-    return(
-      <AuthStack.Navigator initialRouteName='SplashScreen' screenOptions={{ headerShown: false}}>
+  return (
+    <AuthStack.Navigator initialRouteName='SplashScreen' screenOptions={{ headerShown: false }}>
       <AuthStack.Screen name="SplashScreen" component={SplashScreen} />
       <AuthStack.Screen name="Start" component={Start} />
       <AuthStack.Screen name="SignInScreen" component={SignInScreen} />
@@ -22,10 +22,9 @@ export const Authentication = () => {
       <AuthStack.Screen name="ClientFlow" component={ClientTabStack} />
       <AuthStack.Screen name="UserFlow" component={UserTabStack} />
 
-      </AuthStack.Navigator>
-    )
-    }
-    
-    
-    
-    
+    </AuthStack.Navigator>
+  )
+}
+
+
+
