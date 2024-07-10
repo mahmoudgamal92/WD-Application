@@ -693,7 +693,10 @@ export default function ProfilePage() {
             </Text>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate("PricingPlans")}
+              onPress={() => {
+                SetConfirmAlert(!confirm_alert);
+                navigation.navigate("PricingPlans")
+              }}
             >
               <Text style={{
                 fontFamily: "Regular",
@@ -706,7 +709,11 @@ export default function ProfilePage() {
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.button, { backgroundColor: "#fe7e25" }]}
-              onPress={() => navigation.navigate("FaLicense")}
+              onPress={() => {
+                SetConfirmAlert(!confirm_alert);
+                navigation.navigate("FaLicense")
+              }
+              }
             >
               <Text style={styles.textStyle}>متابعة</Text>
             </TouchableOpacity>

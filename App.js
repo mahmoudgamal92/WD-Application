@@ -1,7 +1,7 @@
 import "./constants/ignoreWarning";
 import React, { useState, useEffect, useRef } from "react";
 import { useFonts } from "expo-font";
-import { I18nManager } from "react-native";
+import { I18nManager, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { Authentication } from "./Navigator/AuthStack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -48,12 +48,15 @@ async function registerForPushNotificationsAsync() {
     token = await Notifications.getExpoPushTokenAsync({
       projectId: Constants.expoConfig.extra.eas.projectId
     });
-    //console.log(token);
-  } else {
-    alert("Must physical real device for Push Notifications");
+    AsyncStorage.setItem("notification_token", token.data);
   }
 
-  AsyncStorage.setItem("notification_token", token.data);
+  else {
+    alert("Must physical real device for Push Notifications");
+    AsyncStorage.setItem("notification_token", 'no_token');
+
+  }
+
   return token;
 }
 

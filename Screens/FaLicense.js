@@ -20,15 +20,54 @@ import {
 import styles from "./../theme/style";
 import CustomHeader from "./../components/CustomHeader";
 import { Iconify } from "react-native-iconify";
-
+import Toast from "react-native-toast-message";
+import toastConfig from "../../components/Toast";
 import { url } from "./../constants/constants";
 export default function AddImg({ route, navigation }) {
   const [images, setImages] = useState([]);
-  const [featured_prop, setFeatured] = useState("");
-  const [mortgate, setMortgage] = useState("");
-  const [conflict, setConflict] = useState("");
+  const [license_num, setLisenceNumber] = useState("");
+
+
   const [loading, setLoading] = useState(false);
   const screenTitle = "رخـصـــة فــــال ";
+
+
+  const insertReuest = async () => {
+    const user_token = await AsyncStorage.getItem("user_token");
+    let formData = new FormData();
+    formData.append("user_token", user_token);
+    formData.append("license", license_num);
+    setLoading(true);
+    fetch(url.base_url + "fa_license/request.php", {
+      method: "POST",
+      headers: {
+        Accept: "/",
+        "Content-type": "multipart/form-data;",
+        "Accept-Encoding": "gzip, deflate, br",
+        Connection: "keep-alive"
+      },
+      body: formData
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.success == true) {
+
+          setLoading(false);
+        } else if (responseJson.success == false) {
+          Toast.show({
+            type: "erorrToast",
+            text1: responseJson.message,
+            bottomOffset: 80,
+            visibilityTime: 2000
+          });
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
+      });
+  };
+
+
 
   const _pickImage = async () => {
     try {
@@ -159,7 +198,7 @@ export default function AddImg({ route, navigation }) {
               >
                 <TextInput
                   selectionColor={"#fe7e25"}
-                  // onChangeText={phone_number => setPhone(phone_number)}
+                  onChangeText={license_num => setLisenceNumber(license_num)}
                   keyboardType="numeric"
                   style={{
                     fontFamily: "Regular",
@@ -229,7 +268,7 @@ export default function AddImg({ route, navigation }) {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
-            // onPress={() => insertAdd()}
+            onPress={() => insertReuest()}
             style={{
               backgroundColor: "#fe7e25",
               marginBottom: 40,
@@ -268,6 +307,7 @@ export default function AddImg({ route, navigation }) {
           </TouchableOpacity>
         </ScrollView>
       </View>
+      <Toast config={toastConfig} />
     </View>
   );
 }
