@@ -21,8 +21,10 @@ import styles from "./../theme/style";
 import CustomHeader from "./../components/CustomHeader";
 import { Iconify } from "react-native-iconify";
 import Toast from "react-native-toast-message";
-import toastConfig from "../../components/Toast";
+import toastConfig from "./../components/Toast";
 import { url } from "./../constants/constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function AddImg({ route, navigation }) {
   const [images, setImages] = useState([]);
   const [license_num, setLisenceNumber] = useState("");
@@ -51,7 +53,12 @@ export default function AddImg({ route, navigation }) {
       .then(response => response.json())
       .then(responseJson => {
         if (responseJson.success == true) {
-
+          Toast.show({
+            type: "successToast",
+            text1: 'تم تقديم الطلب بنجاح ',
+            bottomOffset: 80,
+            visibilityTime: 2000
+          });
           setLoading(false);
         } else if (responseJson.success == false) {
           Toast.show({
@@ -190,7 +197,7 @@ export default function AddImg({ route, navigation }) {
 
               <View
                 style={{
-                  flexDirection: "row-reverse",
+                  flexDirection: "row",
                   width: "100%",
                   alignItems: "center",
                   justifyContent: "space-between"
@@ -216,7 +223,7 @@ export default function AddImg({ route, navigation }) {
                   style={{
                     justifyContent: "center",
                     alignItems: "center",
-                    right: 0,
+                    left: 0,
                     position: "absolute",
                     padding: 17,
                     flexDirection: "row-reverse"

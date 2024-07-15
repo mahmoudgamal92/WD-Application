@@ -334,6 +334,7 @@ export default function ProfilePage() {
             }}
           >
             <TouchableOpacity
+              onPress={() => navigation.navigate('NafathNationalID')}
               style={{
                 width: "45%",
                 flexDirection: "row-reverse",

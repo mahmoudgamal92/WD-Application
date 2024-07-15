@@ -308,7 +308,7 @@ export default function SignInScreen({ navigation, route }) {
                   style={{
                     justifyContent: "center",
                     alignItems: "center",
-                    right: 0,
+                    left: 0,
                     position: "absolute",
                     padding: 17,
                     flexDirection: "row-reverse"
