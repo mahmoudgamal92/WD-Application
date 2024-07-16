@@ -21,7 +21,7 @@ import styles from "./../theme/style";
 import CustomHeader from "./../components/CustomHeader";
 import { Iconify } from "react-native-iconify";
 import Toast from "react-native-toast-message";
-import toastConfig from "../../components/Toast";
+import toastConfig from "./../components/Toast";
 import { url } from "./../constants/constants";
 export default function AddImg({ route, navigation }) {
   const [images, setImages] = useState([]);

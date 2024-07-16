@@ -414,7 +414,6 @@ export default function UserHome() {
             <FontAwesome5 name="satellite" size={24} color="#FFF" />
           </TouchableOpacity>
 
-
           <TouchableOpacity
             onPress={() => _MapReLocation(user_latitude, user_longitude, 1, 1)}
             style={{
@@ -429,7 +428,7 @@ export default function UserHome() {
               borderWidth: 2,
 
             }}>
-            <Ionicons name="ios-location-sharp" size={24} color="#FFF" />
+            <Ionicons name="location" size={24} color="#FFF" />
           </TouchableOpacity>
         </View>
         :
