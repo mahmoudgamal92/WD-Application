@@ -9,19 +9,26 @@ import {
     Image,
     Platform,
     TextInput,
-    ScrollView
+    ScrollView,
+    Modal
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import styles from "../../../theme/style";
 import CustomHeader from "../../../components/CustomHeader";
 import uuid from 'react-native-uuid';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Toast from "react-native-toast-message";
 import toastConfig from "./../../../components/Toast";
+import LottieView from 'lottie-react-native';
+
 export default function NafathNationalID({ route, navigation }) {
     const screenTitle = "أدخل رقم الهوية الشخصية";
     const [loading, setLoading] = useState(false);
     const [nationalID, setNationalID] = useState(null);
+    const [waiting_modal, setWaitingModal] = useState(false);
+    const [confirm_number, setConfirmNumber] = useState(false);
+    const [trans_id, setTransId] = useState(false);
+    const animation = useRef();
 
     function validateSaudiNationalId(id) {
         // Check if the length is 10
@@ -59,6 +66,7 @@ export default function NafathNationalID({ route, navigation }) {
 
 
     const _handleRequest = async () => {
+
         if (validateSaudiNationalId(nationalID)) {
             try {
                 const _uuid = uuid.v4();
@@ -76,17 +84,35 @@ export default function NafathNationalID({ route, navigation }) {
                         "service": "DigitalServiceEnrollmentWithoutBio",
                     }),
                 });
-                
-                //Valid Json Body
+
+                // Valid Json Body
                 // Status Code 201
                 // {"random": "29", "transId": "b653774b-95c6-4073-bc6c-596f4a8b3b6c"}
+                // console.log('Status Code:', statusCode);
+                //console.log('Response:', jsonResponse);
+
 
                 const statusCode = response.status;
-                console.log('Status Code:', statusCode);
+
+                if (statusCode == '201') {
+                    const jsonResponse = await response.json();
+                    setWaitingModal(true);
+                    setConfirmNumber(jsonResponse.random);
+                    setTransId(jsonResponse.transId);
+                }
+
+                else {
+                    Toast.show({
+                        type: "erorrToast",
+                        text1: 'ناسف هناك مشكله في توثيق نفاذ الان',
+                        bottomOffset: 80,
+                        visibilityTime: 2000
+                    });
+
+                }
 
 
-                const jsonResponse = await response.json();
-                console.log('Response:', jsonResponse);
+
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -114,6 +140,102 @@ export default function NafathNationalID({ route, navigation }) {
         >
             <CustomHeader text={screenTitle} />
             <View style={styles.rootContainer}>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={waiting_modal}
+                // onRequestClose={() => {
+                //   SetFailedAlert(!failed_alert);
+                // }}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <View
+                                style={{
+                                    backgroundColor: "#fe7e25",
+                                    width: 50,
+                                    height: 50,
+                                    marginTop: -25,
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    borderRadius: 25
+                                }}
+                            >
+                                <Image source={require('./../../../assets/wd_white.png')} style={{
+                                    width: 50,
+                                    height: 50
+                                }} />
+
+                            </View>
+
+                            <TouchableOpacity
+                                onPress={() => setWaitingModal(false)}
+                                style={{
+                                    width: "100%",
+                                    flexDirection: "row",
+                                    justifyContent: "flex-start",
+                                    paddingHorizontal: 20
+                                }}
+                            >
+                                <FontAwesome name="close" size={24} color="black" />
+                            </TouchableOpacity>
+
+                            <Text style={{
+                                fontFamily: 'Regular',
+                                fontSize: 15,
+                                textAlign: 'center',
+                                paddingHorizontal: 10,
+                                marginVertical: 20
+                            }}>
+                                تم ارسال الاشعار الى حسابك في تطبيق نفاذ المرتبط برقم الهاتف                            </Text>
+                            <View>
+
+                                <View style={{
+                                    width: 250,
+                                    height: 250,
+                                    position: 'absolute',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    zIndex: 10000
+                                }}>
+                                    <Text style={{
+                                        fontFamily: 'bold',
+                                        fontSize: 40
+                                    }}>
+                                        {confirm_number}
+                                    </Text>
+                                </View>
+                                <LottieView
+                                    autoPlay
+                                    ref={animation}
+                                    style={{
+                                        width: 250,
+                                        height: 250,
+                                        backgroundColor: '#FFF',
+                                    }}
+                                    source={require('./../../../assets/lottie.json')}
+                                />
+                            </View>
+
+                            <TouchableOpacity
+                                style={{
+                                    backgroundColor: "#fe7e25",
+                                    paddingHorizontal: 20,
+                                    paddingVertical: 10,
+                                    marginVertical: 20,
+                                    borderRadius: 10,
+                                    width: "90%"
+                                }}
+                                onPress={() => _navigate()}
+                            >
+                                <Text style={styles.textStyle}>
+                                    متابعه
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                     style={{ width: "100%" }}
@@ -280,7 +402,6 @@ export default function NafathNationalID({ route, navigation }) {
                 </ScrollView>
             </View>
             <Toast config={toastConfig} />
-
         </View>
     );
 }

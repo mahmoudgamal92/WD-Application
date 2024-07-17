@@ -31,6 +31,7 @@
     "expo-notifications": "~0.28.3",
     "expo-status-bar": "~1.12.1",
     "expo-updates": "~0.25.14",
+    "lottie-react-native": "6.7.0",
     "native-base": "^3.4.28",
     "patch-package": "^8.0.0",
     "react": "18.2.0",
