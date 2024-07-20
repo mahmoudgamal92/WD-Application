@@ -22,8 +22,9 @@ export default function CompleteOrder({ route, navigation }) {
   const { item } = route.params;
   const [data, setData] = useState([]);
   const [autoRenew, setAutoRenew] = useState(true);
+  const [paymentMethod, setPaymentMethod] = useState(null);
 
-  
+
   const [isLoading, setLoading] = React.useState(false);
   useEffect(() => {
     _retrieveData();
@@ -54,35 +55,61 @@ export default function CompleteOrder({ route, navigation }) {
   };
 
 
-  
-  const _pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1
-      });
-      if (!result.canceled) {
-        let localUri = result.uri;
-        let filename = localUri.split("/").pop();
-        let match = /\.(\w+)$/.exec(filename);
-        let img_type = match ? `image/${match[1]}` : `image`;
-        setImages([
-          ...images,
-          {
-            uri: localUri,
-            name: filename,
-            type: img_type
-          }
-        ]);
-      }
-    } catch (E) {
-      console.log(E);
-    }
-  };
+  const _proceedToCheckOut = () => {
+    if (paymentMethod == 'card') {
+      setLoading(true);
+      const options = {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+          Authorization: 'Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ'
+        },
+        body: JSON.stringify({
+          amount: parseInt(item.package_price),
+          currency: 'SAR',
+          customer_initiated: true,
+          threeDSecure: true,
+          save_card: false,
+          description: item.package_title,
+          metadata: { udf1: 'Metadata 1' },
+          reference: { transaction: 'txn_01', order: 'ord_01' },
+          receipt: { email: true, sms: true },
+          customer: {
+            first_name: 'test',
+            middle_name: 'test',
+            last_name: 'test',
+            email: 'test@test.com',
+            phone: { country_code: 965, number: 51234567 }
+          },
+          merchant: { id: '1234' },
+          source: { id: 'src_all' },
+          post: { url: 'https://wdapp.sa/api/payment/recive.php' },
+          redirect: { url: 'https://wdapp.sa/api/payment/recive.php' }
+        })
+      };
 
-  
+      fetch('https://api.tap.company/v2/charges/', options)
+        .then(response => response.json())
+        .then(response => {
+          console.log("Payment Response");
+          console.log(response);
+          navigation.navigate('PaymentWidget', {
+            url: response.transaction.url
+          })
+        })
+        .catch(err => console.error(err));
+      setLoading(false);
+    }
+    else if (paymentMethod == 'bank_transfer') {
+      navigation.navigate("BankTransaction");
+    }
+
+    else {
+      alert('you must choose payment method');
+    }
+  }
+
   return (
     <View style={{ flex: 1, justifyContent: "center" }}>
       <StatusBar backgroundColor="#fe7e25" barStyle="light-content" />
@@ -96,7 +123,7 @@ export default function CompleteOrder({ route, navigation }) {
           }}
           style={{
             width: "100%",
-            paddingHorizontal:10
+            paddingHorizontal: 10
           }}>
 
           <View style={{ width: "100%", paddingHorizontal: 20 }}>
@@ -135,7 +162,7 @@ export default function CompleteOrder({ route, navigation }) {
                   fontFamily: "Regular"
                 }}
               >
-              {item.package_price} SAR
+                {item.package_price} SAR
               </Text>
               <Text style={{
                 fontFamily: "Bold"
@@ -206,7 +233,7 @@ export default function CompleteOrder({ route, navigation }) {
                   fontFamily: "Regular"
                 }}
               >
-                 {item.package_price} SAR
+                {item.package_price} SAR
               </Text>
               <Text style={{
                 fontFamily: "Bold"
@@ -258,7 +285,7 @@ export default function CompleteOrder({ route, navigation }) {
                   fontSize: 20,
                   fontFamily: "Bold",
                   color: "grey"
-                
+
                 }}
               />
 
@@ -266,7 +293,7 @@ export default function CompleteOrder({ route, navigation }) {
                 style={{
                   justifyContent: "center",
                   alignItems: "center",
-                  right: 0,
+                  left: 0,
                   position: "absolute",
                   padding: 10,
                   flexDirection: "row-reverse",
@@ -368,7 +395,7 @@ export default function CompleteOrder({ route, navigation }) {
 
               <View style={{
                 width: "20%",
-                alignItems:"flex-end"
+                alignItems: "flex-end"
               }}>
                 <ToggleSwitch
                   isOn={autoRenew}
@@ -388,35 +415,11 @@ export default function CompleteOrder({ route, navigation }) {
             marginTop: 30
           }}>
 
-
-            <View style={styles.paymentMethod}>
-              <View style={{
-                alignItems: "center",
-                flexDirection: "row-reverse"
-              }}>
-                <Image source={require('./../assets/payment/apple.png')} style={{
-                  width: 50,
-                  height: 50,
-                  resizeMode: "contain"
-                }} />
-
-                <Text style={{
-                  fontFamily: "Bold",
-                  marginHorizontal: 20
-                }}>
-                  Apple Pay
-                </Text>
-              </View>
-              <View>
-                <Ionicons name="radio-button-off" size={24} color="#fe7e25" />
-              </View>
-            </View>
-
-
-
-
-
-            <View style={styles.paymentMethod}>
+            <TouchableOpacity
+              onPress={() => setPaymentMethod('card')}
+              style={[styles.paymentMethod, {
+                borderColor: paymentMethod == 'card' ? "#fe7e25" : '#DDDDDD'
+              }]}>
               <View style={{
                 alignItems: "center",
                 flexDirection: "row-reverse"
@@ -431,40 +434,21 @@ export default function CompleteOrder({ route, navigation }) {
                   fontFamily: "Bold",
                   marginHorizontal: 20
                 }}>
-                  Master / Visa
+                  الدفع الالكتروني بالبطاقه
                 </Text>
               </View>
               <View>
-                <Ionicons name="radio-button-off" size={24} color="#fe7e25" />
+                <Ionicons name={paymentMethod == 'card' ? "radio-button-on" : "radio-button-off"} size={24} color="#fe7e25" />
               </View>
-            </View>
+            </TouchableOpacity>
 
 
-            <View style={styles.paymentMethod}>
-              <View style={{
-                alignItems: "center",
-                flexDirection: "row-reverse"
-              }}>
-                <Image source={require('./../assets/payment/mada.png')} style={{
-                  width: 50,
-                  height: 50,
-                  resizeMode: "contain"
-                }} />
 
-                <Text style={{
-                  fontFamily: "Bold",
-                  marginHorizontal: 20
-                }}>
-                  Mada Card
-                </Text>
-              </View>
-              <View>
-                <Ionicons name="radio-button-off" size={24} color="#fe7e25" />
-              </View>
-            </View>
-
-
-            <View style={styles.paymentMethod}>
+            <TouchableOpacity
+              onPress={() => setPaymentMethod('bank_transfer')}
+              st style={[styles.paymentMethod, {
+                borderColor: paymentMethod == 'bank_transfer' ? "#fe7e25" : '#DDDDDD'
+              }]}>
               <View style={{
                 alignItems: "center",
                 flexDirection: "row-reverse"
@@ -479,13 +463,13 @@ export default function CompleteOrder({ route, navigation }) {
                   fontFamily: "Bold",
                   marginHorizontal: 20
                 }}>
-                تحويل بنكي
+                  تحويل بنكي
                 </Text>
               </View>
               <View>
-                <Ionicons name="radio-button-on" size={24} color="#fe7e25" />
+                <Ionicons name={paymentMethod == 'bank_transfer' ? "radio-button-on" : "radio-button-off"} size={24} color="#fe7e25" />
               </View>
-            </View>
+            </TouchableOpacity>
 
 
 
@@ -493,7 +477,7 @@ export default function CompleteOrder({ route, navigation }) {
 
 
           <TouchableOpacity
-            onPress={() => navigation.navigate("BankTransaction")}
+            onPress={() => _proceedToCheckOut()}
             style={{
               width: "90%",
               backgroundColor: "#fe7e25",
@@ -503,13 +487,18 @@ export default function CompleteOrder({ route, navigation }) {
               justifyContent: "center",
               marginVertical: 20
             }}>
-            <Text style={{
-              color: "#FFF",
-              fontFamily: "Bold"
+            {
+              isLoading == true ?
+                <ActivityIndicator size={40} color={'#FFF'} />
+                :
+                <Text style={{
+                  color: "#FFF",
+                  fontFamily: "Bold"
 
-            }}>
-              متابعه
-            </Text>
+                }}>
+                  متابعه
+                </Text>
+            }
           </TouchableOpacity>
         </ScrollView>
       </View>

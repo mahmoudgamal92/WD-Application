@@ -91,7 +91,6 @@ export default function NafathNationalID({ route, navigation }) {
                 // console.log('Status Code:', statusCode);
                 //console.log('Response:', jsonResponse);
 
-
                 const statusCode = response.status;
 
                 if (statusCode == '201') {
@@ -99,6 +98,7 @@ export default function NafathNationalID({ route, navigation }) {
                     setWaitingModal(true);
                     setConfirmNumber(jsonResponse.random);
                     setTransId(jsonResponse.transId);
+
                 }
 
                 else {

@@ -38,8 +38,7 @@ import CompleteOrder from "../Screens/CompleteOrder";
 import BankTransaction from "../Screens/Payment/BankTransaction";
 import Complains from "../Screens/Complains";
 import NafathNationalID from "./../Screens/Client/Nafath/NafathNationalID";
-
-
+import PaymentWidget from './../Screens/PaymentWidget';
 
 import Interests from "./../Screens/Client/Interests";
 
@@ -84,6 +83,7 @@ export const AppStack = () => {
             <HomeStack.Screen name="UpdateUser" component={UpdateUser} />
             <HomeStack.Screen name="Complains" component={Complains} />
             <HomeStack.Screen name="NafathNationalID" component={NafathNationalID} />
+            <HomeStack.Screen name="PaymentWidget" component={PaymentWidget} />
         </HomeStack.Navigator>
     )
 }
