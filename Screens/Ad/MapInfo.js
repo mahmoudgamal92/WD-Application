@@ -13,7 +13,7 @@ import {
   MaterialIcons,
   FontAwesome5,
   FontAwesome,
-  Ionicons
+  Entypo
 } from "@expo/vector-icons";
 import styles from "./../../theme/style";
 import { url } from "../../constants/constants";
@@ -224,7 +224,7 @@ export default function AddMap({ route, navigation }) {
                 borderWidth: 2
               }}
             >
-              <Ionicons name="ios-location-sharp" size={24} color="#FFF" />
+              <Entypo name="location-pin" size={24} color="#FFF" />
             </TouchableOpacity>
           </View>
           : null}

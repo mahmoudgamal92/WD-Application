@@ -1,3 +1,4 @@
+import React, { Component, useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -10,28 +11,37 @@ import {
   TextInput,
   ScrollView
 } from "react-native";
-import React, { Component, useState, useEffect } from "react";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import styles from "../theme/style";
 import CustomHeader from "../components/CustomHeader";
 import { url } from "../constants/constants";
 import ToggleSwitch from "toggle-switch-react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function CompleteOrder({ route, navigation }) {
   const screenTitle = "اكمال عمليه الدفع";
-
   const { item } = route.params;
+  //console.log(item);
   const [data, setData] = useState([]);
   const [autoRenew, setAutoRenew] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState(null);
 
+  const [usrToken, setToken] = useState(null);
+  const [usrPhone, setUserPhone] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
-  const [isLoading, setLoading] = React.useState(false);
   useEffect(() => {
     _retrieveData();
   }, []);
 
 
   const _retrieveData = async () => {
+    const user_token = await AsyncStorage.getItem("user_token");
+    const user_phone = await AsyncStorage.getItem("user_phone");
+
+    setUserPhone(user_phone);
+
+    setToken(user_token);
     try {
       fetch(url.base_url + "packages/list.php", {
         method: "GET",
@@ -56,14 +66,15 @@ export default function CompleteOrder({ route, navigation }) {
 
 
   const _proceedToCheckOut = () => {
+    setLoading(true);
+
     if (paymentMethod == 'card') {
-      setLoading(true);
       const options = {
         method: 'POST',
         headers: {
           accept: 'application/json',
           'content-type': 'application/json',
-          Authorization: 'Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ'
+          Authorization: 'Bearer sk_test_orwu1CnORUg2p0LvHyETYFkt'
         },
         body: JSON.stringify({
           amount: parseInt(item.package_price),
@@ -72,15 +83,24 @@ export default function CompleteOrder({ route, navigation }) {
           threeDSecure: true,
           save_card: false,
           description: item.package_title,
-          metadata: { udf1: 'Metadata 1' },
+          metadata: {
+            userToken: usrToken,
+            usrPhone: usrPhone,
+            pkgId: item.package_id,
+            package_title: item.package_title,
+            max_ads: item.max_ads,
+            max_featured: item.max_featured,
+            max_users: item.max_users,
+            package_duration: item.package_duration
+          },
           reference: { transaction: 'txn_01', order: 'ord_01' },
-          receipt: { email: true, sms: true },
+          receipt: { email: false, sms: false },
           customer: {
-            first_name: 'test',
-            middle_name: 'test',
-            last_name: 'test',
+            first_name: 'Mahmoud',
+            middle_name: 'Gamal',
+            last_name: 'Ahmed',
             email: 'test@test.com',
-            phone: { country_code: 965, number: 51234567 }
+            phone: { country_code: 966, number: 51234567 }
           },
           merchant: { id: '1234' },
           source: { id: 'src_all' },
@@ -88,7 +108,6 @@ export default function CompleteOrder({ route, navigation }) {
           redirect: { url: 'https://wdapp.sa/api/payment/recive.php' }
         })
       };
-
       fetch('https://api.tap.company/v2/charges/', options)
         .then(response => response.json())
         .then(response => {
@@ -185,7 +204,7 @@ export default function CompleteOrder({ route, navigation }) {
                   fontFamily: "Regular"
                 }}
               >
-                {item.package_price} SAR
+                {'0.000'} SAR
               </Text>
               <Text style={{
                 fontFamily: "Bold"
@@ -207,7 +226,7 @@ export default function CompleteOrder({ route, navigation }) {
                   fontFamily: "Regular"
                 }}
               >
-                {item.package_price} SAR
+                {'0.000'} SAR
               </Text>
               <Text style={{
                 fontFamily: "Bold"
@@ -488,15 +507,15 @@ export default function CompleteOrder({ route, navigation }) {
               marginVertical: 20
             }}>
             {
-              isLoading == true ?
-                <ActivityIndicator size={40} color={'#FFF'} />
+              isLoading !== false ?
+                <ActivityIndicator size="large" color="#FFF" />
                 :
                 <Text style={{
                   color: "#FFF",
                   fontFamily: "Bold"
 
                 }}>
-                  متابعه
+                  متابعة
                 </Text>
             }
           </TouchableOpacity>

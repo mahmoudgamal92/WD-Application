@@ -16,6 +16,9 @@ import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import styles from "../../../theme/style";
 import CustomHeader from "../../../components/CustomHeader";
 import uuid from 'react-native-uuid';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { url } from "./../../../constants/constants";
+
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Toast from "react-native-toast-message";
 import toastConfig from "./../../../components/Toast";
@@ -26,49 +29,111 @@ export default function NafathNationalID({ route, navigation }) {
     const [loading, setLoading] = useState(false);
     const [nationalID, setNationalID] = useState(null);
     const [waiting_modal, setWaitingModal] = useState(false);
+    const [success_modal, setSuccessModal] = useState(false);
     const [confirm_number, setConfirmNumber] = useState(false);
     const [trans_id, setTransId] = useState(false);
     const animation = useRef();
 
     function validateSaudiNationalId(id) {
-        // Check if the length is 10
         if (id.length !== 10) {
             return false;
         }
-
-        // Check if it starts with 1 or 2
         if (id[0] !== '1' && id[0] !== '2') {
             return false;
         }
 
-        // Convert the ID to an array of numbers
         const idArray = id.split('').map(Number);
-
-        // Calculate the checksum using the Luhn algorithm
         let sum = 0;
         for (let i = 0; i < 9; i++) {
             let num = idArray[i];
-            if (i % 2 === 0) { // Even index (0-based), representing odd positions in 1-based
+            if (i % 2 === 0) {
                 num *= 2;
                 if (num > 9) {
-                    num -= 9; // Sum the digits
+                    num -= 9;
                 }
             }
             sum += num;
         }
-
-        // Calculate the checksum
         const checksum = (10 - (sum % 10)) % 10;
-
-        // Check if the checksum matches the last digit
         return checksum === idArray[9];
     }
+
+
+    const _verifyUser = async (transId) => {
+        const user_token = await AsyncStorage.getItem("user_token");
+        let formData = new FormData();
+        formData.append("user_token", user_token);
+        formData.append("transId", transId);
+        fetch(url.base_url + "profile/nafath_verify.php", {
+            method: "POST",
+            headers: {
+                Accept: "*/*",
+                "Content-type": "multipart/form-data;",
+                "Accept-Encoding": "gzip, deflate, br",
+                "cache-control": "no-cache"
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                if (responseJson.success == true) {
+                    setWaitingModal(false);
+                    setSuccessModal(true);
+                } else {
+                    alert("نأسف هناك عطل من طرفنا");
+                }
+                setLoading(false);
+            });
+    }
+
+
+    const checkUserAcceptance = async (transId) => {
+        if (!transId) {
+            console.error('Transaction ID is required.');
+            return;
+        }
+
+        const intervalId = setInterval(async () => {
+            try {
+                const response = await fetch(`https://wdapp.sa/api/nafath/validate/index.php?transId=${transId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Cache-Control': 'no-cache',
+                        'Content-Type': 'application/json',
+                    },
+                    cache: 'no-store',
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const jsonResponse = await response.json();
+
+                if (jsonResponse.success === true) {
+                    // alert('User acceptance confirmed');
+                    clearInterval(intervalId); // Stop polling
+                    _verifyUser(transId);
+
+                } else {
+                    console.log('User acceptance not confirmed yet.');
+                }
+            } catch (error) {
+                console.error('Error checking user acceptance:', error);
+                clearInterval(intervalId); // Stop polling in case of an error
+            }
+        }, 5000); // Poll every 5 seconds
+    };
 
 
     const _handleRequest = async () => {
 
         if (validateSaudiNationalId(nationalID)) {
             try {
+                // setTransId('2b8e531a-c8d2-44c4-ba70-47394e88fc3f');
+                // setWaitingModal(true);
+                // setConfirmNumber('55');
+                // checkUserAcceptance('2b8e531a-c8d2-44c4-ba70-47394e88fc3f');
                 const _uuid = uuid.v4();
                 const url = 'https://nafath.api.elm.sa/api/v1/mfa/request?local=en&requestId=' + _uuid;
                 const response = await fetch(url, {
@@ -85,12 +150,6 @@ export default function NafathNationalID({ route, navigation }) {
                     }),
                 });
 
-                // Valid Json Body
-                // Status Code 201
-                // {"random": "29", "transId": "b653774b-95c6-4073-bc6c-596f4a8b3b6c"}
-                // console.log('Status Code:', statusCode);
-                //console.log('Response:', jsonResponse);
-
                 const statusCode = response.status;
 
                 if (statusCode == '201') {
@@ -98,7 +157,7 @@ export default function NafathNationalID({ route, navigation }) {
                     setWaitingModal(true);
                     setConfirmNumber(jsonResponse.random);
                     setTransId(jsonResponse.transId);
-
+                    checkUserAcceptance(jsonResponse.transId);
                 }
 
                 else {
@@ -108,7 +167,6 @@ export default function NafathNationalID({ route, navigation }) {
                         bottomOffset: 80,
                         visibilityTime: 2000
                     });
-
                 }
 
 
@@ -200,7 +258,7 @@ export default function NafathNationalID({ route, navigation }) {
                                     zIndex: 10000
                                 }}>
                                     <Text style={{
-                                        fontFamily: 'bold',
+                                        fontFamily: 'Bold',
                                         fontSize: 40
                                     }}>
                                         {confirm_number}
@@ -231,6 +289,92 @@ export default function NafathNationalID({ route, navigation }) {
                             >
                                 <Text style={styles.textStyle}>
                                     متابعه
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+
+
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={success_modal}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <View
+                                style={{
+                                    backgroundColor: "#fe7e25",
+                                    width: 50,
+                                    height: 50,
+                                    marginTop: -25,
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    borderRadius: 25
+                                }}
+                            >
+                                <Image source={require('./../../../assets/wd_white.png')} style={{
+                                    width: 50,
+                                    height: 50
+                                }} />
+
+                            </View>
+
+                            <TouchableOpacity
+                                onPress={() => setSuccessModal(false)}
+                                style={{
+                                    width: "100%",
+                                    flexDirection: "row",
+                                    justifyContent: "flex-start",
+                                    paddingHorizontal: 20
+                                }}
+                            >
+                                <FontAwesome name="close" size={24} color="black" />
+                            </TouchableOpacity>
+
+                            <Text style={{
+                                fontFamily: 'Bold',
+                                fontSize: 15,
+                                textAlign: 'center',
+                                marginVertical: 10,
+                                paddingHorizontal: 10,
+                            }}>
+                                مبروك , تم توثيق هويتك بنجاح
+                            </Text>
+
+                            <Image source={require('./../../../assets/verified.png')} style={{
+                                width: 150,
+                                height: 150
+                            }} />
+
+                            <Text style={{
+                                fontFamily: 'Regular',
+                                fontSize: 15,
+                                textAlign: 'center',
+                                marginVertical: 10,
+                                paddingHorizontal: 10,
+                            }}>
+                                يمكنك الأن الإستمتاع بكل مميزات تطبيقنا
+                            </Text>
+
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setSuccessModal(false);
+                                    navigation.replace('ClientFlow');
+                                }}
+                                style={{
+                                    backgroundColor: "#fe7e25",
+                                    paddingHorizontal: 20,
+                                    paddingVertical: 10,
+                                    marginVertical: 20,
+                                    borderRadius: 10,
+                                    width: "90%"
+                                }}
+                            >
+                                <Text style={styles.textStyle}>
+                                    إغلاق
                                 </Text>
                             </TouchableOpacity>
                         </View>

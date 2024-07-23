@@ -90,63 +90,64 @@ export default function AddImg({ route, navigation }) {
   };
 
   const insertAdd = async () => {
-    if (terms !== false && conflict !== false ) {
-      setLoading(true);
-      fetch("https://bnookholding.com/wd/api/properties/new_insert.php", {
-        method: "POST",
-        headers: {
-          Accept: "*/*",
-          "Content-type": "multipart/form-data;",
-          "cache-control": "no-cache",
-          "Accept-Encoding": "gzip, deflate, br",
-          Connection: "keep-alive"
-        },
-        body: submitForm
-      })
-        .then(response => response.json())
-        .then(responseJson => {
-          if (responseJson.success == true) {
-            console.log(responseJson);
-            Toast.show({
-              type: "successToast",
-              text1: "تم انشاء اعلانك بنجاح ",
-              bottomOffset: 80,
-              visibilityTime: 3000
-            });
-            setLoading(false);
+    console.log(images);
 
-            setTimeout(() => {
-              navigation.navigate("PersonalProperites")
-            }, 1000);
-          }
-          else {
-            setLoading(false);
-            alert(responseJson.message);
-            console.log(responseJson);
-          }
-        })
-    }
+    // if (terms !== false && conflict !== false) {
+    //   setLoading(true);
+    //   fetch(url.base_url + "properties/new_insert.php", {
+    //     method: "POST",
+    //     headers: {
+    //       Accept: "*/*",
+    //       "Content-type": "multipart/form-data;",
+    //       "cache-control": "no-cache",
+    //       "Accept-Encoding": "gzip, deflate, br",
+    //       Connection: "keep-alive"
+    //     },
+    //     body: submitForm
+    //   })
+    //     .then(response => response.json())
+    //     .then(responseJson => {
+    //       if (responseJson.success == true) {
+    //         console.log(responseJson);
+    //         Toast.show({
+    //           type: "successToast",
+    //           text1: "تم انشاء اعلانك بنجاح ",
+    //           bottomOffset: 80,
+    //           visibilityTime: 3000
+    //         });
+    //         setLoading(false);
 
-    else {
-      if(terms == false)
-      {
-      Toast.show({
-        type: "erorrToast",
-        text1: "لابد من الموافقة علي شروط الإعلان  ",
-        bottomOffset: 80,
-        visibilityTime: 3000
-      });
-    }
+    //         setTimeout(() => {
+    //           navigation.navigate("PersonalProperites")
+    //         }, 1000);
+    //       }
+    //       else {
+    //         setLoading(false);
+    //         alert(responseJson.message);
+    //         console.log(responseJson);
+    //       }
+    //     })
+    // }
 
-    else {
-      Toast.show({
-        type: "erorrToast",
-        text1: "لابد من التأكيد علي أن ليس هناك ما يمنع من التصرف أو الإنتفاع من العقار",
-        bottomOffset: 80,
-        visibilityTime: 3000
-      });
-    }
-    }
+    // else {
+    //   if (terms == false) {
+    //     Toast.show({
+    //       type: "erorrToast",
+    //       text1: "لابد من الموافقة علي شروط الإعلان  ",
+    //       bottomOffset: 80,
+    //       visibilityTime: 3000
+    //     });
+    //   }
+
+    //   else {
+    //     Toast.show({
+    //       type: "erorrToast",
+    //       text1: "لابد من التأكيد علي أن ليس هناك ما يمنع من التصرف أو الإنتفاع من العقار",
+    //       bottomOffset: 80,
+    //       visibilityTime: 3000
+    //     });
+    //   }
+    // }
   };
 
   const _pickImage = async () => {
@@ -158,10 +159,10 @@ export default function AddImg({ route, navigation }) {
         quality: 1
       });
       if (!result.canceled) {
-        let localUri = result.uri;
-        let filename = localUri.split("/").pop();
-        let match = /\.(\w+)$/.exec(filename);
-        let img_type = match ? `image/${match[1]}` : `image`;
+        const image = result.assets[0];
+        let localUri = image.uri;
+        let filename = image.fileName || localUri.split('/').pop();
+        let img_type = image.mimeType || `image/${filename.split('.').pop()}`;
         setImages([
           ...images,
           {
@@ -476,7 +477,7 @@ export default function AddImg({ route, navigation }) {
                 marginTop: 10
               }}>
 
-            <Checkbox
+              <Checkbox
                 onChange={value => setConflict(value)}
                 key={"conflict"}
                 colorScheme="purple"

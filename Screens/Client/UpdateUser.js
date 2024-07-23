@@ -37,6 +37,9 @@ export default function UpdateUser({ route, navigation }) {
         wait(2000).then(() => setRefreshing(false));
     }, []);
 
+
+
+
     const UpdateProfile = async () => {
         setLoading(true);
         let formData = new FormData();
@@ -318,6 +321,8 @@ export default function UpdateUser({ route, navigation }) {
                                 </TouchableOpacity>
                             </View>
                         </View>
+
+
                         {isLoading == true
                             ?
                             <TouchableOpacity

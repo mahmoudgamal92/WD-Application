@@ -31,7 +31,6 @@ export default function ProfilePage() {
   const [failed_alert, SetFailedAlert] = React.useState(false);
   const [contact_alert, setContactAlert] = React.useState(false);
 
-  const [delete_alert, SetDeleteAlert] = React.useState(false);
   const [confirm_alert, SetConfirmAlert] = React.useState(false);
 
   const [user_token, setToken] = useState(null);
@@ -42,33 +41,6 @@ export default function ProfilePage() {
       _retrieveData();
     }, [])
   );
-
-
-  const _deleteAccount = user_token => {
-    fetch(url.base_url + "profile/delete.php?user_token=" + user_token, {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        "cache-control": "no-cache",
-        "Content-type": "multipart/form-data;",
-        "Accept-Encoding": "gzip, deflate, br",
-        Connection: "keep-alive"
-      }
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.success == true) {
-          alert("تم حذف الحساب بنجاح");
-          _removeSession();
-          // _retrieveData();
-        } else {
-          alert(responseJson.message);
-        }
-      });
-  };
-
-
-
 
   const _retrieveData = async () => {
     try {
@@ -383,28 +355,7 @@ export default function ProfilePage() {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => SetDeleteAlert(true)}
-            style={styles.profileItem}
-          >
-            <View style={{ flexDirection: "row" }}>
-              <Text
-                style={{
-                  fontFamily: "Bold",
-                  color: "#143656",
-                  marginHorizontal: 10
-                }}
-              >
-                حذف الحساب
-              </Text>
-              <View style={styles.profileItemIcon}>
-                <MaterialIcons name="delete" size={30} color="red" />
-              </View>
-            </View>
-            <View>
-              <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-            </View>
-          </TouchableOpacity>
+
 
           <TouchableOpacity
             onPress={() => SetConfirmAlert(!confirm_alert)} style={styles.profileItem}
@@ -593,58 +544,6 @@ export default function ProfilePage() {
         </View>
       </Modal>
 
-
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={delete_alert}
-        onRequestClose={() => SetDeleteAlert(!delete_alert)}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View
-              style={{
-                backgroundColor: "red",
-                width: 50,
-                height: 50,
-                marginTop: -25,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 25
-              }}
-            >
-              <AntDesign name="delete" size={24} color="#FFF" />
-            </View>
-
-            <TouchableOpacity
-              onPress={() => SetDeleteAlert(!delete_alert)}
-              style={{
-                width: "100%",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                paddingHorizontal: 20
-              }}
-            >
-              <FontAwesome name="close" size={24} color="black" />
-            </TouchableOpacity>
-
-            <Text style={styles.modalText}>حذف حسابك</Text>
-
-            <Text style={styles.modalBody}>
-              هل متأكد من حذف حسابك من التطبيق ؟
-              {"\n"}
-              سيتم حذف جميع بياناتك
-            </Text>
-            <TouchableOpacity
-              style={[styles.button]}
-              onPress={() => _deleteAccount(user_token)}
-            >
-              <Text style={styles.textStyle}>تأكيد</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
 
 
       <Modal

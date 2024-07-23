@@ -9,10 +9,11 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   ScrollView,
-  TextInput
+  TextInput,
+  Modal
 } from "react-native";
 
-import { Entypo, MaterialIcons } from "@expo/vector-icons";
+import { Entypo, MaterialIcons, AntDesign, FontAwesome } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { url } from "../../constants/constants";
 import styles from "../../theme/style";
@@ -29,6 +30,8 @@ export default function PersonalInfo({ navigation, route }) {
   const [user_name, setUserName] = useState(null);
   const [user_email, setUserEmail] = useState(null);
   const [user_phone, setUserPhone] = useState(null);
+  const [delete_alert, SetDeleteAlert] = useState(false);
+
   const screenTitle = "تعديل البيانات الشخصية";
 
 
@@ -116,7 +119,6 @@ export default function PersonalInfo({ navigation, route }) {
   const updateUserStore = () => {
     user_info.user_image = profile_img.name;
     dispatch(userSlice.actions.setUserInfo(JSON.stringify(user_info)));
-    //alert(JSON.stringify(user_info));
   }
 
   const _storeInfo = async data => {
@@ -153,6 +155,32 @@ export default function PersonalInfo({ navigation, route }) {
     }
   };
 
+
+
+
+  const _deleteAccount = user_token => {
+    fetch(url.base_url + "profile/delete.php?user_token=" + user_token, {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "cache-control": "no-cache",
+        "Content-type": "multipart/form-data;",
+        "Accept-Encoding": "gzip, deflate, br",
+        Connection: "keep-alive"
+      }
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.success == true) {
+          alert("تم حذف الحساب بنجاح");
+          _removeSession();
+          // _retrieveData();
+        } else {
+          alert(responseJson.message);
+        }
+      });
+  };
+
   return (
     <View
       style={{
@@ -174,6 +202,57 @@ export default function PersonalInfo({ navigation, route }) {
             alignItems: "center"
           }}
         >
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={delete_alert}
+            onRequestClose={() => SetDeleteAlert(!delete_alert)}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <View
+                  style={{
+                    backgroundColor: "red",
+                    width: 50,
+                    height: 50,
+                    marginTop: -25,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 25
+                  }}
+                >
+                  <AntDesign name="delete" size={24} color="#FFF" />
+                </View>
+
+                <TouchableOpacity
+                  onPress={() => SetDeleteAlert(!delete_alert)}
+                  style={{
+                    width: "100%",
+                    flexDirection: "row",
+                    justifyContent: "flex-start",
+                    paddingHorizontal: 20
+                  }}
+                >
+                  <FontAwesome name="close" size={24} color="black" />
+                </TouchableOpacity>
+
+                <Text style={styles.modalText}>حذف حسابك</Text>
+
+                <Text style={styles.modalBody}>
+                  هل متأكد من حذف حسابك من التطبيق ؟
+                  {"\n"}
+                  سيتم حذف جميع بياناتك
+                </Text>
+                <TouchableOpacity
+                  style={[styles.button]}
+                  onPress={() => _deleteAccount(user_token)}
+                >
+                  <Text style={styles.textStyle}>تأكيد</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
 
           <View style={{
             marginVertical: 20
@@ -310,7 +389,28 @@ export default function PersonalInfo({ navigation, route }) {
               />
             </View>
           </View>
-
+          <TouchableOpacity
+            onPress={() => SetDeleteAlert(true)}
+            style={[styles.profileItem, { width: '100%', borderColor: 'red', borderWidth: 1, }]}
+          >
+            <View style={{ flexDirection: "row", alignItems: 'center' }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "red",
+                  marginHorizontal: 10
+                }}
+              >
+                حذف الحساب
+              </Text>
+              <View style={styles.profileItemIcon}>
+                <MaterialIcons name="delete" size={30} color="red" />
+              </View>
+            </View>
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={24} color="red" />
+            </View>
+          </TouchableOpacity>
           <View
             style={{
               marginTop: 10,
