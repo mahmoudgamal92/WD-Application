@@ -64,6 +64,7 @@ export default function SignUpScreen({ navigation, route }) {
     })
       .then(response => response.json())
       .then(responseJson => {
+        console.log(responseJson);
         if (responseJson.success == true) {
           _storeData(
             responseJson.data,
@@ -76,7 +77,7 @@ export default function SignUpScreen({ navigation, route }) {
             userSlice.actions.setUserInfo(JSON.stringify(responseJson.data))
           );
           setLoading(false);
-          navigation.replace("UserFlow");
+          navigation.replace("NafathVerification");
         } else if (responseJson.success == "pending") {
           alert(responseJson.message);
           setLoading(false);

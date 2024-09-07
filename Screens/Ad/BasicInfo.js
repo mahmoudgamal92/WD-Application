@@ -59,6 +59,8 @@ export default function NewAdd({ route, navigation }) {
         .then(response => response.json())
         .then(json => {
           if (json.success == "true") {
+            console.log("-------------->")
+            console.log(JSON.stringify(json.data));
             setInputs(json.data);
           } else {
             alert("No Inputs Retrived");
@@ -104,7 +106,7 @@ export default function NewAdd({ route, navigation }) {
   };
 
 
-  
+
   const valSelected = (inputKey, value) => {
     const selectedInput = formData.find(item => item.input_key === inputKey);
     if (selectedInput) {
@@ -262,7 +264,7 @@ export default function NewAdd({ route, navigation }) {
               borderWidth: 1,
               borderColor: "#fe7e25"
             }}>
-            <AntDesign name="arrowup" size={24} color={ _dirSelected(item.input_key, "north")?  "#FFF" :"#fe7e25" } />
+            <AntDesign name="arrowup" size={24} color={_dirSelected(item.input_key, "north") ? "#FFF" : "#fe7e25"} />
             <Text style={{
               color: "#000",
               fontFamily: "Bold"
@@ -301,7 +303,7 @@ export default function NewAdd({ route, navigation }) {
               }}>
                 غرب
               </Text>
-              <AntDesign name="arrowleft" size={24} color={ _dirSelected(item.input_key, "west")?  "#FFF" :"#fe7e25" } />
+              <AntDesign name="arrowleft" size={24} color={_dirSelected(item.input_key, "west") ? "#FFF" : "#fe7e25"} />
             </TouchableOpacity>
 
 
@@ -330,7 +332,7 @@ export default function NewAdd({ route, navigation }) {
               }}>
                 شرق
               </Text>
-              <AntDesign name="arrowright" size={24} color={ _dirSelected(item.input_key, "east")?  "#FFF" :"#fe7e25" } />
+              <AntDesign name="arrowright" size={24} color={_dirSelected(item.input_key, "east") ? "#FFF" : "#fe7e25"} />
             </TouchableOpacity>
           </View>
 
@@ -355,7 +357,7 @@ export default function NewAdd({ route, navigation }) {
             }}>
               جنوب
             </Text>
-            <AntDesign name="arrowdown" size={24} color={ _dirSelected(item.input_key, "south")?  "#FFF" :"#fe7e25" } />
+            <AntDesign name="arrowdown" size={24} color={_dirSelected(item.input_key, "south") ? "#FFF" : "#fe7e25"} />
           </TouchableOpacity>
 
 

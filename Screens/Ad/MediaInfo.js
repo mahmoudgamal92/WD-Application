@@ -90,64 +90,64 @@ export default function AddImg({ route, navigation }) {
   };
 
   const insertAdd = async () => {
-    console.log(images);
+    // console.log(JSON.stringify(submitForm));
 
-    // if (terms !== false && conflict !== false) {
-    //   setLoading(true);
-    //   fetch(url.base_url + "properties/new_insert.php", {
-    //     method: "POST",
-    //     headers: {
-    //       Accept: "*/*",
-    //       "Content-type": "multipart/form-data;",
-    //       "cache-control": "no-cache",
-    //       "Accept-Encoding": "gzip, deflate, br",
-    //       Connection: "keep-alive"
-    //     },
-    //     body: submitForm
-    //   })
-    //     .then(response => response.json())
-    //     .then(responseJson => {
-    //       if (responseJson.success == true) {
-    //         console.log(responseJson);
-    //         Toast.show({
-    //           type: "successToast",
-    //           text1: "تم انشاء اعلانك بنجاح ",
-    //           bottomOffset: 80,
-    //           visibilityTime: 3000
-    //         });
-    //         setLoading(false);
+    if (terms !== false && conflict !== false) {
+      setLoading(true);
+      fetch(url.base_url + "properties/new_insert.php", {
+        method: "POST",
+        headers: {
+          Accept: "*/*",
+          "Content-type": "multipart/form-data;",
+          "cache-control": "no-cache",
+          "Accept-Encoding": "gzip, deflate, br",
+          Connection: "keep-alive"
+        },
+        body: submitForm
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson.success == true) {
+            console.log(responseJson);
+            Toast.show({
+              type: "successToast",
+              text1: "تم انشاء اعلانك بنجاح ",
+              bottomOffset: 80,
+              visibilityTime: 3000
+            });
+            setLoading(false);
 
-    //         setTimeout(() => {
-    //           navigation.navigate("PersonalProperites")
-    //         }, 1000);
-    //       }
-    //       else {
-    //         setLoading(false);
-    //         alert(responseJson.message);
-    //         console.log(responseJson);
-    //       }
-    //     })
-    // }
+            setTimeout(() => {
+              navigation.navigate("PersonalProperites")
+            }, 1000);
+          }
+          else {
+            setLoading(false);
+            alert(responseJson.message);
+            console.log(responseJson);
+          }
+        })
+    }
 
-    // else {
-    //   if (terms == false) {
-    //     Toast.show({
-    //       type: "erorrToast",
-    //       text1: "لابد من الموافقة علي شروط الإعلان  ",
-    //       bottomOffset: 80,
-    //       visibilityTime: 3000
-    //     });
-    //   }
+    else {
+      if (terms == false) {
+        Toast.show({
+          type: "erorrToast",
+          text1: "لابد من الموافقة علي شروط الإعلان  ",
+          bottomOffset: 80,
+          visibilityTime: 3000
+        });
+      }
 
-    //   else {
-    //     Toast.show({
-    //       type: "erorrToast",
-    //       text1: "لابد من التأكيد علي أن ليس هناك ما يمنع من التصرف أو الإنتفاع من العقار",
-    //       bottomOffset: 80,
-    //       visibilityTime: 3000
-    //     });
-    //   }
-    // }
+      else {
+        Toast.show({
+          type: "erorrToast",
+          text1: "لابد من التأكيد علي أن ليس هناك ما يمنع من التصرف أو الإنتفاع من العقار",
+          bottomOffset: 80,
+          visibilityTime: 3000
+        });
+      }
+    }
   };
 
   const _pickImage = async () => {

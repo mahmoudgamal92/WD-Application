@@ -13,7 +13,8 @@ import {
   FlatList,
   ActivityIndicator,
   StatusBar,
-  Image
+  Image,
+  Platform
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import MapView, { Marker } from "react-native-maps";

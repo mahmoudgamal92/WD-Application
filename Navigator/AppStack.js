@@ -2,7 +2,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import ProperityDetail from './../Screens/ProperityDetail';
 import HomePage from '../Screens/HomePage';
-import MyProps from '../Screens/Client/MyProps';
 
 import ProfileInfo from '../Screens/Shared/ProfileInfo';
 import FilterScreen from '../Screens/FilterScreen';
@@ -37,7 +36,7 @@ import AddClient from "./../Screens/Client/AddClient";
 import CompleteOrder from "../Screens/CompleteOrder";
 import BankTransaction from "../Screens/Payment/BankTransaction";
 import Complains from "../Screens/Complains";
-import NafathNationalID from "./../Screens/Client/Nafath/NafathNationalID";
+import NafathNationalID from "../Screens/Auth/NafathVerification";
 import PaymentWidget from './../Screens/PaymentWidget';
 
 import Interests from "./../Screens/Client/Interests";
@@ -49,7 +48,6 @@ export const AppStack = () => {
             <HomeStack.Screen name="HomePage" component={HomePage} />
             <HomeStack.Screen name="Terms" component={Terms} />
             <HomeStack.Screen name="ProperityDetail" component={ProperityDetail} />
-            <HomeStack.Screen name="MyProps" component={MyProps} />
             <HomeStack.Screen name="ProfileInfo" component={ProfileInfo} />
             <HomeStack.Screen name="PersonalProperites" component={PersonalProperites} />
             <HomeStack.Screen name="PricingPlans" component={PricingPlans} />

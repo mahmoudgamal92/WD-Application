@@ -92,13 +92,6 @@ export default function ProfilePage() {
           .then(response => response.json())
           .then(json => {
             console.log(json.data);
-            if (json.data.nafath_verified == null) {
-              setNafathVerified(false);
-            }
-            else {
-              setNafathVerified(true);
-            }
-            // alert(JSON.stringify(json.data.user_image));
             if (json.data.user_image == "" || json.data.user_image == null) {
             }
             else {
@@ -330,106 +323,39 @@ export default function ProfilePage() {
               />
             }
           </TouchableOpacity>
-          {nafath_verified &&
-            <View>
-              <View style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                backgroundColor: 'rgba(141, 198, 63, 0.3)',
-                borderColor: '#8dc63f',
-                borderWidth: 1,
-                borderRadius: 20,
-                marginVertical: 10,
-                padding: 4
+          <View>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: 'rgba(141, 198, 63, 0.3)',
+              borderColor: '#8dc63f',
+              borderWidth: 1,
+              borderRadius: 20,
+              marginVertical: 10,
+              padding: 4
+            }}>
+              <Text style={{
+                fontFamily: 'Bold',
+                fontSize: 12,
+                marginHorizontal: 5,
+                color: "grey"
               }}>
-                <Text style={{
-                  fontFamily: 'Bold',
-                  fontSize: 12,
-                  marginHorizontal: 5,
-                  color: "grey"
-                }}>
-                  هوية موثة عبر نفاذ
-                </Text>
-                <Image
-                  source={require('./../../assets/verified.png')}
-                  resizeMode="contain"
-                  style={{
-                    width: 20,
-                    height: 20,
-                  }} />
-
-              </View>
+                هوية موثة عبر نفاذ
+              </Text>
+              <Image
+                source={require('./../../assets/verified.png')}
+                resizeMode="contain"
+                style={{
+                  width: 20,
+                  height: 20,
+                }} />
 
             </View>
-          }
-          {!nafath_verified &&
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "100%",
-                paddingHorizontal: 20,
-                marginTop: 20,
-                marginBottom: 40
-              }}
-            >
 
-              <TouchableOpacity
-                onPress={() => navigation.navigate('NafathNationalID')}
-                style={{
-                  width: "45%",
-                  flexDirection: "row-reverse",
-                  backgroundColor: "#fe7e25",
-                  padding: 10,
-                  borderRadius: 10,
-                  alignItems: "center",
-                  justifyContent: "space-between"
-                }}
-              >
-                <Iconify
-                  icon="icon-park-twotone:check-one"
-                  size={24}
-                  color="#FFF"
-                />
+          </View>
 
-                <Text
-                  style={{
-                    fontFamily: "Bold",
-                    color: "#FFF"
-                  }}
-                >
-                  توثيق نفاذ
-                </Text>
 
-                <Iconify icon="fluent:ios-arrow-24-filled" size={24} color="#FFF" />
-              </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => navigation.navigate("FaLicense")}
-                style={{
-                  width: "45%",
-                  flexDirection: "row-reverse",
-                  backgroundColor: "#fe7e25",
-                  padding: 10,
-                  borderRadius: 10,
-                  alignItems: "center",
-                  justifyContent: "space-between"
-                }}
-              >
-                <Iconify icon="mdi:drivers-license" size={24} color="#FFF" />
-                <Text
-                  style={{
-                    fontFamily: "Bold",
-                    color: "#FFF"
-                  }}
-                >
-                  رخصة فال
-                </Text>
-                <Iconify icon="fluent:ios-arrow-24-filled" size={24} color="#FFF" />
-              </TouchableOpacity>
-            </View>
-          }
 
           <TouchableOpacity
             onPress={() => navigation.navigate("ProfileInfo")}
@@ -459,7 +385,30 @@ export default function ProfilePage() {
               <MaterialIcons name="arrow-back-ios" size={30} color="black" />
             </View>
           </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("FaLicense")}
+            style={styles.profileItem}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <Text
+                style={{
+                  fontFamily: "Bold",
+                  color: "#143656",
+                  marginHorizontal: 10
+                }}
+              >
+                رخصة فال
+              </Text>
 
+              <View style={styles.profileItemIcon}>
+                <Iconify icon="mdi:drivers-license" size={24} color="#fe7e25" />
+              </View>
+            </View>
+
+            <View>
+              <MaterialIcons name="arrow-back-ios" size={30} color="black" />
+            </View>
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate("Terms")}
             style={styles.profileItem}

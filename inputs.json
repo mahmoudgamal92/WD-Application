@@ -1,0 +1,438 @@
+[
+    {
+        "input_id": "21",
+        "input_key": "prop_space",
+        "input_placeholder": "أدخل مساحة العقار ",
+        "input_type": "text_input",
+        "input_role": "primary",
+        "input_desc": "أدخل مساحة العقار ",
+        "input_label": "أدخل مساحة العقار ",
+        "date_created": "2023-11-07 19:34:47",
+        "values": []
+    },
+    {
+        "input_id": "23",
+        "input_key": "prop_front",
+        "input_placeholder": "أدخل واجهة العقار ",
+        "input_type": "direction",
+        "input_role": "secondry",
+        "input_desc": "أدخل واجهة العقار ",
+        "input_label": "أدخل واجهة العقار ",
+        "date_created": "2023-11-07 19:36:03",
+        "values": [
+            {
+                "id": "27",
+                "input_id": "23",
+                "token": "",
+                "value": "north",
+                "param": "شمال",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "28",
+                "input_id": "23",
+                "token": "",
+                "value": "south",
+                "param": "جنوب",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "29",
+                "input_id": "23",
+                "token": "",
+                "value": "east",
+                "param": "ِشرق",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "30",
+                "input_id": "23",
+                "token": "",
+                "value": "weast",
+                "param": "غرب",
+                "display": "",
+                "icon": ""
+            }
+        ]
+    },
+    {
+        "input_id": "25",
+        "input_key": "street_width",
+        "input_placeholder": "عرض الشارع ",
+        "input_type": "select",
+        "input_role": "secondry",
+        "input_desc": "عرض الشارع ",
+        "input_label": "عرض الشارع ",
+        "date_created": "2023-11-07 19:37:25",
+        "values": [
+            {
+                "id": "13",
+                "input_id": "25",
+                "token": "",
+                "value": "+5",
+                "param": "5 أمتار ",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "14",
+                "input_id": "25",
+                "token": "",
+                "value": "10",
+                "param": "10 أمتار",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "15",
+                "input_id": "25",
+                "token": "",
+                "value": "+10",
+                "param": "أكبر من 10 أمتار ",
+                "display": "",
+                "icon": ""
+            }
+        ]
+    },
+    {
+        "input_id": "27",
+        "input_key": "floor_count",
+        "input_placeholder": "عدد الطوابق",
+        "input_type": "select",
+        "input_role": "secondry",
+        "input_desc": "عدد الطوابق",
+        "input_label": "عدد الطوابق",
+        "date_created": "2023-11-07 19:39:54",
+        "values": [
+            {
+                "id": "32",
+                "input_id": "27",
+                "token": "",
+                "value": "1",
+                "param": "1",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "33",
+                "input_id": "27",
+                "token": "",
+                "value": "2",
+                "param": "2",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "34",
+                "input_id": "27",
+                "token": "",
+                "value": "3",
+                "param": "3",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "35",
+                "input_id": "27",
+                "token": "",
+                "value": "4",
+                "param": "4",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "49",
+                "input_id": "27",
+                "token": "",
+                "value": "+4",
+                "param": "+4",
+                "display": "",
+                "icon": ""
+            }
+        ]
+    },
+    {
+        "input_id": "29",
+        "input_key": "floor_num",
+        "input_placeholder": "رقم الطابق",
+        "input_type": "select",
+        "input_role": "secondry",
+        "input_desc": "رقم الطابق",
+        "input_label": "رقم الطابق",
+        "date_created": "2023-11-07 19:45:05",
+        "values": [
+            {
+                "id": "21",
+                "input_id": "29",
+                "token": "",
+                "value": "1",
+                "param": "الأول",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "22",
+                "input_id": "29",
+                "token": "",
+                "value": "2",
+                "param": "الثاني ",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "23",
+                "input_id": "29",
+                "token": "",
+                "value": "3",
+                "param": "الثالث",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "24",
+                "input_id": "29",
+                "token": "",
+                "value": "4",
+                "param": "الرابع ",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "25",
+                "input_id": "29",
+                "token": "",
+                "value": "5",
+                "param": "الخامس ",
+                "display": "",
+                "icon": ""
+            }
+        ]
+    },
+    {
+        "input_id": "30",
+        "input_key": "room_count",
+        "input_placeholder": "عدد الغرف",
+        "input_type": "select",
+        "input_role": "secondry",
+        "input_desc": "عدد الغرف",
+        "input_label": "عدد الغرف",
+        "date_created": "2023-11-07 19:46:24",
+        "values": [
+            {
+                "id": "42",
+                "input_id": "30",
+                "token": "",
+                "value": "2",
+                "param": "2",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "43",
+                "input_id": "30",
+                "token": "",
+                "value": "3",
+                "param": "3",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "44",
+                "input_id": "30",
+                "token": "",
+                "value": "4",
+                "param": "4",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "45",
+                "input_id": "30",
+                "token": "",
+                "value": "+4",
+                "param": "+4",
+                "display": "",
+                "icon": ""
+            }
+        ]
+    },
+    {
+        "input_id": "37",
+        "input_key": "prop_age",
+        "input_placeholder": "عمر العقار ",
+        "input_type": "select",
+        "input_role": "secondry",
+        "input_desc": "عمر العقار",
+        "input_label": "عمر العقار",
+        "date_created": "2024-01-12 13:48:17",
+        "values": [
+            {
+                "id": "46",
+                "input_id": "37",
+                "token": "",
+                "value": "new",
+                "param": "جديد",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "47",
+                "input_id": "37",
+                "token": "",
+                "value": "+10",
+                "param": "+10 سنوات",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "48",
+                "input_id": "37",
+                "token": "",
+                "value": "-10",
+                "param": "- 10 سنوات",
+                "display": "",
+                "icon": ""
+            }
+        ]
+    },
+    {
+        "input_id": "38",
+        "input_key": "bath_count",
+        "input_placeholder": "عدد الحمامات",
+        "input_type": "select",
+        "input_role": "secondry",
+        "input_desc": "عدد الحمامات",
+        "input_label": "عدد الحمامات",
+        "date_created": "2024-01-15 12:48:49",
+        "values": [
+            {
+                "id": "50",
+                "input_id": "38",
+                "token": "",
+                "value": "1",
+                "param": "1",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "51",
+                "input_id": "38",
+                "token": "",
+                "value": "2",
+                "param": "2",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "52",
+                "input_id": "38",
+                "token": "",
+                "value": "3",
+                "param": "3",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "53",
+                "input_id": "38",
+                "token": "",
+                "value": "+3",
+                "param": "+3",
+                "display": "",
+                "icon": ""
+            }
+        ]
+    },
+    {
+        "input_id": "39",
+        "input_key": "hall_count",
+        "input_placeholder": "عدد الصالات",
+        "input_type": "select",
+        "input_role": "secondry",
+        "input_desc": "عدد الصالات",
+        "input_label": "عدد الصالات",
+        "date_created": "2024-01-15 12:56:00",
+        "values": [
+            {
+                "id": "54",
+                "input_id": "39",
+                "token": "",
+                "value": "1",
+                "param": "1",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "55",
+                "input_id": "39",
+                "token": "",
+                "value": "2",
+                "param": "2",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "57",
+                "input_id": "39",
+                "token": "",
+                "value": "+2",
+                "param": "+ 2",
+                "display": "",
+                "icon": ""
+            }
+        ]
+    },
+    {
+        "input_id": "40",
+        "input_key": "kitchen_num",
+        "input_placeholder": "عدد المطابخ ",
+        "input_type": "select",
+        "input_role": "secondry",
+        "input_desc": "عدد المطابخ ",
+        "input_label": "عدد المطابخ ",
+        "date_created": "2024-01-15 13:01:10",
+        "values": [
+            {
+                "id": "58",
+                "input_id": "40",
+                "token": "",
+                "value": "1",
+                "param": "1",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "59",
+                "input_id": "40",
+                "token": "",
+                "value": "2",
+                "param": "2",
+                "display": "",
+                "icon": ""
+            },
+            {
+                "id": "60",
+                "input_id": "40",
+                "token": "",
+                "value": "+2",
+                "param": "+ 2",
+                "display": "",
+                "icon": ""
+            }
+        ]
+    },
+    {
+        "input_id": "41",
+        "input_key": "maid_room",
+        "input_placeholder": "غرفة خادمة",
+        "input_type": "toggle",
+        "input_role": "secondry",
+        "input_desc": "غرفة خادمة",
+        "input_label": "غرفة خادمة",
+        "date_created": "2024-01-15 13:03:26",
+        "values": []
+    }
+]

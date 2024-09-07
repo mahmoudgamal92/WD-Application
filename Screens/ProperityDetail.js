@@ -108,7 +108,7 @@ const ProperityDetail = ({ route, navigation }) => {
 
 
   const _refactorString = (param) => {
-    let replacements = {
+    const replacements = {
       "north": "شمال",
       "south": "جنوب",
       "east": "شرق",
@@ -116,13 +116,17 @@ const ProperityDetail = ({ route, navigation }) => {
       ">": "+"
     };
 
-    let pattern = new RegExp(Object.keys(replacements).join("|"), "gi");
+    const inputString = param != null ? String(param) : "";
+    const pattern = new RegExp(Object.keys(replacements).join("|"), "gi");
 
-    let resultString = param.replace(pattern, function (matched) {
-      return replacements[matched];
+    const resultString = inputString.replace(pattern, (matched) => {
+      return replacements[matched.toLowerCase()];
     });
     return resultString;
-  }
+  };
+
+
+
   const PropertyDetails = () => {
     return (
       <View style={{
@@ -135,7 +139,7 @@ const ProperityDetail = ({ route, navigation }) => {
 
 
         {icons.map((item) => (
-          prop[item.name] !== "" && prop[item.name] !== "false" ?
+          prop[item.name] !== null ?
             <View style={{
               width: 80,
               //height: 50,
@@ -200,9 +204,8 @@ const ProperityDetail = ({ route, navigation }) => {
       .then(response => response.json())
       .then(json => {
         if (json.success == "true") {
-          // alert(JSON.stringify(json.data));
+          console.log(JSON.stringify(json.data));
           setData(json.data);
-
         }
         else {
           setData([]);

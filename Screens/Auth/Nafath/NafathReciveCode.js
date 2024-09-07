@@ -39,7 +39,7 @@ export default function NafathNationalID({ route, navigation }) {
                     showsVerticalScrollIndicator={false}
                     style={{ width: "100%" }}
                     contentContainerStyle={{
-                        alignItems: "center"
+                        alignItems: "center", paddingBottom: 200
                     }}
                 >
                     <View

@@ -2,7 +2,7 @@
   "build": {
     "preview": {
       "android": {
-        "buildType": "apk"
+        "buildType": "app-bundle"
       }
     },
     "preview2": {
@@ -13,15 +13,14 @@
     "preview3": {
       "developmentClient": true
     },
-    "production": {
-    }
+    "production": {}
   },
   "submit": {
     "production": {
-      "ios":{
+      "ios": {
         "appleId": "mahmoud.elshwaiukh@gmail.com",
         "ascAppId": "6451126727",
-        "appleTeamId": "WH9BJJ2HS4"      
+        "appleTeamId": "WH9BJJ2HS4"
       }
     }
   }

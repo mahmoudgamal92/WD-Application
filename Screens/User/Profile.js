@@ -174,6 +174,36 @@ export default function ProfilePage() {
           </TouchableOpacity>
 
 
+          <View>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: 'rgba(141, 198, 63, 0.3)',
+              borderColor: '#8dc63f',
+              borderWidth: 1,
+              borderRadius: 20,
+              marginVertical: 10,
+              padding: 4
+            }}>
+              <Text style={{
+                fontFamily: 'Bold',
+                fontSize: 12,
+                marginHorizontal: 5,
+                color: "grey"
+              }}>
+                هوية موثة عبر نفاذ
+              </Text>
+              <Image
+                source={require('./../../assets/verified.png')}
+                resizeMode="contain"
+                style={{
+                  width: 20,
+                  height: 20,
+                }} />
+
+            </View>
+
+          </View>
 
 
           <TouchableOpacity

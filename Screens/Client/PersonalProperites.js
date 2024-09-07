@@ -23,7 +23,7 @@ export default function PersonalProps({ route, navigation }) {
   const wait = timeout => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
-
+  const imgDefault = require("./../../assets/placeholder.jpg");
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -184,9 +184,9 @@ export default function PersonalProps({ route, navigation }) {
                   >
                     <View style={{ width: "40%" }}>
                       <ImageBackground
-                        source={{
-                          uri: url.media_url + item.prop_images.split(",")[0]
-                        }}
+                        source={
+                          item.prop_images !== null ? { uri: url.media_url + item.prop_images.split(",")[0] } : imgDefault
+                        }
                         style={{
                           width: "100%",
                           height: "100%"
@@ -250,7 +250,6 @@ export default function PersonalProps({ route, navigation }) {
                           flexDirection: "row-reverse",
                           alignItems: "center",
                           borderRadius: 10,
-                          backgroundColor: "#FFF",
                           paddingHorizontal: 5
                         }}
                       >
