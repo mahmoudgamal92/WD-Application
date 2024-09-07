@@ -29,8 +29,6 @@ export default function ProfilePage() {
   const [delete_alert, SetDeleteAlert] = React.useState(false);
   const [user_name, setName] = useState("");
   const [nafath_verified, setNafathVerified] = useState(null);
-
-  (false);
   const [user_token, setToken] = useState(null);
   const [user_image, setProfileImg] = useState(null);
   const navigation = useNavigation();
@@ -41,7 +39,7 @@ export default function ProfilePage() {
     }, [])
   );
 
-  const _deleteAccount = user_token => {
+  const _deleteAccount = () => {
     fetch(url.base_url + "profile/delete.php?user_token=" + user_token, {
       method: "GET",
       headers: {
@@ -70,7 +68,7 @@ export default function ProfilePage() {
   const _retrieveData = async () => {
     try {
       const user_token = await AsyncStorage.getItem("user_token");
-
+      setToken(user_token);
       if (user_token == null) {
         navigation.navigate("SignInScreen");
       }
@@ -235,7 +233,7 @@ export default function ProfilePage() {
             </Text>
             <TouchableOpacity
               style={[styles.button]}
-              onPress={() => _deleteAccount(user_token)}
+              onPress={() => _deleteAccount()}
             >
               <Text style={styles.textStyle}>تأكيد</Text>
             </TouchableOpacity>

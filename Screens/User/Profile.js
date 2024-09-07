@@ -30,6 +30,7 @@ export default function ProfilePage() {
   const navigation = useNavigation();
   const [failed_alert, SetFailedAlert] = React.useState(false);
   const [contact_alert, setContactAlert] = React.useState(false);
+  const [delete_alert, SetDeleteAlert] = React.useState(false);
 
   const [confirm_alert, SetConfirmAlert] = React.useState(false);
 
@@ -42,10 +43,34 @@ export default function ProfilePage() {
     }, [])
   );
 
+
+  const _deleteAccount = () => {
+    fetch(url.base_url + "profile/delete.php?user_token=" + user_token, {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "cache-control": "no-cache",
+        "Content-type": "multipart/form-data;",
+        "Accept-Encoding": "gzip, deflate, br",
+        Connection: "keep-alive"
+      }
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.success == true) {
+          alert("تم حذف الحساب بنجاح");
+          _removeSession();
+          // _retrieveData();
+        } else {
+          alert(responseJson.message);
+        }
+      });
+  };
+
   const _retrieveData = async () => {
     try {
       const user_token = await AsyncStorage.getItem("user_token");
-
+      setToken(user_token);
       if (user_token == null) {
         navigation.navigate("SignInScreen");
       }
@@ -96,6 +121,61 @@ export default function ProfilePage() {
   };
 
 
+  const deleteAlert = () => {
+    return (
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={delete_alert}
+        onRequestClose={() => SetDeleteAlert(!delete_alert)}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View
+              style={{
+                backgroundColor: "red",
+                width: 50,
+                height: 50,
+                marginTop: -25,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 25
+              }}
+            >
+              <AntDesign name="delete" size={24} color="#FFF" />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => SetDeleteAlert(!delete_alert)}
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                paddingHorizontal: 20
+              }}
+            >
+              <FontAwesome name="close" size={24} color="black" />
+            </TouchableOpacity>
+
+            <Text style={styles.modalText}>حذف حسابك</Text>
+
+            <Text style={styles.modalBody}>
+              هل متأكد من حذف حسابك من التطبيق ؟
+              {"\n"}
+              سيتم حذف جميع بياناتك
+            </Text>
+            <TouchableOpacity
+              style={[styles.button]}
+              onPress={() => _deleteAccount()}
+            >
+              <Text style={styles.textStyle}>تأكيد</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
   return (
     <View
       style={{
@@ -105,6 +185,8 @@ export default function ProfilePage() {
       }}
     >
       <DefaultHeader />
+      {deleteAlert()}
+
       <View style={styles.rootContainer}>
         <ScrollView
           showsVerticalScrollIndicator={false}

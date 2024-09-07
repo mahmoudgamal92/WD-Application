@@ -31,6 +31,7 @@ export default function PersonalInfo({ navigation, route }) {
   const [user_email, setUserEmail] = useState(null);
   const [user_phone, setUserPhone] = useState(null);
   const [delete_alert, SetDeleteAlert] = useState(false);
+  const [user_token, setToken] = useState(null);
 
   const screenTitle = "تعديل البيانات الشخصية";
 
@@ -42,6 +43,8 @@ export default function PersonalInfo({ navigation, route }) {
   const _retrieveData = async () => {
     try {
       const token = await AsyncStorage.getItem("user_token");
+      setToken(user_token);
+
       let formData = new FormData();
       formData.append("user_token", token);
       fetch(url.base_url + "profile/user.php", {
@@ -158,8 +161,10 @@ export default function PersonalInfo({ navigation, route }) {
 
 
 
-  const _deleteAccount = user_token => {
-    fetch(url.base_url + "profile/delete.php?user_token=" + user_token, {
+  const _deleteAccount = async () => {
+    const token = await AsyncStorage.getItem("user_token");
+
+    fetch(url.base_url + "profile/delete.php?user_token=" + token, {
       method: "GET",
       headers: {
         Accept: "*/*",
@@ -171,6 +176,8 @@ export default function PersonalInfo({ navigation, route }) {
     })
       .then(response => response.json())
       .then(responseJson => {
+        // console.log(token);
+        // console.log(responseJson);
         if (responseJson.success == true) {
           alert("تم حذف الحساب بنجاح");
           _removeSession();
@@ -179,6 +186,19 @@ export default function PersonalInfo({ navigation, route }) {
           alert(responseJson.message);
         }
       });
+  };
+
+  // LogOut Function
+  const _removeSession = async () => {
+    try {
+      //SetFailedAlert(!failed_alert);
+      AsyncStorage.getAllKeys()
+        .then(keys => AsyncStorage.multiRemove(keys))
+        .then(() => navigation.replace("Logout"));
+    } catch (error) {
+      console.log(error);
+      alert("Erorr : " + error);
+    }
   };
 
   return (
@@ -246,7 +266,7 @@ export default function PersonalInfo({ navigation, route }) {
                 </Text>
                 <TouchableOpacity
                   style={[styles.button]}
-                  onPress={() => _deleteAccount(user_token)}
+                  onPress={() => _deleteAccount()}
                 >
                   <Text style={styles.textStyle}>تأكيد</Text>
                 </TouchableOpacity>
